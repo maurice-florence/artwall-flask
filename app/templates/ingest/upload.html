@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Upload ENEX File{% endblock %}
+
+{% block content %}
+<div class="ingest-container">
+    <h1>Import Notes from Evernote</h1>
+    
+    <div class="upload-card">
+        <p>Upload your Evernote export file (.enex) to import your notes into Artwall.</p>
+        
+        <form action="{{ url_for('ingest.upload') }}" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            
+            <div class="form-group">
+                <label for="file">Choose ENEX File:</label>
+                <input type="file" 
+                       id="file" 
+                       name="file" 
+                       accept=".enex,.xml" 
+                       required>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Upload & Import</button>
+                <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+        
+        <div class="upload-info">
+            <h3>About ENEX Import</h3>
+            <ul>
+                <li>Export your notes from Evernote as .enex files</li>
+                <li>The import process preserves titles, content, tags, and timestamps</li>
+                <li>Images and attachments are converted to web-compatible formats</li>
+                <li>Large files may take several minutes to process</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

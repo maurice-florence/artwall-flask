@@ -1,0 +1,37 @@
+# Flask Artwall - Python Requirements
+# Generated from pyproject.toml for pip compatibility
+
+# Core Flask
+flask>=2.3.0
+werkzeug>=2.3.0
+
+# Firebase
+firebase-admin>=6.1.0
+
+# Forms & Validation
+flask-wtf>=1.1.1
+email-validator>=2.0.0
+wtforms>=3.0.0
+
+# Authentication
+flask-login>=0.6.2
+
+# Environment Variables
+python-dotenv>=1.0.0
+
+# HTML Sanitization (for ENEX parsing)
+bleach>=6.0.0
+
+# HTTP Requests
+requests>=2.31.0
+
+# Production Server
+gunicorn>=20.1.0
+
+# Development Tools
+pytest>=7.3.1
+black>=23.3.0
+flake8>=6.0.0
+
+# Testing utilities
+termcolor>=2.3.0  # Colored terminal output for tests

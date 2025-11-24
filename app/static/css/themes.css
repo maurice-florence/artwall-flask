@@ -1,0 +1,328 @@
+/**
+ * Theme System
+ * Color schemes matching Next.js version themes from docs/themes.ts
+ */
+
+:root {
+    /* Default (Atelier) Theme */
+    --theme-body: #ffffff;
+    --theme-text: #3D405B;
+    --theme-header-bg: #0b8783;
+    --theme-header-text: #F8F7F2;
+    --theme-accent: #E07A5F;
+    --theme-accent-text: #FFFFFF;
+    --theme-card-bg: #FFFFFF;
+    --theme-card-text: #3D405B;
+    
+    /* Category Colors */
+    --theme-audio: #D94A4A;
+    --theme-poem: #2E86C1;
+    --theme-prosepoem: #A569BD;
+    --theme-prose: #28B463;
+    --theme-sculpture: #AF601A;
+    --theme-drawing: #884EA0;
+    
+    /* Primary Colors */
+    --theme-primary: #0b8783;
+    --theme-secondary: #E85D4F;
+    --theme-tertiary: #F4A742;
+    --theme-quaternary: #4A90E2;
+    --theme-inactive: #94A3A8;
+    
+    /* UI Colors */
+    --theme-border: #d1d5db;
+    --theme-text-secondary: #6b7280;
+    
+    /* Card Backgrounds - solid fallbacks */
+    --theme-card-bg-audio: #434343;
+    --theme-card-bg-drawing: #e8e8e8;
+    --theme-card-bg-sculpture: #e8e8e8;
+    --theme-card-bg-writing: #f2f2f2;
+}
+
+/* Blueprint Theme */
+[data-theme="blueprint"] {
+    --theme-body: #ffffff;
+    --theme-text: #17202A;
+    --theme-header-bg: #0b8783;
+    --theme-header-text: #FFFFFF;
+    --theme-accent: #1F618D;
+    --theme-accent-text: #FFFFFF;
+    --theme-card-bg: #FFFFFF;
+    --theme-card-text: #17202A;
+    
+    --theme-audio: #C0392B;
+    --theme-poem: #2980B9;
+    --theme-prosepoem: #8E44AD;
+    --theme-prose: #27AE60;
+    --theme-sculpture: #D35400;
+    --theme-drawing: #16A085;
+    
+    --theme-primary: #0b8783;
+    --theme-secondary: #E85D4F;
+    --theme-tertiary: #F4A742;
+    --theme-quaternary: #4A90E2;
+    --theme-inactive: #94A3A8;
+    
+    --theme-border: #d1d5db;
+    --theme-text-secondary: #6b7280;
+    
+    --theme-card-bg-audio: #1F618D;
+    --theme-card-bg-drawing: #eaf2f8;
+    --theme-card-bg-sculpture: #fbeee6;
+    --theme-card-bg-writing: #eaf2f8;
+}
+
+/* Blueprint Card Backgrounds - gradients only */
+[data-theme="blueprint"] .card-audio .card-front {
+    background: linear-gradient(135deg, #1F618D 0%, #17202A 100%) !important;
+}
+
+[data-theme="blueprint"] .card-writing .card-front {
+    background: linear-gradient(135deg, #d6eaf8 0%, #ffffff 100%) !important;
+}
+
+[data-theme="blueprint"] .card-drawing .card-front {
+    background: linear-gradient(120deg, #eaf2f8 0%, #f8f9f9 100%) !important;
+}
+
+[data-theme="blueprint"] .card-sculpture .card-front {
+    background: linear-gradient(145deg, #fbeee6 0%, #eaf2f8 100%) !important;
+}
+
+/* Dark Mode Theme */
+[data-theme="dark"] {
+    --theme-body: #17202A;
+    --theme-text: #EAF2F8;
+    --theme-header-bg: #000000;
+    --theme-header-text: #EAF2F8;
+    --theme-accent: #BB86FC;
+    --theme-accent-text: #000000;
+    --theme-card-bg: #1E2732;
+    --theme-card-text: #EAF2F8;
+    
+    --theme-audio: #CF6679;
+    --theme-poem: #74B9FF;
+    --theme-prosepoem: #BB8FCE;
+    --theme-prose: #55E6C1;
+    --theme-sculpture: #FFB74D;
+    --theme-drawing: #BA68C8;
+    
+    --theme-primary: #0b8783;
+    --theme-secondary: #E85D4F;
+    --theme-tertiary: #F4A742;
+    --theme-quaternary: #4A90E2;
+    --theme-inactive: #94A3A8;
+    
+    --theme-border: #3a4a5a;
+    --theme-text-secondary: #a0aec0;
+    
+    --theme-card-bg-audio: #232526;
+    --theme-card-bg-drawing: #232b36;
+    --theme-card-bg-sculpture: #232b36;
+    --theme-card-bg-writing: #232b36;
+}
+
+/* Dark Mode Card Backgrounds - gradients only */
+[data-theme="dark"] .card-audio .card-front {
+    background: linear-gradient(145deg, #232526 0%, #414345 100%) !important;
+}
+
+[data-theme="dark"] .card-writing .card-front {
+    background: linear-gradient(135deg, #232b36 0%, #1e2732 100%) !important;
+}
+
+[data-theme="dark"] .card-drawing .card-front {
+    background: linear-gradient(120deg, #232b36 0%, #1e2732 100%) !important;
+}
+
+[data-theme="dark"] .card-sculpture .card-front {
+    background: linear-gradient(145deg, #232b36 0%, #1e2732 100%) !important;
+}
+
+[data-theme="dark"] body {
+    background-color: var(--theme-body);
+    color: var(--theme-text);
+}
+
+[data-theme="dark"] .page-title {
+    color: var(--theme-text);
+}
+
+[data-theme="dark"] .filter-bar {
+    background: #1E2732;
+    border-color: #3a4a5a;
+}
+
+[data-theme="dark"] .filter-btn {
+    background: #232b36;
+    border-color: #3a4a5a;
+    color: var(--theme-text);
+}
+
+/* Teal Theme */
+[data-theme="teal"] {
+    --theme-body: #ffffff;
+    --theme-text: #004D40;
+    --theme-header-bg: #00796B;
+    --theme-header-text: #FFFFFF;
+    --theme-accent: #00BFA5;
+    --theme-accent-text: #FFFFFF;
+    --theme-card-bg: #FFFFFF;
+    --theme-card-text: #004D40;
+    
+    --theme-audio: #00796B;
+    --theme-poem: #00BFA5;
+    --theme-prosepoem: #4DB6AC;
+    --theme-prose: #80CBC4;
+    --theme-sculpture: #26A69A;
+    --theme-drawing: #00897B;
+    
+    --theme-primary: #0b8783;
+    --theme-secondary: #E85D4F;
+    --theme-tertiary: #F4A742;
+    --theme-quaternary: #4A90E2;
+    --theme-inactive: #94A3A8;
+    
+    --theme-border: #B2DFDB;
+    --theme-text-secondary: #00695C;
+    
+    --theme-card-bg-audio: #00796B;
+    --theme-card-bg-drawing: #e0f2f1;
+    --theme-card-bg-sculpture: #b2dfdb;
+    --theme-card-bg-writing: #e0f2f1;
+}
+
+/* Teal Card Backgrounds - gradients only */
+[data-theme="teal"] .card-audio .card-front {
+    background: linear-gradient(135deg, #00796B 0%, #004D40 100%) !important;
+}
+
+[data-theme="teal"] .card-writing .card-front {
+    background: linear-gradient(135deg, #b2dfdb 0%, #ffffff 100%) !important;
+}
+
+[data-theme="teal"] .card-drawing .card-front {
+    background: linear-gradient(120deg, #e0f2f1 0%, #f8f9f9 100%) !important;
+}
+
+[data-theme="teal"] .card-sculpture .card-front {
+    background: linear-gradient(145deg, #b2dfdb 0%, #e0f2f1 100%) !important;
+}
+
+/* Nature Theme */
+[data-theme="nature"] {
+    --theme-body: #ffffff;
+    --theme-text: #2C3E50;
+    --theme-header-bg: #7FB77E;
+    --theme-header-text: #F8F7F2;
+    --theme-accent: #4FC3F7;
+    --theme-accent-text: #FFFFFF;
+    --theme-card-bg: #F4F1EE;
+    --theme-card-text: #2C3E50;
+    
+    --theme-audio: #388E3C;
+    --theme-poem: #0288D1;
+    --theme-prosepoem: #8D6E63;
+    --theme-prose: #6D4C41;
+    --theme-sculpture: #A1887F;
+    --theme-drawing: #90A4AE;
+    
+    --theme-primary: #0b8783;
+    --theme-secondary: #E85D4F;
+    --theme-tertiary: #F4A742;
+    --theme-quaternary: #4A90E2;
+    --theme-inactive: #94A3A8;
+    
+    --theme-border: #d1d5db;
+    --theme-text-secondary: #6b7280;
+    
+    --theme-card-bg-audio: #A8E063;
+    --theme-card-bg-drawing: #CFD8DC;
+    --theme-card-bg-sculpture: #D7CCC8;
+    --theme-card-bg-writing: #81D4FA;
+}
+
+/* Nature Card Backgrounds */
+[data-theme="nature"] .card-audio .card-front {
+    background: linear-gradient(135deg, #A8E063 0%, #56AB2F 100%) !important;
+}
+
+[data-theme="nature"] .card-writing .card-front {
+    background: linear-gradient(135deg, #81D4FA 0%, #0288D1 100%) !important;
+}
+
+[data-theme="nature"] .card-drawing .card-front {
+    background: linear-gradient(135deg, #CFD8DC 0%, #90A4AE 100%) !important;
+}
+
+[data-theme="nature"] .card-sculpture .card-front {
+    background: linear-gradient(135deg, #D7CCC8 0%, #A1887F 100%) !important;
+}
+
+/* Earth Theme */
+[data-theme="earth"] {
+    --theme-body: #ffffff;
+    --theme-text: #3E2723;
+    --theme-header-bg: #795548;
+    --theme-header-text: #FFFFFF;
+    --theme-accent: #90CAF9;
+    --theme-accent-text: #3E2723;
+    --theme-card-bg: #ECEFF1;
+    --theme-card-text: #3E2723;
+    
+    --theme-audio: #388E3C;
+    --theme-poem: #1976D2;
+    --theme-prosepoem: #8D6E63;
+    --theme-prose: #5D4037;
+    --theme-sculpture: #A1887F;
+    --theme-drawing: #757575;
+    
+    --theme-primary: #0b8783;
+    --theme-secondary: #E85D4F;
+    --theme-tertiary: #F4A742;
+    --theme-quaternary: #4A90E2;
+    --theme-inactive: #94A3A8;
+    
+    --theme-border: #d1d5db;
+    --theme-text-secondary: #6b7280;
+    
+    --theme-card-bg-audio: #A5D6A7;
+    --theme-card-bg-drawing: #BDBDBD;
+    --theme-card-bg-sculpture: #D7CCC8;
+    --theme-card-bg-writing: #90CAF9;
+}
+
+/* Earth Card Backgrounds */
+[data-theme="earth"] .card-audio .card-front {
+    background: linear-gradient(135deg, #A5D6A7 0%, #388E3C 100%) !important;
+}
+
+[data-theme="earth"] .card-writing .card-front {
+    background: linear-gradient(135deg, #90CAF9 0%, #1976D2 100%) !important;
+}
+
+[data-theme="earth"] .card-drawing .card-front {
+    background: linear-gradient(135deg, #BDBDBD 0%, #757575 100%) !important;
+}
+
+[data-theme="earth"] .card-sculpture .card-front {
+    background: linear-gradient(135deg, #D7CCC8 0%, #A1887F 100%) !important;
+}
+
+/* Atelier Theme Card Backgrounds (default) - gradients only */
+.card-audio .card-front {
+    background: linear-gradient(145deg, #434343 0%, #212121 100%);
+}
+
+.card-writing .card-front {
+    background: linear-gradient(135deg, #e6e6e6 0%, #ffffff 100%);
+}
+
+.card-drawing .card-front {
+    background: linear-gradient(120deg, #e8e8e8 0%, #f5f5f5 100%);
+}
+
+.card-sculpture .card-front {
+    background: linear-gradient(145deg, #e8e8e8 0%, #f5f5f5 100%);
+}

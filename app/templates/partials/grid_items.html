@@ -1,0 +1,26 @@
+{# Partial template for HTMX load-more responses #}
+{# Returns only the new grid items, not the container #}
+{% from 'components/card.html' import render_card %}
+{% from 'components/year_separator.html' import render_year_separator %}
+
+{% for year, posts in grouped_posts %}
+    {{ render_year_separator(year) }}
+    {% for post in posts %}
+        {{ render_card(post) }}
+    {% endfor %}
+{% endfor %}
+
+{# Update scroll trigger with out-of-band swap #}
+<div id="load-more-container" class="load-more-container" hx-swap-oob="true">
+    {% if next_cursor %}
+        <div id="scroll-trigger"
+            hx-get="{{ url_for('api.load_more', cursor=next_cursor) }}"
+            hx-trigger="intersect once"
+            hx-target="#grid-container"
+            hx-swap="beforeend">
+            <div class="loading-indicator">Laden...</div>
+        </div>
+    {% else %}
+        <div class="end-message">Alle werken geladen</div>
+    {% endif %}
+</div>

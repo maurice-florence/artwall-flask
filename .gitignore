@@ -65,6 +65,15 @@ db.sqlite3-journal
 instance/
 .webassets-cache
 
+# Firebase credentials - NEVER COMMIT THESE
+*firebase-adminsdk*.json
+firebase-service-account.json
+.env.local
+
+# ENEX uploads
+*.enex
+uploads/
+
 # Scrapy stuff:
 .scrapy
 

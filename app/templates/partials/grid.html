@@ -1,0 +1,12 @@
+{# Partial template for the grid container #}
+{# Used for initial render in index.html #}
+<div class="grid" id="grid-container">
+    <div class="grid-sizer"></div>
+    
+    {% if posts %}
+        {% from 'components/card.html' import render_card %}
+        {% for post in posts %}
+            {{ render_card(post) }}
+        {% endfor %}
+    {% endif %}
+</div>

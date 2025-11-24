@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Artwall{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h1>Welcome to Artwall</h1>
+        <p>Sign in with your account</p>
+        
+        <div id="firebaseui-auth-container"></div>
+        
+        <div id="auth-error" class="error-message" style="display: none;"></div>
+    </div>
+</div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.0/firebase-ui-auth.css" />
+
+<script>
+    // Initialize Firebase (Replace with your config)
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    
+    // Initialize FirebaseUI
+    const ui = new firebaseui.auth.AuthUI(firebase.auth());
+    
+    ui.start('#firebaseui-auth-container', {
+        signInOptions: [
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID
+        ],
+        signInSuccessUrl: '/',
+        callbacks: {
+            signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                // Get the ID token
+                return authResult.user.getIdToken().then(idToken => {
+                    // Send to backend to create session cookie
+                    return fetch("{{ url_for('auth.session_login') }}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ idToken: idToken })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = redirectUrl;
+                            return false;
+                        } else {
+                            throw new Error('Session creation failed');
+                        }
+                    })
+                    .catch(error => {
+                        document.getElementById('auth-error').textContent = 'Login failed: ' + error.message;
+                        document.getElementById('auth-error').style.display = 'block';
+                        return false;
+                    });
+                });
+            }
+        }
+    });
+</script>
+{% endblock %}

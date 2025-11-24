@@ -1,0 +1,422 @@
+/**
+ * Masonry Grid Styles
+ * Styles for the dynamic Masonry grid layout
+ */
+
+/* Grid Container */
+.masonry-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.header-section {
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+    color: #333;
+    font-weight: 700;
+}
+
+.filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border: 2px solid #B2DFDB;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.filter-group label {
+    font-weight: 600;
+    color: #555;
+    margin-right: 0.5rem;
+}
+
+.filter-btn {
+    padding: 0.5rem 1rem;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.filter-btn:hover {
+    border-color: #0b8783;
+    color: #0b8783;
+}
+
+.filter-btn.active {
+    background: #0b8783;
+    color: white;
+    border-color: #0b8783;
+}
+
+.search-box input {
+    padding: 0.5rem 1rem;
+    border: 2px solid #ddd;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    width: 200px;
+    transition: border-color 0.2s;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #0b8783;
+}
+
+/* Masonry Grid */
+.grid {
+    width: 100%;
+}
+
+.grid:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+/* Grid Sizer - defines column width */
+.grid-sizer,
+.grid-item {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+}
+
+/* Grid Item (Card Container) */
+.grid-item {
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+/* Year Separator */
+.grid-item.year-separator {
+    aspect-ratio: 3 / 4;
+    cursor: default;
+}
+
+.year-separator .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.year-separator .card-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card-bg);
+    border: 2px solid var(--header-color);
+}
+
+.year-separator .year-text {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--header-color);
+    margin: 0;
+}
+
+/* Card Wrapper for 3D flip effect */
+.card-wrapper {
+    perspective: 1000px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* Card Styles */
+.card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card-wrapper:hover .card {
+    transform: rotateY(180deg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Faces */
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.card-front {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Background set by themes.css based on medium type and active theme */
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    background: var(--theme-card-bg);
+    color: var(--theme-card-text);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.card-title {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--theme-card-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+.card-medium {
+    display: inline-block;
+    padding: 0.125rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.card-medium-audio {
+    background: #dc2626;
+    color: #fff;
+}
+
+.card-medium-drawing {
+    background: #7c3aed;
+    color: #fff;
+}
+
+.card-medium-sculpture {
+    background: #ea580c;
+    color: #fff;
+}
+
+.card-medium-writing {
+    background: #2563eb;
+    color: #fff;
+}
+
+.card-year {
+    font-size: 0.75rem;
+    color: #999;
+    margin-left: 0.5rem;
+}
+
+.card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+}
+
+.tag {
+    display: inline-block;
+    padding: 0.125rem 0.5rem;
+    background: #e3f2fd;
+    color: #1976d2;
+    border-radius: 10px;
+    font-size: 0.625rem;
+    font-weight: 500;
+}
+
+/* Load More Button */
+.load-more-container {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.loading-indicator {
+    padding: 1rem;
+    color: #666;
+    font-size: 1rem;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+.end-message {
+    padding: 1rem;
+    color: #999;
+    font-size: 0.875rem;
+    font-style: italic;
+}
+
+.btn-load-more {
+    padding: 0.75rem 2rem;
+    background: #0b8783;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-load-more:hover {
+    background: #00796B;
+}
+
+.btn-load-more:active {
+    transform: scale(0.98);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #999;
+}
+
+.empty-state p {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Error Message */
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+/* Responsive Design */
+/* Desktop: 8 columns with 150px max width */
+@media (min-width: 1200px) {
+    .grid-sizer,
+    .grid-item {
+        max-width: 150px;
+    }
+}
+
+/* Large tablet: 6 columns, fluid width */
+@media (min-width: 900px) and (max-width: 1199px) {
+    .grid-sizer,
+    .grid-item {
+        width: calc((100% - 40px) / 6);
+    }
+}
+
+/* Tablet: 4 columns, fluid width */
+@media (min-width: 750px) and (max-width: 899px) {
+    .grid-sizer,
+    .grid-item {
+        width: calc((100% - 24px) / 4);
+    }
+}
+
+/* Mobile landscape: 3 columns, fluid width */
+@media (min-width: 350px) and (max-width: 749px) {
+    .grid-sizer,
+    .grid-item {
+        width: calc((100% - 16px) / 3);
+    }
+    
+    .masonry-container {
+        padding: 0 24px;
+    }
+    
+    .year-separator .year-text {
+        font-size: 2rem;
+    }
+}
+
+/* Mobile portrait: 2 columns, fluid width */
+@media (max-width: 349px) {
+    .grid-sizer,
+    .grid-item {
+        width: calc((100% - 8px) / 2);
+    }
+    
+    .masonry-container {
+        padding: 0 24px;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .year-separator .year-text {
+        font-size: 2rem;
+    }
+    
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-box input {
+        width: 100%;
+    }
+}
+
+/* Loading State */
+.htmx-request .btn-load-more {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.htmx-request .btn-load-more::after {
+    content: '...';
+    animation: ellipsis 1.5s infinite;
+}
+
+@keyframes ellipsis {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}

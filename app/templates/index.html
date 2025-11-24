@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Artwall - Your Creative Archive{% endblock %}
+
+{% block nav_filters %}
+<div class="nav-filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="audio">Audio</button>
+    <button class="filter-btn" data-filter="drawing">Drawing</button>
+    <button class="filter-btn" data-filter="sculpture">Sculpture</button>
+    <button class="filter-btn" data-filter="writing">Writing</button>
+    <input type="text" id="search-input" placeholder="Search...">
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="masonry-container">
+    
+    {% if error %}
+        <div class="error-message">
+            <p>Error loading posts: {{ error }}</p>
+        </div>
+    {% endif %}
+    
+    <!-- Grid Container -->
+    <div class="grid" id="grid-container">
+        <!-- Grid Sizer for column width calculation -->
+        <div class="grid-sizer"></div>
+        
+        {% if grouped_posts %}
+            {% from 'components/card.html' import render_card %}
+            {% from 'components/year_separator.html' import render_year_separator %}
+            {% for year, posts in grouped_posts %}
+                {{ render_year_separator(year) }}
+                {% for post in posts %}
+                    {{ render_card(post) }}
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <p>No posts yet. Start by importing your notes!</p>
+                <a href="{{ url_for('ingest.index') }}" class="btn btn-primary">Import ENEX File</a>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Load More Trigger -->
+    <div id="load-more-container" class="load-more-container">
+        {% if next_cursor %}
+            <div id="scroll-trigger"
+                hx-get="{{ url_for('api.load_more', cursor=next_cursor) }}"
+                hx-trigger="intersect once"
+                hx-target="#grid-container"
+                hx-swap="beforeend">
+                <div class="loading-indicator">Laden...</div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

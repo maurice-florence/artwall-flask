@@ -1,0 +1,17 @@
+{
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
+    "posts": {
+      ".indexOn": ["timestamp"]
+    },
+    "users": {
+      ".indexOn": ["email"]
+    },
+    "user-posts": {
+      "$uid": {
+        ".indexOn": ["timestamp"]
+      }
+    }
+  }
+}
