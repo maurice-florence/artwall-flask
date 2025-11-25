@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
  * Initialize filter buttons
  */
 function initFilters() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
+    const filterBtns = document.querySelectorAll('.icon-btn[data-filter]');
     
     filterBtns.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -116,6 +116,13 @@ function initFilters() {
             filterPosts(filter);
         });
     });
+}
+
+/**
+ * Handle search input
+ */
+function handleSearch(query) {
+    searchPosts(query.toLowerCase());
 }
 
 /**

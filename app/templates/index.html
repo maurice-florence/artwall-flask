@@ -4,12 +4,30 @@
 
 {% block nav_filters %}
 <div class="nav-filter-bar">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="audio">Audio</button>
-    <button class="filter-btn" data-filter="drawing">Drawing</button>
-    <button class="filter-btn" data-filter="sculpture">Sculpture</button>
-    <button class="filter-btn" data-filter="writing">Writing</button>
-    <input type="text" id="search-input" placeholder="Search...">
+    <!-- Medium filter icons -->
+    <div class="icons-wrapper">
+        <button class="icon-btn active" title="All mediums" data-filter="all">
+            <i class="fa-solid fa-globe"></i>
+        </button>
+        <button class="icon-btn" title="Writing" data-filter="writing">
+            <i class="fa-solid fa-pen-nib"></i>
+        </button>
+        <button class="icon-btn" title="Drawing" data-filter="drawing">
+            <i class="fa-solid fa-paintbrush"></i>
+        </button>
+        <button class="icon-btn" title="Audio" data-filter="audio">
+            <i class="fa-solid fa-music"></i>
+        </button>
+        <button class="icon-btn" title="Sculpture" data-filter="sculpture">
+            <i class="fa-solid fa-cube"></i>
+        </button>
+    </div>
+    
+    <!-- Search bar with icon -->
+    <div class="search-wrapper">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="search-input" class="search-input" placeholder="Search..." oninput="handleSearch(this.value)">
+    </div>
 </div>
 {% endblock %}
 
