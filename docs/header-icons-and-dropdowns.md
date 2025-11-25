@@ -770,7 +770,7 @@ def update_theme_color():
 
 ## Search Bar with Icon
 
-### HTML Structure
+HTML Structure
 
 ```html
 <div class="search-wrapper">

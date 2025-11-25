@@ -17,21 +17,28 @@
 <body data-theme="atelier">
     <div class="navbar-wrapper">
         <nav class="navbar">
-            <div class="nav-left">
+            <!-- Title Row -->
+            <div class="navbar-title-row">
                 <a href="{{ url_for('main.index') }}" class="navbar-title-link">
                     <h1 class="navbar-title">Artwall</h1>
                 </a>
             </div>
-            <div class="nav-center">
-                {% block nav_filters %}{% endblock %}
-            </div>
-            <div class="nav-right">
-                <span class="version-tracker">{{ version }}</span>
-                {% block nav_right_extras %}{% endblock %}
-                <div class="dropdown-wrapper" id="theme-dropdown-wrapper">
-                    <button class="icon-btn" title="Choose theme" onclick="toggleDropdown('theme-dropdown')">
-                        <i class="fa-solid fa-palette"></i>
-                    </button>
+            
+            <!-- Controls Row -->
+            <div class="navbar-controls-row">
+                <div class="nav-left">
+                    {% block nav_filters %}{% endblock %}
+                </div>
+                <div class="nav-center">
+                    <!-- Spacer -->
+                </div>
+                <div class="nav-right">
+                    <span class="version-tracker">{{ version }}</span>
+                    {% block nav_right_extras %}{% endblock %}
+                    <div class="dropdown-wrapper" id="theme-dropdown-wrapper">
+                        <button class="icon-btn" title="Choose theme" onclick="toggleDropdown('theme-dropdown')">
+                            <i class="fa-solid fa-palette"></i>
+                        </button>
                     <div id="theme-dropdown" class="dropdown" style="display: none;">
                         <div class="dropdown-header">
                             <span class="dropdown-title">Theme</span>
@@ -72,6 +79,7 @@
                 {% else %}
                     <a href="{{ url_for('auth.login') }}" class="nav-link">Login</a>
                 {% endif %}
+                </div>
             </div>
         </nav>
     </div>

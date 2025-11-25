@@ -131,14 +131,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--card-bg);
-    border: 2px solid var(--header-color);
+    background: var(--theme-card-bg, #ffffff);
+    border: 2px solid var(--theme-primary, #0b8783);
 }
 
 .year-separator .year-text {
     font-size: 3rem;
     font-weight: bold;
-    color: var(--header-color);
+    color: var(--theme-primary, #0b8783);
     margin: 0;
 }
 
@@ -185,8 +185,8 @@
 
 .card-back {
     transform: rotateY(180deg);
-    background: var(--theme-card-bg);
-    color: var(--theme-card-text);
+    background: var(--theme-primary, #0b8783);
+    color: #ffffff;
     padding: 12px;
     display: flex;
     flex-direction: column;
@@ -207,7 +207,7 @@
     font-size: 1rem;
     line-height: 1.4;
     font-weight: 600;
-    color: var(--theme-card-text);
+    color: #ffffff;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
