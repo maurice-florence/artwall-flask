@@ -1,3 +1,7 @@
+/* Poetry Card Front - Default (Atelier) */
+.card-poetry .card-front {
+    background: linear-gradient(135deg, var(--theme-primary, #0b8783) 0%, #ffffff 100%);
+}
 /**
  * Theme System
  * Color schemes matching Next.js version themes from docs/themes.ts
@@ -310,19 +314,102 @@
     background: linear-gradient(135deg, #D7CCC8 0%, #A1887F 100%) !important;
 }
 
-/* Atelier Theme Card Backgrounds (default) - gradients only */
+/* Atelier Theme Card Backgrounds (default) - gradients and patterns */
 .card-audio .card-front {
     background: linear-gradient(145deg, #434343 0%, #212121 100%);
 }
-
+.card-poetry .card-front, .card-poem .card-front {
+    background: repeating-linear-gradient(135deg, #f2f2f2 0px, #f2f2f2 8px, #e6e6e6 8px, #ffffff 16px);
+}
 .card-writing .card-front {
     background: linear-gradient(135deg, #e6e6e6 0%, #ffffff 100%);
 }
-
+.card-prose .card-front {
+    background: linear-gradient(120deg, #f8f5f0 0%, #ffffff 100%);
+}
+.card-sculpture .card-front {
+    background: radial-gradient(circle at 30% 30%, #e8e8e8 60%, #f5f5f5 100%);
+}
 .card-drawing .card-front {
-    background: linear-gradient(120deg, #e8e8e8 0%, #f5f5f5 100%);
+    background: repeating-linear-gradient(120deg, #e8e8e8 0px, #e8e8e8 10px, #f5f5f5 10px, #f5f5f5 20px);
 }
 
-.card-sculpture .card-front {
-    background: linear-gradient(145deg, #e8e8e8 0%, #f5f5f5 100%);
+[data-theme="blueprint"] .card-audio .card-front {
+    background: linear-gradient(135deg, #1F618D 0%, #17202A 100%) !important;
+}
+[data-theme="blueprint"] .card-poetry .card-front, [data-theme="blueprint"] .card-poem .card-front {
+    background: repeating-linear-gradient(135deg, #eaf2f8 0px, #eaf2f8 8px, #d6eaf8 8px, #ffffff 16px) !important;
+}
+[data-theme="blueprint"] .card-prose .card-front {
+    background: linear-gradient(120deg, #eafaf1 0%, #ffffff 100%) !important;
+}
+[data-theme="blueprint"] .card-sculpture .card-front {
+    background: radial-gradient(circle at 70% 70%, #fbeee6 60%, #eaf2f8 100%) !important;
+}
+[data-theme="blueprint"] .card-drawing .card-front {
+    background: repeating-linear-gradient(120deg, #eaf2f8 0px, #eaf2f8 10px, #f8f9f9 10px, #f8f9f9 20px) !important;
+}
+
+[data-theme="dark"] .card-audio .card-front {
+    background: linear-gradient(145deg, #232526 0%, #414345 100%) !important;
+}
+[data-theme="dark"] .card-poetry .card-front, [data-theme="dark"] .card-poem .card-front {
+    background: repeating-linear-gradient(135deg, #232b36 0px, #232b36 8px, #1e2732 8px, #232b36 16px) !important;
+}
+[data-theme="dark"] .card-prose .card-front {
+    background: linear-gradient(120deg, #232b36 0%, #1e2732 100%) !important;
+}
+[data-theme="dark"] .card-sculpture .card-front {
+    background: radial-gradient(circle at 30% 30%, #232b36 60%, #1e2732 100%) !important;
+}
+[data-theme="dark"] .card-drawing .card-front {
+    background: repeating-linear-gradient(120deg, #232b36 0px, #232b36 10px, #1e2732 10px, #1e2732 20px) !important;
+}
+
+[data-theme="teal"] .card-audio .card-front {
+    background: linear-gradient(135deg, #00796B 0%, #004D40 100%) !important;
+}
+[data-theme="teal"] .card-poetry .card-front, [data-theme="teal"] .card-poem .card-front {
+    background: repeating-linear-gradient(135deg, #e0f2f1 0px, #e0f2f1 8px, #b2dfdb 8px, #ffffff 16px) !important;
+}
+[data-theme="teal"] .card-prose .card-front {
+    background: linear-gradient(120deg, #e0f2f1 0%, #ffffff 100%) !important;
+}
+[data-theme="teal"] .card-sculpture .card-front {
+    background: radial-gradient(circle at 70% 70%, #b2dfdb 60%, #e0f2f1 100%) !important;
+}
+[data-theme="teal"] .card-drawing .card-front {
+    background: repeating-linear-gradient(120deg, #e0f2f1 0px, #e0f2f1 10px, #f8f9f9 10px, #f8f9f9 20px) !important;
+}
+
+[data-theme="nature"] .card-audio .card-front {
+    background: linear-gradient(135deg, #A8E063 0%, #56AB2F 100%) !important;
+}
+[data-theme="nature"] .card-poetry .card-front, [data-theme="nature"] .card-poem .card-front {
+    background: linear-gradient(135deg, #81D4FA 0%, #0288D1 100%) !important;
+}
+[data-theme="nature"] .card-prose .card-front {
+    background: linear-gradient(135deg, #A1887F 0%, #6D4C41 100%) !important;
+}
+[data-theme="nature"] .card-sculpture .card-front {
+    background: linear-gradient(135deg, #D7CCC8 0%, #A1887F 100%) !important;
+}
+[data-theme="nature"] .card-drawing .card-front {
+    background: linear-gradient(135deg, #CFD8DC 0%, #90A4AE 100%) !important;
+}
+
+[data-theme="earth"] .card-audio .card-front {
+    background: linear-gradient(135deg, #A5D6A7 0%, #388E3C 100%) !important;
+}
+[data-theme="earth"] .card-poetry .card-front, [data-theme="earth"] .card-poem .card-front {
+    background: linear-gradient(135deg, #90CAF9 0%, #1976D2 100%) !important;
+}
+[data-theme="earth"] .card-prose .card-front {
+    background: linear-gradient(135deg, #A1887F 0%, #5D4037 100%) !important;
+}
+[data-theme="earth"] .card-sculpture .card-front {
+    background: linear-gradient(135deg, #D7CCC8 0%, #A1887F 100%) !important;
+}
+[data-theme="earth"] .card-drawing .card-front {
+    background: linear-gradient(135deg, #BDBDBD 0%, #757575 100%) !important;
 }

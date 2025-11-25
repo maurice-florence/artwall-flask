@@ -131,8 +131,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--theme-card-bg, #ffffff);
-    border: 2px solid var(--theme-primary, #0b8783);
+    background: transparent !important;
+    border: none;
 }
 
 .year-separator .year-text {
