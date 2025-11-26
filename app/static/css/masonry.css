@@ -1,3 +1,18 @@
+/* Ensure card and faces have rounded corners and overflow hidden for 3D flip */
+.card {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    transition: box-shadow 0.2s;
+    background: transparent;
+}
+.card-front,
+.card-back {
+    border-radius: 16px;
+    overflow: hidden;
+}
 /* Blank columns for left/right gutter, always half card width */
 .blank-col {
     width: 50%;
@@ -191,22 +206,51 @@
 }
 
 /* Card Styles */
-.card {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-}
+
+
+
+/* Card back: solid main color for each medium */
+.card-back-writing { background: var(--theme-writing, #0b8783) !important; }
+.card-back-poetry, .card-back-poem { background: var(--theme-poem, #0b7a78) !important; }
+.card-back-prosepoem { background: var(--theme-prosepoem, #0b6a6a) !important; }
+.card-back-prose { background: var(--theme-prose, #0b5a5a) !important; }
+.card-back-drawing { background: var(--theme-drawing, #6c7ea1) !important; }
+.card-back-audio { background: var(--theme-audio, #b97a56) !important; }
+.card-back-sculpture { background: var(--theme-sculpture, #b0a16c) !important; }
+
+
 
 .card-wrapper:hover .card {
     transform: rotateY(180deg);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 2;
 }
 
+
+
+.card-meta {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    opacity: 0.85;
+}
+.card-date {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85em;
+    color: #e0e0e0;
+}
+.card-category {
+    font-size: 0.85em;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    border-radius: 4px;
+    padding: 0.1em 0.5em;
+    background: rgba(0,0,0,0.18);
+    color: #fff;
+    display: inline-block;
+}
 /* Card Faces */
 .card-face {
     position: absolute;
@@ -223,15 +267,7 @@
     /* Background set by themes.css based on medium type and active theme */
 }
 
-.card-back {
-    transform: rotateY(180deg);
-    background: var(--theme-primary, #0b8783);
-    color: #ffffff;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
+
 
 .card-content {
     height: 100%;
