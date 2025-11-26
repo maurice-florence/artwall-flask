@@ -51,10 +51,10 @@ const HUE_VARIATIONS = {
 };
 
 const SATURATION_BOOSTS = {
-    'writing': 15,
-    'audio': 20,
-    'drawing': 18,
-    'sculpture': 22
+    'writing': 5,
+    'audio': 5,
+    'drawing': 5,
+    'sculpture': 5
 };
 
 /**
