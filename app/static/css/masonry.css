@@ -1,3 +1,43 @@
+/* Blank columns for left/right gutter, always half card width */
+.blank-col {
+    width: 50%;
+    min-width: 0;
+    max-width: none;
+    aspect-ratio: 3 / 4;
+    pointer-events: none;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block;
+}
+
+@media (min-width: 1200px) {
+    .blank-col {
+        max-width: 75px;
+    }
+}
+@media (min-width: 900px) and (max-width: 1199px) {
+    .blank-col {
+        width: calc((100% - 40px) / 12);
+    }
+}
+@media (min-width: 750px) and (max-width: 899px) {
+    .blank-col {
+        width: calc((100% - 24px) / 8);
+    }
+}
+@media (min-width: 350px) and (max-width: 749px) {
+    .blank-col {
+        width: calc((100% - 16px) / 6);
+    }
+}
+@media (max-width: 349px) {
+    .blank-col {
+        width: calc((100% - 8px) / 4);
+    }
+}
 /**
  * Masonry Grid Styles
  * Styles for the dynamic Masonry grid layout
