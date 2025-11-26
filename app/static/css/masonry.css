@@ -12,6 +12,7 @@
 .card-back {
     border-radius: 16px;
     overflow: hidden;
+    /* Do not set background here, let themes.css handle it */
 }
 /* Blank columns for left/right gutter, always half card width */
 .blank-col {
@@ -140,14 +141,14 @@
 }
 
 /* Masonry Grid */
-.grid {
+.card {
     width: 100%;
-}
-
-.grid:after {
-    content: '';
-    display: block;
-    clear: both;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    transition: box-shadow 0.2s;
+    /* Only set background if needed, let .card-front/.card-back be handled by themes.css */
 }
 
 /* Grid Sizer - defines column width */

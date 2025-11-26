@@ -152,7 +152,7 @@ body {
     position: absolute;
     top: calc(100% + 6px);
     right: 0;
-    background: var(--theme-card-bg, #ffffff);
+    /* background: var(--theme-card-bg, #ffffff); */
     border: 1px solid var(--theme-border, rgba(0, 0, 0, 0.08));
     padding: 0.4rem;
     border-radius: 6px;
@@ -260,7 +260,7 @@ body {
     border-radius: 20px;
     border: 1px solid var(--theme-border, #d1d5db);
     font-size: 1rem;
-    background-color: var(--theme-card-bg, #ffffff);
+    /* background-color: var(--theme-card-bg, #ffffff); */
     color: var(--theme-text, #3D405B);
     transition: border-color 0.2s, box-shadow 0.2s;
     width: 200px;

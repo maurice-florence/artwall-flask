@@ -1,6 +1,6 @@
 /* Poetry Card Front - Default (Atelier) */
 .card-poetry .card-front {
-    background: linear-gradient(135deg, var(--theme-primary, #0b8783) 0%, #ffffff 100%);
+    background: linear-gradient(135deg, var(--theme-primary, #0b8783) 0%, #ffffff 100%) !important;
 }
 /**
  * Theme System
