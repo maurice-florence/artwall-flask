@@ -12,7 +12,7 @@
 .card-back {
     border-radius: 16px;
     overflow: hidden;
-    /* Do not set background here, let themes.css handle it */
+    background: var(--theme-primary, #0b8783);
 }
 /* Blank columns for left/right gutter, always half card width */
 .blank-col {

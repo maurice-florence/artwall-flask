@@ -192,40 +192,37 @@ def compare_results(db_counts, app_counts):
     
     return all_match
 
-def test_specific_medium(medium, posts):
-    """Test 6: Deep dive into specific medium"""
+def test_specific_medium_audio():
+    """Test 6: Deep dive into audio medium"""
+    medium = 'audio'
     print("\n" + "="*70)
     print(f"TEST 6: DEEP DIVE - {medium.upper()}")
     print("="*70)
-    
-    # Get from database
     ref = db.reference(f'/artwall/{medium}')
     db_data = ref.get()  # type: ignore[misc]
     assert isinstance(db_data, dict)
-    
     if not db_data:
         print(f"❌ No data in database for {medium}")
         return
-    
     db_ids = set(db_data.keys())
     print(f"Database has {len(db_ids)} {medium} items")
-    
-    # Get from app
-    app_posts = [p for p in posts if p.get('medium') == medium]
-    app_ids = set(p.get('id') for p in app_posts)
-    print(f"App loaded {len(app_ids)} {medium} items")
-    
-    # Find missing
-    missing = db_ids - app_ids
-    if missing:
-        print(f"\n❌ Missing {len(missing)} items from app:")
-        for post_id in list(missing)[:5]:
-            post_data = db_data[post_id]
-            print(f"  - {post_id}: {post_data.get('title', 'No title')[:50]}")
-            print(f"    timestamp: {post_data.get('timestamp')}")
-            print(f"    recordCreationDate: {post_data.get('recordCreationDate')}")
-    else:
-        print(f"✓ All {medium} items loaded correctly")
+    from app import create_app
+    app = create_app()
+    with app.app_context():
+        posts, _ = get_paginated_posts(limit=1000)
+        app_posts = [p for p in posts if p.get('medium') == medium]
+        app_ids = set(p.get('id') for p in app_posts)
+        print(f"App loaded {len(app_ids)} {medium} items")
+        missing = db_ids - app_ids
+        if missing:
+            print(f"\n❌ Missing {len(missing)} items from app:")
+            for post_id in list(missing)[:5]:
+                post_data = db_data[post_id]
+                print(f"  - {post_id}: {post_data.get('title', 'No title')[:50]}")
+                print(f"    timestamp: {post_data.get('timestamp')}")
+                print(f"    recordCreationDate: {post_data.get('recordCreationDate')}")
+        else:
+            print(f"✓ All {medium} items loaded correctly")
 
 def main():
     """Run all tests"""

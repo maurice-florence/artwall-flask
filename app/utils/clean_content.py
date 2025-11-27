@@ -14,13 +14,13 @@ def clean_post_content(content: str) -> str:
         lines.pop(0)
     while lines and not lines[-1].strip():
         lines.pop()
-    if len(lines) <= 3:
-        # Not enough lines to clean, just return joined
-        return '\n'.join(lines)
-    # Remove first line (title)
+    if len(lines) == 0:
+        return ''
+    # Always remove the first line (title)
     lines = lines[1:]
-    # Remove last two lines (date/location)
-    lines = lines[:-2]
+    # If more than 2 lines remain, remove last two (date/location)
+    if len(lines) > 2:
+        lines = lines[:-2]
     # Remove blank lines again
     while lines and not lines[0].strip():
         lines.pop(0)

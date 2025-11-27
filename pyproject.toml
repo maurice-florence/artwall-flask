@@ -2,7 +2,7 @@
 name = "flask-firebase-migration"
 version = "1.0.0"
 description = "Migration of Next.js app to Flask"
-authors =
+authors = ["Your Name <your@email.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
