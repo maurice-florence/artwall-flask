@@ -254,9 +254,9 @@ def main():
             print("INVESTIGATING MISMATCHES...")
             print("="*70)
             
-            for medium in ['audio', 'drawing', 'sculpture', 'writing']:
-                if db_counts.get(medium, 0) != app_counts.get(medium, 0):
-                    test_specific_medium(medium, posts)
+            # The generic test_specific_medium function was removed. If you want to deep dive, call the specific test(s) directly, e.g.:
+            if db_counts.get('audio', 0) != app_counts.get('audio', 0):
+                test_specific_medium_audio()
     
     print("\n" + "="*70)
     print("TESTS COMPLETE")
