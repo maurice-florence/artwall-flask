@@ -1,0 +1,25 @@
+Here’s what you want to see in the card’s content window (modal):
+
+Title
+
+Displayed only in the header of the modal window.
+Should not appear in the main content/body area.
+Content/Body
+
+Only the main body of the poem or text.
+The title (first line) should be removed from the content.
+The date and location (usually the last two lines) should also be removed from the content.
+No extra blank lines at the top or bottom.
+The content should be clean, showing only the actual poem or text, without metadata.
+Footer
+
+At the bottom of the modal, display the date and location.
+These should be sourced from the artwork’s metadata (not from the content text itself).
+The date should be formatted (e.g., “October 5, 2025”).
+The location should be shown after the date, separated by a dash or similar.
+Summary:
+
+The modal header shows the title.
+The modal body shows only the main content (no title, date, or location).
+The modal footer shows the date and location from metadata.
+This ensures the user sees a clean, non-redundant presentation: title at the top, content in the middle, and date/location at the bottom.
