@@ -1,7 +1,10 @@
 {% macro render_card(post) %}
 <div class="grid-item" data-post-id="{{ post.id }}" data-medium="{{ post.medium }}">
     <div class="card-wrapper" onclick="openPost('{{ post.id }}')">
-        <div class="card card-{{ post.medium|lower }}">
+        <div class="card card-{{ post.medium|lower }}"
+            data-content="{{ post.cleaned_content|e }}"
+            data-date="{{ post.date.strftime('%B %-d, %Y') if post.date else '' }}"
+            data-location="{{ post.location1 }}{% if post.location2 %}, {{ post.location2 }}{% endif %}">
             <!-- Front of card (theme-based background from CSS, or dynamic gradient for atelier) -->
             <div class="card-face card-front">
                 <div class="card-content">

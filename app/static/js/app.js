@@ -209,14 +209,50 @@ function searchPosts(query) {
 /**
  * Open post in modal or new page
  */
+
 function openPost(postId) {
-    console.log('Opening post:', postId);
-    // For now, just log. You can implement a modal or navigate to detail page
-    // Option 1: Open in modal (requires modal HTML)
-    // showPostModal(postId);
-    
-    // Option 2: Navigate to detail page
-    window.location.href = `/post/${postId}`;
+    // Find the grid-item for this post
+    const gridItem = document.querySelector(`.grid-item[data-post-id='${postId}']`);
+    if (!gridItem) return;
+    const card = gridItem.querySelector('.card');
+    if (!card) return;
+    // Extract data from card
+    const title = card.querySelector('.card-title')?.textContent || '';
+    // Try to get content from a data attribute or fallback (for now, show placeholder)
+    // In a real app, you might fetch the clean content via AJAX or store it in a data-content attribute
+    let content = card.getAttribute('data-content') || '';
+    if (!content) {
+        // Fallback: show a placeholder
+        content = '[Content not loaded. Implement AJAX fetch or data-content attribute.]';
+    }
+    // Get date and location from card-meta or data attributes
+    let date = card.getAttribute('data-date') || '';
+    let location = card.getAttribute('data-location') || '';
+    // Format footer
+    let footer = '';
+    if (date) {
+        footer += date;
+        if (location) footer += ' – ' + location;
+    } else if (location) {
+        footer = location;
+    }
+    showArtwallModal(title, content, footer);
+}
+
+function showArtwallModal(title, content, footer) {
+    const modal = document.getElementById('artwall-modal');
+    if (!modal) return;
+    document.getElementById('artwall-modal-title').textContent = title;
+    document.getElementById('artwall-modal-body').textContent = content;
+    document.getElementById('artwall-modal-footer').textContent = footer;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeArtwallModal() {
+    const modal = document.getElementById('artwall-modal');
+    if (modal) modal.style.display = 'none';
+    document.body.style.overflow = '';
 }
 
 /**

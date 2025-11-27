@@ -1,0 +1,68 @@
+<!-- Modal HTML for displaying card content -->
+<div id="artwall-modal" class="artwall-modal" style="display:none;">
+  <div class="artwall-modal-backdrop" onclick="closeArtwallModal()"></div>
+  <div class="artwall-modal-content">
+    <button class="artwall-modal-close" onclick="closeArtwallModal()">&times;</button>
+    <div class="artwall-modal-header">
+      <h2 id="artwall-modal-title"></h2>
+    </div>
+    <div class="artwall-modal-body" id="artwall-modal-body"></div>
+    <div class="artwall-modal-footer" id="artwall-modal-footer"></div>
+  </div>
+</div>
+
+<style>
+.artwall-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.artwall-modal-backdrop {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.45);
+}
+.artwall-modal-content {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  max-width: 480px;
+  width: 100%;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+.artwall-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #888;
+  cursor: pointer;
+}
+.artwall-modal-header h2 {
+  margin: 0 0 1rem 0;
+  font-size: 2rem;
+  color: #1976d2;
+}
+.artwall-modal-body {
+  margin-bottom: 1.5rem;
+  color: #222;
+  font-size: 1.1rem;
+  white-space: pre-line;
+}
+.artwall-modal-footer {
+  font-size: 0.95rem;
+  color: #666;
+  text-align: right;
+  border-top: 1px solid #eee;
+  padding-top: 0.75rem;
+}
+</style>

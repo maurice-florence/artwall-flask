@@ -6,6 +6,7 @@ from flask import render_template, current_app
 from app.blueprints.main import main_bp
 from app.services.firebase_service import get_paginated_posts, get_db_ref
 from app.utils.post_helpers import group_posts_by_year
+from app.utils.clean_content import clean_post_content
 
 @main_bp.route('/')
 def index():
@@ -25,9 +26,13 @@ def index():
             medium_counts[medium] = medium_counts.get(medium, 0) + 1
         current_app.logger.info(f"Medium distribution: {medium_counts}")
         
+        # Add cleaned_content to each post
+        for post in posts:
+            post['cleaned_content'] = clean_post_content(post.get('content', ''))
+
         # Group posts by year for display with separators
         grouped_posts = group_posts_by_year(posts)
-        
+
         return render_template('index.html', 
                              grouped_posts=grouped_posts,
                              next_cursor=next_cursor)
