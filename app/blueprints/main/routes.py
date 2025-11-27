@@ -1,9 +1,33 @@
+from flask import render_template, current_app
+import json
+from app.blueprints.main import main_bp
+from app.services.firebase_service import get_paginated_posts, get_db_ref
+from app.utils.post_helpers import group_posts_by_year
+from app.utils.clean_content import clean_post_content
+
 """
 Main Routes.
 Handles the initial page load and displays the Masonry grid.
 """
 from flask import render_template, current_app
 from app.blueprints.main import main_bp
+@main_bp.route('/debug/drawing-artwork')
+def debug_drawing_artwork():
+    """
+    Temporary route: Fetch and display the structure of a drawing artwork from Firebase.
+    """
+    try:
+        ref = get_db_ref('artwall/drawing')
+        data = ref.get()
+        if data:
+            for post_id, post in data.items():
+                # Save to file for reference
+                with open('drawing_artwork_reference.json', 'w', encoding='utf-8') as f:
+                    json.dump(post, f, indent=2, ensure_ascii=False)
+                return f"<pre>{json.dumps(post, indent=2, ensure_ascii=False)}</pre>"
+        return 'No drawing artworks found.'
+    except Exception as e:
+        return f"Error: {str(e)}"
 from app.services.firebase_service import get_paginated_posts, get_db_ref
 from app.utils.post_helpers import group_posts_by_year
 from app.utils.clean_content import clean_post_content
@@ -29,8 +53,32 @@ def index():
         # Add cleaned_content to each post, with debug print
         for post in posts:
             original = post.get('content', '')
-            cleaned = clean_post_content(original)
+            cleaned = clean_post_content(original) if original else ''
             post['cleaned_content'] = cleaned
+            # Compose date string from day/month/year fields if present
+            day = str(post.get('day', '')).zfill(2) if post.get('day') else ''
+            month = str(post.get('month', '')).zfill(2) if post.get('month') else ''
+            year = str(post.get('year', '')) if post.get('year') else ''
+            if day and month and year:
+                post['date_str'] = f"{year}-{month}-{day}"
+            elif year and month:
+                post['date_str'] = f"{year}-{month}"
+            elif year:
+                post['date_str'] = str(year)
+            else:
+                post['date_str'] = ''
+            # Fallback: for writing posts, if subcategory is missing, set to 'Poetry' if tags or other logic matches
+            subcat = post.get('subcategory', '')
+            if not subcat and post.get('medium', '').lower() == 'writing':
+                # Try to infer from tags or title (simple fallback)
+                tags = post.get('tags', [])
+                if isinstance(tags, list) and any('poetry' in t.lower() for t in tags):
+                    subcat = 'Poetry'
+                elif 'poetry' in (post.get('title', '').lower()):
+                    subcat = 'Poetry'
+                else:
+                    subcat = 'Poetry'  # Default for writing if nothing else
+            post['subcategory'] = subcat
             if post.get('title', '').lower() == 'gratitude':
                 print(f"DEBUG: Post 'Gratitude' original content: {repr(original)}")
                 print(f"DEBUG: Post 'Gratitude' cleaned content: {repr(cleaned)}")

@@ -228,13 +228,20 @@ function openPost(postId) {
     // Get date and location from card-meta or data attributes
     let date = card.getAttribute('data-date') || '';
     let location = card.getAttribute('data-location') || '';
-    // Format footer
+    let medium = card.getAttribute('data-medium') || '';
+    let subcategory = card.getAttribute('data-subcategory') || '';
+    // Build modal footer HTML
     let footer = '';
     if (date) {
-        footer += date;
-        if (location) footer += ' – ' + location;
-    } else if (location) {
-        footer = location;
+        footer += `<div class="modal-date">${date}</div>`;
+    }
+    if (location) {
+        footer += `<div class="modal-location">${location}</div>`;
+    }
+    if (medium) {
+        footer += `<div class="modal-medium">${medium}`;
+        if (subcategory) footer += ` &ndash; ${subcategory}`;
+        footer += `</div>`;
     }
     showArtwallModal(title, content, footer);
 }
@@ -244,7 +251,7 @@ function showArtwallModal(title, content, footer) {
     if (!modal) return;
     document.getElementById('artwall-modal-title').textContent = title;
     document.getElementById('artwall-modal-body').textContent = content;
-    document.getElementById('artwall-modal-footer').textContent = footer;
+    document.getElementById('artwall-modal-footer').innerHTML = footer;
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
