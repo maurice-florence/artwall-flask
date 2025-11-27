@@ -32,27 +32,23 @@ def test_database_structure():
     print("\n" + "="*70)
     print("TEST 1: DATABASE STRUCTURE")
     print("="*70)
-    
+    # Ensure Firebase is initialized
+    init_firebase()
     ref = db.reference('/artwall')
     data = ref.get()  # type: ignore[misc]
     assert isinstance(data, dict)
-    
     if not data:
         print("❌ No data found at /artwall")
         return False
-    
     print(f"✓ Found medium types: {list(data.keys())}")
-    
     total_items = 0
     medium_counts = {}
-    
     for medium in data.keys():
         if isinstance(data[medium], dict):
             count = len(data[medium])
             medium_counts[medium] = count
             total_items += count
             print(f"  - {medium}: {count} items")
-    
     print(f"\n✓ Total items in database: {total_items}")
     return medium_counts
 

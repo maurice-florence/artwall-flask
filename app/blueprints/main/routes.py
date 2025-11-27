@@ -26,9 +26,14 @@ def index():
             medium_counts[medium] = medium_counts.get(medium, 0) + 1
         current_app.logger.info(f"Medium distribution: {medium_counts}")
         
-        # Add cleaned_content to each post
+        # Add cleaned_content to each post, with debug print
         for post in posts:
-            post['cleaned_content'] = clean_post_content(post.get('content', ''))
+            original = post.get('content', '')
+            cleaned = clean_post_content(original)
+            post['cleaned_content'] = cleaned
+            if post.get('title', '').lower() == 'gratitude':
+                print(f"DEBUG: Post 'Gratitude' original content: {repr(original)}")
+                print(f"DEBUG: Post 'Gratitude' cleaned content: {repr(cleaned)}")
 
         # Group posts by year for display with separators
         grouped_posts = group_posts_by_year(posts)
