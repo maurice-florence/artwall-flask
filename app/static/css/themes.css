@@ -1,5 +1,6 @@
 /* Poetry Card Front - Default (Atelier) */
-.card-poetry .card-front {
+/* Increased specificity for card front gradients */
+.card.card-poetry .card-front {
     background: linear-gradient(135deg, var(--theme-primary, #0b8783) 0%, #ffffff 100%) !important;
 }
 /**
@@ -329,26 +330,27 @@
 
 /* Atelier Theme Card Backgrounds (default) - gradients and patterns */
 
-.card-writing .card-front {
-    background: linear-gradient(135deg, var(--theme-writing) 60%, #f7f7f7 100%);
+/* Increased specificity for all card front gradients */
+.card.card-writing .card-front {
+    background: linear-gradient(135deg, var(--theme-writing) 60%, #f7f7f7 100%) !important;
 }
-.card-poetry .card-front, .card-poem .card-front {
-    background: linear-gradient(135deg, var(--theme-poem) 60%, #f7f7f7 100%);
+.card.card-poetry .card-front, .card.card-poem .card-front {
+    background: linear-gradient(135deg, var(--theme-poem) 60%, #f7f7f7 100%) !important;
 }
-.card-prosepoem .card-front {
-    background: linear-gradient(135deg, var(--theme-prosepoem) 60%, #f7f7f7 100%);
+.card.card-prosepoem .card-front {
+    background: linear-gradient(135deg, var(--theme-prosepoem) 60%, #f7f7f7 100%) !important;
 }
-.card-prose .card-front {
-    background: linear-gradient(135deg, var(--theme-prose) 60%, #f7f7f7 100%);
+.card.card-prose .card-front {
+    background: linear-gradient(135deg, var(--theme-prose) 60%, #f7f7f7 100%) !important;
 }
-.card-drawing .card-front {
-    background: linear-gradient(135deg, var(--theme-drawing) 60%, #f7f7f7 100%);
+.card.card-drawing .card-front {
+    background: linear-gradient(135deg, var(--theme-drawing) 60%, #f7f7f7 100%) !important;
 }
-.card-audio .card-front {
-    background: linear-gradient(135deg, var(--theme-audio) 60%, #f7f7f7 100%);
+.card.card-audio .card-front {
+    background: linear-gradient(135deg, var(--theme-audio) 60%, #f7f7f7 100%) !important;
 }
-.card-sculpture .card-front {
-    background: linear-gradient(135deg, var(--theme-sculpture) 60%, #f7f7f7 100%);
+.card.card-sculpture .card-front {
+    background: linear-gradient(135deg, var(--theme-sculpture) 60%, #f7f7f7 100%) !important;
 }
 
 [data-theme="blueprint"] .card-audio .card-front {
