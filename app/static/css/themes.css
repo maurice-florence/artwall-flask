@@ -1,3 +1,13 @@
+/* Modal Header - Solid Background and Border */
+.modal-header {
+    background: var(--theme-card-bg, #fff);
+    border-bottom: 1px solid var(--theme-border, #d1d5db);
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.03);
+    padding: 1.25rem 1.5rem 1rem 1.5rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    z-index: 2;
+}
 /* Modal Footer Two-Column Layout (Isolated) */
 .modal-footer-grid {
     display: flex;

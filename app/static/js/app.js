@@ -265,7 +265,41 @@ function openPost(postId) {
     footer += '    </div>';
     footer += '  </div>';
     footer += '</div>';
+
+    // Set modal title color based on medium
     showArtwallModal(title, content, footer);
+    setTimeout(function() {
+        const modalTitle = document.getElementById('artwall-modal-title');
+        if (modalTitle) {
+            let color = '';
+            switch ((medium || '').toLowerCase()) {
+                case 'writing':
+                    color = getComputedStyle(document.documentElement).getPropertyValue('--theme-writing');
+                    break;
+                case 'drawing':
+                    color = getComputedStyle(document.documentElement).getPropertyValue('--theme-drawing');
+                    break;
+                case 'audio':
+                    color = getComputedStyle(document.documentElement).getPropertyValue('--theme-audio');
+                    break;
+                case 'sculpture':
+                    color = getComputedStyle(document.documentElement).getPropertyValue('--theme-sculpture');
+                    break;
+                case 'poem':
+                    color = getComputedStyle(document.documentElement).getPropertyValue('--theme-poem');
+                    break;
+                case 'prosepoem':
+                    color = getComputedStyle(document.documentElement).getPropertyValue('--theme-prosepoem');
+                    break;
+                case 'prose':
+                    color = getComputedStyle(document.documentElement).getPropertyValue('--theme-prose');
+                    break;
+                default:
+                    color = getComputedStyle(document.documentElement).getPropertyValue('--theme-primary');
+            }
+            modalTitle.style.color = color || '#1976d2';
+        }
+    }, 0);
 }
 
 function showArtwallModal(title, content, footer) {

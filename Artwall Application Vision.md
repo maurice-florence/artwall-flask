@@ -19,7 +19,6 @@ Artwall serves as a **personal creative portfolio and chronological archive** th
 - Supports multi-language content and translations
 - Delivers a mobile-first Progressive Web App (PWA) experience
 
-
 ### Design Philosophy
 
 The app emphasizes:
@@ -42,11 +41,9 @@ The homepage presents a **masonry-style grid** reminiscent of Instagram's visual
 - Cards arrange in a responsive grid that adapts to screen size
 - The layout creates a cohesive "wall" aesthetic with flowing content
 
-
 ### 2.2 Dynamic Card Sizing System
 
 Cards vary in size based on **medium/subtype**, creating visual hierarchy and interest:
-
 
 | Medium/Subtype | Grid Size | Visual Ratio | Purpose |
 | :-- | :-- | :-- | :-- |
@@ -62,7 +59,6 @@ Cards vary in size based on **medium/subtype**, creating visual hierarchy and in
 - CSS Grid with `grid-column: span 2` and `grid-row: span 2` for larger cards
 - Dynamic class assignment based on artwork `medium` and `subtype` fields
 - Masonry layout library (e.g., `react-masonry-css` or CSS Grid with `grid-auto-rows: dense`) for optimal packing
-
 
 ### 2.3 Year Divider Cards
 
@@ -95,17 +91,15 @@ Each artwork card has **three distinct visual states**:
 - **Minimal text overlay** or completely image-focused
 - Clean, magazine-like aesthetic
 
-
 #### **Hover State**
 
 - **Content preview emerges**:
-    - Artwork title (prominent typography)
-    - Creation date (day/month/year)
-    - Medium icon (visual identifier)
-    - Optional: first line of description or content
+- Artwork title (prominent typography)
+- Creation date (day/month/year)
+- Medium icon (visual identifier)
+- Optional: first line of description or content
 - **Subtle overlay darkening** or blur effect on background
 - **Smooth transition animation** (0.3s ease)
-
 
 #### **Clicked State**
 
@@ -113,7 +107,6 @@ Each artwork card has **three distinct visual states**:
 - Displays complete artwork details, media player, full text
 - Allows editing (admin mode), rating, tagging
 - Provides navigation to previous/next artwork
-
 
 ### 3.2 Image Handling
 
@@ -131,11 +124,9 @@ Each artwork card has **three distinct visual states**:
 - **Typographic emphasis**: Larger title, snippet of text
 - **Icon representation**: Medium-specific icon (🎵, ✍️, etc.)
 
-
 ### 3.3 Medium-Specific Gradient Colors
 
 Each medium has a **dedicated gradient color scheme** to create visual distinction:
-
 
 | Medium | Primary Color | Secondary Color | Gradient Direction |
 | :-- | :-- | :-- | :-- |
@@ -153,7 +144,6 @@ Each medium has a **dedicated gradient color scheme** to create visual distincti
 - **Sufficient contrast**: Text remains readable over gradients
 - **WCAG AA compliance**: Minimum 4.5:1 contrast ratio for body text
 - **Customizable themes**: Users can select from preset palettes or create custom schemes
-
 
 ### 3.4 Theme System
 
@@ -195,10 +185,9 @@ Each medium has a **dedicated gradient color scheme** to create visual distincti
 - Heatmap visualization showing works per year
 - Quick jump to specific year
 
-
 ### 4.2 Statistics Dashboard
 
-Provides insights into creative productivity:
+#### Statistics Endpoint
 
 - **Total works** by medium over time
 - **Works per year** bar chart
@@ -207,7 +196,6 @@ Provides insights into creative productivity:
 - **Tag frequency** word cloud
 - **Language distribution**
 - **Productivity trends**: Moving averages, streaks, gaps
-
 
 ### 4.3 Admin \& CRUD Operations
 
@@ -226,23 +214,21 @@ Provides insights into creative productivity:
 - **Draft saving**: Preserves incomplete entries
 - **Media upload**: Drag-and-drop with progress bars
 
-
 ### 4.4 Modal Viewer (Full Content Display)
 
 When a card is clicked:
 
 - **Modal overlay** with dimmed background
 - **Media-specific rendering**:
-    - **Images**: High-resolution lightbox with zoom
-    - **Audio**: Waveform visualization (Wavesurfer.js) with playback controls
-    - **Writing**: Markdown-rendered full text with typography
-    - **Video**: Embedded player with controls
-    - **PDF**: Inline document viewer
+  - **Images**: High-resolution lightbox with zoom
+  - **Audio**: Waveform visualization (Wavesurfer.js) with playback controls
+  - **Writing**: Markdown-rendered full text with typography
+  - **Video**: Embedded player with controls
+  - **PDF**: Inline document viewer
 - **Metadata panel**: Shows all fields (date, tags, evaluation, rating, location)
 - **Translation toggle**: Switch between languages
 - **Navigation arrows**: Previous/next artwork in filtered set
 - **Share/export options**: Copy link, download media
-
 
 ### 4.5 Multi-Language Support
 
@@ -267,7 +253,7 @@ When a card is clicked:
 
 **Root Structure:**
 
-```
+```bash
 artwall-db/
 ├── artworks/
 │   ├── {artworkId}/
@@ -322,7 +308,7 @@ artwall-db/
     ├── version: string
     ├── lastSync: timestamp
     └── totalArtworks: number
-```
+```bash
 
 **Key Design Principles:**
 
@@ -331,10 +317,9 @@ artwall-db/
 - **URL references**: Storage URLs stored directly in artwork documents
 - **Timestamp tracking**: Created/updated timestamps for sync and ordering
 
-
 ### 5.3 Firebase Storage Structure
 
-```
+```bash
 artwall-storage/
 ├── images/
 │   ├── {artworkId}/
@@ -363,7 +348,6 @@ artwall-storage/
 - **Public URLs** with CORS enabled for cross-origin access
 - **Security rules** restrict uploads to authenticated users
 
-
 ### 5.4 Security Rules
 
 **Realtime Database Rules:**
@@ -390,7 +374,7 @@ artwall-storage/
 
 **Storage Rules:**
 
-```
+```bash
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
@@ -402,7 +386,6 @@ service firebase.storage {
   }
 }
 ```
-
 
 ### 5.5 Data Synchronization Scripts (Python)
 
@@ -421,8 +404,8 @@ service firebase.storage {
 4. Convert note content to HTML files
 5. Create structured folder hierarchy by year/medium
 6. Generate metadata JSON files per artwork
-- **Output**: Local file structure ready for Firebase upload
 
+- **Output**: Local file structure ready for Firebase upload
 
 #### **Stage 2: Firebase Master Sync**
 
@@ -439,8 +422,8 @@ service firebase.storage {
 6. Handle duplicate detection and versioning
 7. Update indexes and metadata collections
 8. Generate upload report with success/failure counts
-- **Output**: Fully synchronized Firebase database and storage
 
+- **Output**: Fully synchronized Firebase database and storage
 
 #### **Stage 3: Integrity Validation**
 
@@ -455,6 +438,7 @@ service firebase.storage {
 4. Validate database schema compliance
 5. Report missing thumbnails, broken links
 6. Calculate storage usage statistics
+
 - **Output**: Discrepancy report, health metrics
 
 **Sync Workflow Example:**
@@ -473,14 +457,13 @@ python firebase-master-sync.py --source local-archive/ --firebase-project artwal
 python firebase-status-checker.py --firebase-project artwall-prod --report-output status.html
 ```
 
-
 ***
 
 ## 6. Next.js Application Architecture (Secondary Context for Migration)
 
 ### 6.1 Project Structure
 
-```
+```bash
 artwall/
 ├── src/
 │   ├── app/                 # Next.js 13+ App Router
@@ -531,10 +514,9 @@ artwall/
 └── package.json
 ```
 
-
 ### 6.2 Data Flow Architecture
 
-```
+```bash
 User Interaction
     ↓
 Component (ArtworkGrid, FilterPanel)
@@ -557,7 +539,6 @@ Display cards in masonry grid
 - **ThemeContext**: Loads user theme, applies CSS variables
 - **AuthContext**: Manages user authentication state
 
-
 ### 6.3 Key Technologies
 
 - **Next.js 13+**: App Router, Server Components, streaming
@@ -577,7 +558,7 @@ Display cards in masonry grid
 
 ### 7.1 Flask Application Structure Recommendation
 
-```
+```bash
 artwall-flask/
 ├── app/
 │   ├── __init__.py          # Flask app factory
@@ -605,10 +586,9 @@ artwall-flask/
 └── run.py
 ```
 
-
 ### 7.2 Database Migration Strategy
 
-**Option A: PostgreSQL with SQLAlchemy**
+#### Option A: PostgreSQL with SQLAlchemy
 
 ```python
 # models.py
@@ -652,7 +632,7 @@ class Artwork(Base):
     updated_at = Column(DateTime)
 ```
 
-**Option B: MongoDB with PyMongo**
+#### Option B: MongoDB with PyMongo
 
 ```python
 # models.py
@@ -678,7 +658,6 @@ artworks_collection.create_index("year")
 artworks_collection.create_index("medium")
 artworks_collection.create_index("tags")
 ```
-
 
 ### 7.3 Storage Migration
 
@@ -711,7 +690,6 @@ class StorageService:
         key = url.split('.com/')[1]
         self.s3.delete_object(Bucket=self.bucket, Key=key)
 ```
-
 
 ### 7.4 API Endpoint Design
 
@@ -787,7 +765,6 @@ def upload_media():
     return jsonify({'url': url})
 ```
 
-
 ### 7.5 Filtering Implementation
 
 ```python
@@ -831,7 +808,6 @@ class FilterService:
         return sorted(result, key=lambda a: (a.year, a.month, a.day), 
                      reverse=True)
 ```
-
 
 ### 7.6 Frontend Integration
 
@@ -887,7 +863,6 @@ class FilterService:
 - Serve from Flask's `/static` directory
 - React communicates with Flask API via `fetch()`
 
-
 ### 7.7 Authentication Migration
 
 **Replace Firebase Auth with Flask-Login + JWT:**
@@ -924,7 +899,6 @@ def get_current_user():
     return jsonify({'error': 'Not authenticated'}), 401
 ```
 
-
 ### 7.8 Statistics Endpoint
 
 ```python
@@ -954,7 +928,6 @@ def get_statistics():
     
     return jsonify(stats)
 ```
-
 
 ***
 
@@ -1042,7 +1015,6 @@ def get_statistics():
 }
 ```
 
-
 ### 8.2 Medium Gradient Implementation
 
 ```python
@@ -1101,7 +1073,6 @@ def get_gradient_css(medium: str, subtype: str = None) -> str:
         return f"linear-gradient({colors['direction']}, {colors['primary']}, {colors['secondary']})"
 ```
 
-
 ### 8.3 Year Divider Insertion Logic
 
 ```python
@@ -1127,7 +1098,6 @@ def get_artworks_with_dividers(filters: dict = None) -> List[dict]:
     return result
 ```
 
-
 ***
 
 ## 9. Testing \& Deployment Considerations
@@ -1139,7 +1109,6 @@ def get_artworks_with_dividers(filters: dict = None) -> List[dict]:
 - **Verify** all fields, relationships, URLs
 - **Test** filtering, search, statistics accuracy
 
-
 ### 9.2 Performance Optimization
 
 - **Database indexing**: Year, medium, tags, evaluation
@@ -1147,7 +1116,6 @@ def get_artworks_with_dividers(filters: dict = None) -> List[dict]:
 - **Lazy loading**: Cards load as user scrolls
 - **Image optimization**: WebP format, multiple resolutions
 - **Caching**: Redis for frequently accessed data
-
 
 ### 9.3 Deployment Strategy
 
@@ -1175,4 +1143,3 @@ When restructuring this application:
 10. **Prioritize mobile responsiveness** and PWA capabilities
 
 The application is fundamentally a **visually-driven content management system** where the "Instagram wall" aesthetic and chronological timeline serve as the primary navigation paradigm. All technical decisions should support this visual storytelling approach while maintaining data integrity and performance.
-
