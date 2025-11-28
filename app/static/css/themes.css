@@ -87,10 +87,30 @@
     --theme-audio: #b97a56;
     --theme-sculpture: #b0a16c;
 
+
     /* Subcategories for writing (variations) */
     --theme-poem: #0b7a78;
     --theme-prosepoem: #0b6a6a;
     --theme-prose: #0b5a5a;
+    --theme-essay: #137c6b;
+    --theme-novel: #0b6e5a;
+    --theme-shortstory: #0b8a83;
+
+    /* Subcategories for audio (variations) */
+    --theme-beat: #a86a3a;
+    --theme-electronic: #b97a90;
+    --theme-other: #b9a156;
+    --theme-rap: #b95a56;
+    --theme-song: #b97a90;
+    --theme-soundpoem: #b97a8a;
+
+    /* Subcategories for drawing (variations) */
+    --theme-digital: #5c6e91;
+    --theme-marker: #7c8eb1;
+    --theme-pencil: #4c5e81;
+
+    /* Subcategories for sculpture (variations) */
+    --theme-clay: #a08e5c;
 
     /* Primary Colors */
     --theme-primary: var(--theme-writing);
@@ -126,9 +146,26 @@
     --theme-audio: #C0392B;
     --theme-sculpture: #D35400;
 
+
     --theme-poem: #2471A3;
     --theme-prosepoem: #6C3483;
     --theme-prose: #1E8449;
+    --theme-essay: #2980B9;
+    --theme-novel: #154360;
+    --theme-shortstory: #5499C7;
+
+    --theme-beat: #922B21;
+    --theme-electronic: #C03991;
+    --theme-other: #C09A2B;
+    --theme-rap: #C03956;
+    --theme-song: #C05A91;
+    --theme-soundpoem: #C05A8A;
+
+    --theme-digital: #6C3483;
+    --theme-marker: #A569BD;
+    --theme-pencil: #512E5F;
+
+    --theme-clay: #B9770E;
 
     --theme-primary: var(--theme-writing);
     --theme-secondary: #C0392B;
@@ -178,9 +215,26 @@
     --theme-audio: #CF6679;
     --theme-sculpture: #FFB74D;
 
+
     --theme-poem: #5DADE2;
     --theme-prosepoem: #A569BD;
     --theme-prose: #48C9B0;
+    --theme-essay: #2980B9;
+    --theme-novel: #154360;
+    --theme-shortstory: #5499C7;
+
+    --theme-beat: #922B21;
+    --theme-electronic: #CF39A1;
+    --theme-other: #CF9A2B;
+    --theme-rap: #CF3956;
+    --theme-song: #CF5AA1;
+    --theme-soundpoem: #CF5A8A;
+
+    --theme-digital: #A569BD;
+    --theme-marker: #BB8FCE;
+    --theme-pencil: #512E5F;
+
+    --theme-clay: #B9770E;
 
     --theme-primary: var(--theme-writing);
     --theme-secondary: #CF6679;
@@ -250,9 +304,26 @@
     --theme-audio: #00796B;
     --theme-sculpture: #26A69A;
 
+
     --theme-poem: #009688;
     --theme-prosepoem: #26A69A;
     --theme-prose: #80CBC4;
+    --theme-essay: #00897B;
+    --theme-novel: #00695C;
+    --theme-shortstory: #4DB6AC;
+
+    --theme-beat: #00695C;
+    --theme-electronic: #00BFA5;
+    --theme-other: #26A69A;
+    --theme-rap: #00796B;
+    --theme-song: #00BFA5;
+    --theme-soundpoem: #26A69A;
+
+    --theme-digital: #4DB6AC;
+    --theme-marker: #80CBC4;
+    --theme-pencil: #00897B;
+
+    --theme-clay: #26A69A;
 
     --theme-primary: var(--theme-writing);
     --theme-secondary: #00796B;
@@ -302,9 +373,26 @@
     --theme-audio: #8D6E63;
     --theme-sculpture: #A1887F;
 
+
     --theme-poem: #2E7D32;
     --theme-prosepoem: #689F38;
     --theme-prose: #388E3C;
+    --theme-essay: #388E3C;
+    --theme-novel: #1B5E20;
+    --theme-shortstory: #43A047;
+
+    --theme-beat: #6D4C41;
+    --theme-electronic: #8D6E63;
+    --theme-other: #A1887F;
+    --theme-rap: #8D6E63;
+    --theme-song: #A1887F;
+    --theme-soundpoem: #A1887F;
+
+    --theme-digital: #90A4AE;
+    --theme-marker: #B0BEC5;
+    --theme-pencil: #607D8B;
+
+    --theme-clay: #A1887F;
 
     --theme-primary: var(--theme-writing);
     --theme-secondary: #8D6E63;
@@ -354,9 +442,26 @@
     --theme-audio: #8D6E63;
     --theme-sculpture: #A1887F;
 
+
     --theme-poem: #1565C0;
     --theme-prosepoem: #5D4037;
     --theme-prose: #1976D2;
+    --theme-essay: #1976D2;
+    --theme-novel: #283593;
+    --theme-shortstory: #64B5F6;
+
+    --theme-beat: #6D4C41;
+    --theme-electronic: #8D6E63;
+    --theme-other: #A1887F;
+    --theme-rap: #8D6E63;
+    --theme-song: #A1887F;
+    --theme-soundpoem: #A1887F;
+
+    --theme-digital: #757575;
+    --theme-marker: #BDBDBD;
+    --theme-pencil: #424242;
+
+    --theme-clay: #A1887F;
 
     --theme-primary: var(--theme-writing);
     --theme-secondary: #8D6E63;

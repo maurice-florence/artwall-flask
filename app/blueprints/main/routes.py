@@ -45,10 +45,10 @@ def index():
                 post["date_str"] = str(year)
             else:
                 post["date_str"] = ""
-            # Fallback: for writing posts, if subcategory is missing, set to 'Poetry' if tags or other logic matches
-            subcat = post.get("subcategory", "")
+            # Always set subcategory from subtype if present
+            subcat = post.get("subtype", "")
+            # For writing, fallback if subtype is missing
             if not subcat and post.get("medium", "").lower() == "writing":
-                # Try to infer from tags or title (simple fallback)
                 tags = post.get("tags", [])
                 if isinstance(tags, list) and any("poetry" in t.lower() for t in tags):
                     subcat = "Poetry"
