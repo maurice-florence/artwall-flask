@@ -1,7 +1,7 @@
-
 # Utility to clean post content for modal display
 # Removes title (first line), date/location (last lines), and trims blank lines
 import re
+
 
 def clean_post_content(content: str) -> str:
     """
@@ -9,11 +9,11 @@ def clean_post_content(content: str) -> str:
     Returns the cleaned content for modal body.
     """
     if not content:
-        return '[No content available.]'
+        return ""
     # Replace <br> and <br/> with newlines
-    content = re.sub(r'<br\s*/?>', '\n', content, flags=re.IGNORECASE)
+    content = re.sub(r"<br\s*/?>", "\n", content, flags=re.IGNORECASE)
     # Remove all other HTML tags
-    content = re.sub(r'<[^>]+>', '', content)
+    content = re.sub(r"<[^>]+>", "", content)
     lines = [line.rstrip() for line in content.splitlines()]
     # Remove blank lines at start/end
     while lines and not lines[0].strip():
@@ -21,7 +21,7 @@ def clean_post_content(content: str) -> str:
     while lines and not lines[-1].strip():
         lines.pop()
     if len(lines) == 0:
-        return ''
+        return ""
     # Always remove the first line (title)
     lines = lines[1:]
     # If more than 2 lines remain, remove last two (date/location)
@@ -32,7 +32,7 @@ def clean_post_content(content: str) -> str:
         lines.pop(0)
     while lines and not lines[-1].strip():
         lines.pop()
-    cleaned = '\n'.join(lines)
+    cleaned = "\n".join(lines)
     if not cleaned.strip():
-        return '[No content available.]'
+        return ""
     return cleaned

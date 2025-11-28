@@ -1,0 +1,20 @@
+{
+  "name": "artwall-flask",
+  "version": "1.0.0",
+  "description": "A Python Flask application for managing and displaying creative content using Firebase Realtime Database, with a Masonry grid layout and HTMX for dynamic content loading.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^8.0.0"
+  }
+}

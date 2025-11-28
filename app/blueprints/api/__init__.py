@@ -2,8 +2,6 @@
 API Blueprint.
 Handles HTMX fragment requests for dynamic content loading.
 """
-from flask import Blueprint
 
-api_bp = Blueprint('api', __name__)
-
-from app.blueprints.api import routes
+from .blueprint import api_bp  # noqa: F401
+from . import routes  # noqa: F401

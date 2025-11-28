@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Optional
 from datetime import datetime
 
+
 @dataclass
 class ProjectDTO:
     id: str
@@ -12,15 +13,15 @@ class ProjectDTO:
     status: str
 
     @staticmethod
-    def from_firestore(doc) -> 'ProjectDTO':
+    def from_firestore(doc) -> "ProjectDTO":
         data = doc.to_dict()
-        
+
         # Safety check for missing fields to prevent crashes
         return ProjectDTO(
             id=doc.id,
-            owner_id=data.get('owner_id'),
-            name=data.get('name', 'Untitled'),
-            description=data.get('description', ''),
-            created_at=data.get('created_at'), 
-            status=data.get('status', 'draft')
+            owner_id=data.get("owner_id"),
+            name=data.get("name", "Untitled"),
+            description=data.get("description", ""),
+            created_at=data.get("created_at"),
+            status=data.get("status", "draft"),
         )

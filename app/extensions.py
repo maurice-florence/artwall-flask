@@ -2,6 +2,7 @@
 Flask Extensions Initialization.
 Extensions are initialized here but bound to the app in __init__.py
 """
+
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager
 
