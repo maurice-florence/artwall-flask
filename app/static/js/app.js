@@ -230,19 +230,41 @@ function openPost(postId) {
     let location = card.getAttribute('data-location') || '';
     let medium = card.getAttribute('data-medium') || '';
     let subcategory = card.getAttribute('data-subcategory') || '';
-    // Build modal footer HTML
-    let footer = '';
+    // Build modal footer HTML (two rows, two columns)
+    // Format date as 'Month D, YYYY'
+    let formattedDate = '';
     if (date) {
-        footer += `<div class="modal-date">${date}</div>`;
+        const dateObj = new Date(date);
+        if (!isNaN(dateObj)) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            formattedDate = dateObj.toLocaleDateString('en-US', options);
+        } else {
+            formattedDate = date;
+        }
     }
-    if (location) {
-        footer += `<div class="modal-location">${location}</div>`;
-    }
+    let mediumPill = '';
     if (medium) {
-        footer += `<div class="modal-medium">${medium}`;
-        if (subcategory) footer += ` &ndash; ${subcategory}`;
-        footer += `</div>`;
+        mediumPill = `<span class="modal-footer-pill modal-footer-medium-pill modal-footer-pill-${medium.toLowerCase()}">${medium}</span>`;
     }
+    let subcategoryPill = '';
+    if (subcategory) {
+        subcategoryPill = `<span class="modal-footer-pill modal-footer-subcategory-pill modal-footer-pill-${subcategory.toLowerCase()}">${subcategory}</span>`;
+    }
+    let footer = '';
+    footer += '<div class="modal-footer-grid">';
+    footer += '  <div class="modal-footer-col modal-footer-col-left">';
+    footer += `    <div class="modal-footer-row modal-footer-date"><em>${formattedDate}</em></div>`;
+    footer += `    <div class="modal-footer-row modal-footer-location"><em>${location || ''}</em></div>`;
+    footer += '  </div>';
+    footer += '  <div class="modal-footer-col modal-footer-col-right">';
+    footer += '    <div class="modal-footer-row modal-footer-medium">';
+    if (mediumPill) footer += mediumPill;
+    footer += '    </div>';
+    footer += '    <div class="modal-footer-row modal-footer-subcategory">';
+    if (subcategoryPill) footer += subcategoryPill;
+    footer += '    </div>';
+    footer += '  </div>';
+    footer += '</div>';
     showArtwallModal(title, content, footer);
 }
 

@@ -1,3 +1,55 @@
+/* Modal Footer Two-Column Layout (Isolated) */
+.modal-footer-grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: 2rem;
+}
+.modal-footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1 1 0;
+}
+.modal-footer-col-left {
+    align-items: flex-start;
+    text-align: left;
+}
+.modal-footer-col-right {
+    align-items: flex-end;
+    text-align: right;
+}
+.modal-footer-row {
+    display: flex;
+    align-items: center;
+    min-height: 1.5em;
+}
+.modal-footer-date em, .modal-footer-location em {
+    font-style: italic;
+    color: var(--theme-text-secondary);
+}
+.modal-footer-medium, .modal-footer-subcategory {
+    justify-content: flex-end;
+}
+.modal-footer-pill {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 0.15em 0.85em;
+    font-size: 0.95em;
+    font-weight: 500;
+    color: #fff;
+    margin-left: 0.25rem;
+    margin-bottom: 0.1rem;
+    background: var(--theme-primary, #0b8783);
+}
+.modal-footer-medium-pill {
+    background: var(--theme-medium, var(--theme-primary, #0b8783));
+}
+.modal-footer-subcategory-pill {
+    background: var(--theme-secondary, #b97a56);
+}
+/* Add more specific subcategory/medium pill colors as needed */
 /* Poetry Card Front - Default (Atelier) */
 /* Increased specificity for card front gradients */
 .card.card-poetry .card-front {
