@@ -4,42 +4,47 @@ Run this file to start the development server.
 """
 
 import os
-
 import firebase_admin
 from firebase_admin import credentials
 import logging
+import json  # Import the json library
 from app import create_app
 
 # Configure basic logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Get the path from the environment variable
-firebase_credentials_path = os.getenv("FIREBASE_CREDENTIALS_PATH")
+# --- NEW APPROACH FOR FIREBASE INITIALIZATION ---
+firebase_service_account_json = os.getenv("FIREBASE_SERVICE_ACCOUNT_JSON")
 logger.info(
-    f"FIREBASE_CREDENTIALS_PATH environment variable value: {firebase_credentials_path}"
+    "FIREBASE_SERVICE_ACCOUNT_JSON environment variable value: %s",
+    "<SET>" if firebase_service_account_json else "<NOT SET>",
 )
 
-if firebase_credentials_path:
-    if os.path.exists(firebase_credentials_path):
-        logger.info(f"File EXISTS at: {firebase_credentials_path}")
-        if os.access(firebase_credentials_path, os.R_OK):
-            logger.info(f"File is READABLE at: {firebase_credentials_path}")
-            try:
-                # Attempt to initialize Firebase
-                cred = credentials.Certificate(firebase_credentials_path)
-                firebase_admin.initialize_app(cred)
-                logger.info("Firebase initialized successfully!")
-            except Exception as e:
-                logger.error(f"ERROR initializing Firebase: {e}", exc_info=True)
-        else:
-            logger.error(
-                f"File exists but is NOT READABLE at: {firebase_credentials_path}"
-            )
-    else:
-        logger.error(f"File DOES NOT EXIST at: {firebase_credentials_path}")
+if firebase_service_account_json:
+    try:
+        # Parse the JSON string from the environment variable
+        service_account_info = json.loads(firebase_service_account_json)
+        # Initialize Firebase using the parsed dictionary
+        cred = credentials.Certificate(service_account_info)
+        firebase_admin.initialize_app(cred)
+        logger.info(
+            "Firebase initialized successfully using environment variable content!"
+        )
+    except json.JSONDecodeError as e:
+        logger.error(
+            f"ERROR: Could not decode Firebase service account JSON from environment variable: {e}",
+            exc_info=True,
+        )
+    except Exception as e:
+        logger.error(
+            f"ERROR initializing Firebase from environment variable: {e}", exc_info=True
+        )
 else:
-    logger.error("FIREBASE_CREDENTIALS_PATH environment variable is NOT SET.")
+    logger.error(
+        "FIREBASE_SERVICE_ACCOUNT_JSON environment variable is NOT SET. Firebase will not be initialized."
+    )
+# --- END NEW APPROACH ---
 
 # Create the Flask app instance using the factory
 app = create_app()
