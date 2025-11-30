@@ -2,6 +2,7 @@
 FROM python:3.11-slim
 
 # Set environment variables
+# PYTHONDONTWRITEBYTECODE=1 : Prevents Python from writing .pyc files, which keeps the image cleaner
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     FLASK_APP=wsgi.py
