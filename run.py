@@ -14,17 +14,18 @@ from app import create_app
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 # --- NEW APPROACH FOR FIREBASE INITIALIZATION ---
-firebase_service_account_json = os.getenv("FIREBASE_SERVICE_ACCOUNT_JSON")
+firebase_config_json = os.getenv("FIREBASE_CONFIG")
 logger.info(
-    "FIREBASE_SERVICE_ACCOUNT_JSON environment variable value: %s",
-    "<SET>" if firebase_service_account_json else "<NOT SET>",
+    "FIREBASE_CONFIG environment variable value: %s",
+    "<SET>" if firebase_config_json else "<NOT SET>",
 )
 
-if firebase_service_account_json:
+if firebase_config_json:
     try:
         # Parse the JSON string from the environment variable
-        service_account_info = json.loads(firebase_service_account_json)
+        service_account_info = json.loads(firebase_config_json)
         # Initialize Firebase using the parsed dictionary
         cred = credentials.Certificate(service_account_info)
         firebase_admin.initialize_app(cred)
@@ -42,7 +43,7 @@ if firebase_service_account_json:
         )
 else:
     logger.error(
-        "FIREBASE_SERVICE_ACCOUNT_JSON environment variable is NOT SET. Firebase will not be initialized."
+        "FIREBASE_CONFIG environment variable is NOT SET. Firebase will not be initialized."
     )
 # --- END NEW APPROACH ---
 

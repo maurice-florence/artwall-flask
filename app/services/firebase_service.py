@@ -8,6 +8,7 @@ from firebase_admin import credentials, db
 from flask import current_app
 import time
 from typing import List, Dict, Tuple, Optional
+import json
 
 # Global reference to Firebase database
 _firebase_db = None
@@ -31,35 +32,58 @@ def init_firebase(app):
 
     # Check if Firebase is already initialized
     if not firebase_admin._apps:
-        cred_path = app.config.get("FIREBASE_CREDENTIALS_PATH")
-        db_url = app.config.get("FIREBASE_DATABASE_URL")
+        firebase_config_json = os.environ.get("FIREBASE_CONFIG")
+        db_url = os.environ.get("FIREBASE_DATABASE_URL") or app.config.get(
+            "FIREBASE_DATABASE_URL"
+        )
 
-        logger.info(f"FIREBASE_CREDENTIALS_PATH: {cred_path}")
-
-        if not cred_path:
-            app.logger.warning(
-                "FIREBASE_CREDENTIALS_PATH not set. Firebase will not be initialized."
+        if firebase_config_json:
+            logger.info(
+                "Initializing Firebase from FIREBASE_CONFIG environment variable."
             )
-            return
-
-        if os.path.exists(cred_path):
-            logger.info(f"File exists at: {cred_path}")
-            if os.access(cred_path, os.R_OK):
-                logger.info(f"File is readable at: {cred_path}")
-                try:
-                    cred = credentials.Certificate(cred_path)
-                    firebase_admin.initialize_app(cred, {"databaseURL": db_url})
-                    app.logger.info("Firebase Admin SDK initialized successfully")
-                except Exception as e:
-                    logger.error(f"Error initializing Firebase: {e}", exc_info=True)
-                    app.logger.error(f"Failed to initialize Firebase: {str(e)}")
-                    raise
-            else:
-                logger.error(f"File exists but is NOT readable at: {cred_path}")
-                app.logger.error(f"File exists but is NOT readable at: {cred_path}")
+            try:
+                cred = credentials.Certificate(json.loads(firebase_config_json))
+                firebase_admin.initialize_app(cred, {"databaseURL": db_url})
+                app.logger.info(
+                    "Firebase Admin SDK initialized from FIREBASE_CONFIG env var."
+                )
+            except Exception as e:
+                logger.error(
+                    f"Error initializing Firebase from FIREBASE_CONFIG: {e}",
+                    exc_info=True,
+                )
+                app.logger.error(
+                    f"Failed to initialize Firebase from FIREBASE_CONFIG: {str(e)}"
+                )
+                raise
         else:
-            logger.error(f"File does NOT exist at: {cred_path}")
-            app.logger.error(f"File does NOT exist at: {cred_path}")
+            cred_path = app.config.get("FIREBASE_CREDENTIALS_PATH")
+            logger.info(f"FIREBASE_CREDENTIALS_PATH: {cred_path}")
+            if not cred_path:
+                app.logger.warning(
+                    "FIREBASE_CREDENTIALS_PATH not set. Firebase will not be initialized."
+                )
+                return
+            if os.path.exists(cred_path):
+                logger.info(f"File exists at: {cred_path}")
+                if os.access(cred_path, os.R_OK):
+                    logger.info(f"File is readable at: {cred_path}")
+                    try:
+                        cred = credentials.Certificate(cred_path)
+                        firebase_admin.initialize_app(cred, {"databaseURL": db_url})
+                        app.logger.info(
+                            "Firebase Admin SDK initialized successfully from file."
+                        )
+                    except Exception as e:
+                        logger.error(f"Error initializing Firebase: {e}", exc_info=True)
+                        app.logger.error(f"Failed to initialize Firebase: {str(e)}")
+                        raise
+                else:
+                    logger.error(f"File exists but is NOT readable at: {cred_path}")
+                    app.logger.error(f"File exists but is NOT readable at: {cred_path}")
+            else:
+                logger.error(f"File does NOT exist at: {cred_path}")
+                app.logger.error(f"File does NOT exist at: {cred_path}")
 
     _firebase_db = db
 
