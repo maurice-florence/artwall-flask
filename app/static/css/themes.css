@@ -57,7 +57,7 @@
     background: var(--theme-medium, var(--theme-primary, #0b8783));
 }
 .modal-footer-subcategory-pill {
-    background: var(--theme-secondary, #b97a56);
+    background: var(--theme-secondary, #D94A4A);
 }
 /* Add more specific subcategory/medium pill colors as needed */
 /* Poetry Card Front - Default (Atelier) */
@@ -115,7 +115,7 @@
 
     /* Primary Colors */
     --theme-primary: var(--theme-writing);
-    --theme-secondary: #b97a56;
+    --theme-secondary: #D94A4A;
     --theme-tertiary: #b0a16c;
     --theme-quaternary: #6c7ea1;
     --theme-inactive: #b0b8b8;

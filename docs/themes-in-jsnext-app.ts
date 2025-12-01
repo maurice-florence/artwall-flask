@@ -3,7 +3,7 @@ export const atelierTheme = {
   text: '#3D405B',
   headerBg: '#0b8783',
   headerText: '#F8F7F2',
-  accent: '#E07A5F',
+  accent: '#E85D4F',
   accentText: '#FFFFFF',
   cardBg: '#FFFFFF',
   cardText: '#3D405B',
