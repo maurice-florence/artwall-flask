@@ -22,16 +22,22 @@ logger.info(
     "<SET>" if firebase_config_json else "<NOT SET>",
 )
 
-if firebase_config_json:
+if firebase_config_json and not firebase_admin._apps:
     try:
         # Parse the JSON string from the environment variable
         service_account_info = json.loads(firebase_config_json)
         # Initialize Firebase using the parsed dictionary
         cred = credentials.Certificate(service_account_info)
-        firebase_admin.initialize_app(cred)
-        logger.info(
-            "Firebase initialized successfully using environment variable content!"
-        )
+        db_url = os.getenv("FIREBASE_DATABASE_URL")
+        if db_url:
+            firebase_admin.initialize_app(cred, {"databaseURL": db_url})
+            logger.info(
+                "Firebase initialized successfully using environment variable content with databaseURL."
+            )
+        else:
+            logger.warning(
+                "FIREBASE_DATABASE_URL not set. Deferring Firebase initialization to app factory (firebase_service)."
+            )
     except json.JSONDecodeError as e:
         logger.error(
             f"ERROR: Could not decode Firebase service account JSON from environment variable: {e}",
@@ -41,6 +47,8 @@ if firebase_config_json:
         logger.error(
             f"ERROR initializing Firebase from environment variable: {e}", exc_info=True
         )
+elif firebase_admin._apps:
+    logger.info("Firebase already initialized. Skipping run.py initialization.")
 else:
     logger.error(
         "FIREBASE_CONFIG environment variable is NOT SET. Firebase will not be initialized."
