@@ -27,7 +27,6 @@ def init_firebase(app):
     import os
     import logging
 
-    logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
 
     # Check if Firebase is already initialized
@@ -38,13 +37,13 @@ def init_firebase(app):
         )
 
         if firebase_config_json:
-            logger.info(
+            logger.debug(
                 "Initializing Firebase from FIREBASE_CONFIG environment variable."
             )
             try:
                 cred = credentials.Certificate(json.loads(firebase_config_json))
                 firebase_admin.initialize_app(cred, {"databaseURL": db_url})
-                app.logger.info(
+                app.logger.debug(
                     "Firebase Admin SDK initialized from FIREBASE_CONFIG env var."
                 )
             except Exception as e:
@@ -58,20 +57,20 @@ def init_firebase(app):
                 raise
         else:
             cred_path = app.config.get("FIREBASE_CREDENTIALS_PATH")
-            logger.info(f"FIREBASE_CREDENTIALS_PATH: {cred_path}")
+            logger.debug(f"FIREBASE_CREDENTIALS_PATH: {cred_path}")
             if not cred_path:
                 app.logger.warning(
                     "FIREBASE_CREDENTIALS_PATH not set. Firebase will not be initialized."
                 )
                 return
             if os.path.exists(cred_path):
-                logger.info(f"File exists at: {cred_path}")
+                logger.debug(f"File exists at: {cred_path}")
                 if os.access(cred_path, os.R_OK):
-                    logger.info(f"File is readable at: {cred_path}")
+                    logger.debug(f"File is readable at: {cred_path}")
                     try:
                         cred = credentials.Certificate(cred_path)
                         firebase_admin.initialize_app(cred, {"databaseURL": db_url})
-                        app.logger.info(
+                        app.logger.debug(
                             "Firebase Admin SDK initialized successfully from file."
                         )
                     except Exception as e:

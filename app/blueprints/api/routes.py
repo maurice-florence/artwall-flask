@@ -21,8 +21,7 @@ def load_more():
         cursor: The index/offset of the last post from the previous page
     """
     cursor = request.args.get("cursor")
-
-    current_app.logger.info(f"Load more requested with cursor: {cursor}")
+    current_app.logger.debug(f"Load more requested with cursor: {cursor}")
 
     if not cursor:
         return "No cursor provided", 400
@@ -34,7 +33,7 @@ def load_more():
         # Fetch next 100 posts starting after the cursor
         posts, next_cursor = get_paginated_posts(limit=100, end_at=cursor_value)
 
-        current_app.logger.info(
+        current_app.logger.debug(
             f"Loaded {len(posts)} posts, next cursor: {next_cursor}"
         )
 
@@ -86,7 +85,7 @@ def client_log():
         event = data.get("event")
         post_id = data.get("postId")
         details = {k: v for k, v in data.items() if k not in ("event", "postId")}
-        current_app.logger.info(
+        current_app.logger.debug(
             f"[CLIENT-LOG] event={event} post_id={post_id} details={details}"
         )
         return jsonify(status="ok"), 204

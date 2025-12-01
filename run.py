@@ -10,14 +10,14 @@ import logging
 import json  # Import the json library
 from app import create_app
 
-# Configure basic logging
+# Configure basic logging (keep info for app, hide debug by default)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
 # --- NEW APPROACH FOR FIREBASE INITIALIZATION ---
 firebase_config_json = os.getenv("FIREBASE_CONFIG")
-logger.info(
+logger.debug(
     "FIREBASE_CONFIG environment variable value: %s",
     "<SET>" if firebase_config_json else "<NOT SET>",
 )
@@ -31,7 +31,7 @@ if firebase_config_json and not firebase_admin._apps:
         db_url = os.getenv("FIREBASE_DATABASE_URL")
         if db_url:
             firebase_admin.initialize_app(cred, {"databaseURL": db_url})
-            logger.info(
+            logger.debug(
                 "Firebase initialized successfully using environment variable content with databaseURL."
             )
         else:
@@ -48,7 +48,7 @@ if firebase_config_json and not firebase_admin._apps:
             f"ERROR initializing Firebase from environment variable: {e}", exc_info=True
         )
 elif firebase_admin._apps:
-    logger.info("Firebase already initialized. Skipping run.py initialization.")
+    logger.debug("Firebase already initialized. Skipping run.py initialization.")
 else:
     logger.error(
         "FIREBASE_CONFIG environment variable is NOT SET. Firebase will not be initialized."
