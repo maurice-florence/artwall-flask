@@ -4,10 +4,11 @@ Handles HTMX requests for dynamic content (load more, etc.).
 Returns HTML fragments, not JSON.
 """
 
-from flask import request, render_template, current_app
+from flask import request, render_template, current_app, jsonify
 from app.blueprints.api.blueprint import api_bp
 from app.services.firebase_service import get_paginated_posts
 from app.utils.post_helpers import group_posts_by_year
+from app.extensions import csrf
 
 
 @api_bp.route("/load-more")
@@ -71,3 +72,24 @@ def search():
     except Exception as e:
         current_app.logger.error(f"Error searching posts: {str(e)}")
         return f"Error: {str(e)}", 500
+
+
+@api_bp.route("/client-log", methods=["POST"])
+@csrf.exempt
+def client_log():
+    """
+    Receive client-side debug logs and print them to server logs.
+    This helps diagnose front-end flip/mirroring behavior from the server terminal.
+    """
+    try:
+        data = request.get_json(silent=True) or {}
+        event = data.get("event")
+        post_id = data.get("postId")
+        details = {k: v for k, v in data.items() if k not in ("event", "postId")}
+        current_app.logger.info(
+            f"[CLIENT-LOG] event={event} post_id={post_id} details={details}"
+        )
+        return jsonify(status="ok"), 204
+    except Exception as e:
+        current_app.logger.error(f"Error in client_log: {e}")
+        return jsonify(error=str(e)), 500

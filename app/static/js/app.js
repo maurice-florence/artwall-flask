@@ -40,6 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize search
     initSearch();
+
+    // Initialize client-side flip debug logging
+    initFlipDebugLogging();
     
     /**
      * HTMX Event Listener: After content is swapped into the DOM
@@ -316,6 +319,59 @@ function closeArtwallModal() {
     const modal = document.getElementById('artwall-modal');
     if (modal) modal.style.display = 'none';
     document.body.style.overflow = '';
+}
+
+/**
+ * Debug: Send logs to server to inspect flip state from terminal
+ */
+function initFlipDebugLogging() {
+    try {
+        const wrappers = document.querySelectorAll('.card-wrapper');
+        wrappers.forEach(w => {
+            w.addEventListener('mouseenter', () => sendFlipLog(w, 'hover-enter'));
+            w.addEventListener('mouseleave', () => sendFlipLog(w, 'hover-leave'));
+        });
+        // Also log initial state for the first few cards
+        wrappers.forEach((w, idx) => { if (idx < 3) sendFlipLog(w, 'initial'); });
+    } catch (e) {
+        console.error('initFlipDebugLogging error', e);
+    }
+}
+
+function sendFlipLog(wrapper, eventName) {
+    try {
+        const card = wrapper.querySelector('.card');
+        const front = wrapper.querySelector('.card-front');
+        const back = wrapper.querySelector('.card-back');
+        if (!card || !front || !back) return;
+        const postId = wrapper.closest('.grid-item')?.getAttribute('data-post-id') || null;
+
+        const csCard = getComputedStyle(card);
+        const csFront = getComputedStyle(front);
+        const csBack = getComputedStyle(back);
+
+        const payload = {
+            event: eventName,
+            postId: postId,
+            cardClasses: card.className,
+            frontTextLen: (front.textContent || '').trim().length,
+            backTextLen: (back.textContent || '').trim().length,
+            cardTransform: csCard.transform,
+            cardTransformStyle: csCard.transformStyle,
+            frontTransform: csFront.transform,
+            backTransform: csBack.transform,
+            frontBackface: csFront.backfaceVisibility,
+            backBackface: csBack.backfaceVisibility
+        };
+
+        fetch('/api/client-log', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).catch(() => {});
+    } catch (e) {
+        console.error('sendFlipLog error', e);
+    }
 }
 
 /**
