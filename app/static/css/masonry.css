@@ -148,7 +148,8 @@
     border-radius: 16px;
     overflow: hidden;
     position: relative;
-    transition: box-shadow 0.2s;
+    transition: transform 0.6s, box-shadow 0.2s;
+    transform-style: preserve-3d;
     /* Only set background if needed, let .card-front/.card-back be handled by themes.css */
 }
 
@@ -266,8 +267,24 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transform: rotateY(0deg);
     /* Background set by themes.css based on medium type and active theme */
 }
+
+/* Subtle overlay to differentiate front from back without text */
+.card-front::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: rgba(255,255,255,0.06);
+}
+
+/* Slightly stronger overlay per medium to enhance distinction */
+.card-writing.card .card-front::after { background: rgba(255,255,255,0.08); }
+.card-drawing.card .card-front::after { background: rgba(255,255,255,0.05); }
+.card-audio.card .card-front::after { background: rgba(0,0,0,0.08); }
+.card-sculpture.card .card-front::after { background: rgba(0,0,0,0.06); }
 
 .card-back {
     transform: rotateY(180deg);
