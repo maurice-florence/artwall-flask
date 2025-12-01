@@ -76,41 +76,42 @@
     --theme-text: #3D405B;
     --theme-header-bg: #0b8783;
     --theme-header-text: #F8F7F2;
-    --theme-accent: #E07A5F;
+    --theme-accent: #D94A4A;
     --theme-accent-text: #FFFFFF;
     --theme-card-bg: #FFFFFF;
     --theme-card-text: #3D405B;
     
     /* Main Category Colors (less saturated, complementary) */
     --theme-writing: #0b8783; /* same as primary */
-    --theme-drawing: #6c7ea1;
-    --theme-audio: #b97a56;
-    --theme-sculpture: #b0a16c;
+    --theme-drawing: #D94A4A;
+    --theme-audio: #F4A742;
+    --theme-sculpture: #4A90E2;
 
 
-    /* Subcategories for writing (variations) */
-    --theme-poem: #0b7a78;
-    --theme-prosepoem: #0b6a6a;
-    --theme-prose: #0b5a5a;
-    --theme-essay: #137c6b;
-    --theme-novel: #0b6e5a;
-    --theme-shortstory: #0b8a83;
+    /* Derived subcategory colors (auto from main categories) */
+    /* Writing → poem/prosepoem/prose/etc. */
+    --theme-poem: color-mix(in oklch, var(--theme-writing) 88%, black);
+    --theme-prosepoem: color-mix(in oklch, var(--theme-writing) 80%, black);
+    --theme-prose: color-mix(in oklch, var(--theme-writing) 72%, black);
+    --theme-essay: color-mix(in oklch, var(--theme-writing) 85%, white);
+    --theme-novel: color-mix(in oklch, var(--theme-writing) 78%, white);
+    --theme-shortstory: color-mix(in oklch, var(--theme-writing) 70%, white);
 
-    /* Subcategories for audio (variations) */
-    --theme-beat: #a86a3a;
-    --theme-electronic: #b97a90;
-    --theme-other: #b9a156;
-    --theme-rap: #b95a56;
-    --theme-song: #b97a90;
-    --theme-soundpoem: #b97a8a;
+    /* Audio → beat/electronic/other/rap/song/soundpoem */
+    --theme-beat: color-mix(in oklch, var(--theme-audio) 78%, black);
+    --theme-electronic: color-mix(in oklch, var(--theme-audio) 75%, white);
+    --theme-other: color-mix(in oklch, var(--theme-audio) 60%, white);
+    --theme-rap: color-mix(in oklch, var(--theme-audio) 70%, black);
+    --theme-song: color-mix(in oklch, var(--theme-audio) 85%, white);
+    --theme-soundpoem: color-mix(in oklch, var(--theme-audio) 72%, white);
 
-    /* Subcategories for drawing (variations) */
-    --theme-digital: #5c6e91;
-    --theme-marker: #7c8eb1;
-    --theme-pencil: #4c5e81;
+    /* Drawing → digital/marker/pencil */
+    --theme-digital: color-mix(in oklch, var(--theme-drawing) 85%, white);
+    --theme-marker: color-mix(in oklch, var(--theme-drawing) 72%, white);
+    --theme-pencil: color-mix(in oklch, var(--theme-drawing) 70%, black);
 
-    /* Subcategories for sculpture (variations) */
-    --theme-clay: #a08e5c;
+    /* Sculpture → clay */
+    --theme-clay: color-mix(in oklch, var(--theme-sculpture) 80%, black);
 
     /* Primary Colors */
     --theme-primary: var(--theme-writing);
@@ -146,26 +147,7 @@
     --theme-audio: #C0392B;
     --theme-sculpture: #D35400;
 
-
-    --theme-poem: #2471A3;
-    --theme-prosepoem: #6C3483;
-    --theme-prose: #1E8449;
-    --theme-essay: #2980B9;
-    --theme-novel: #154360;
-    --theme-shortstory: #5499C7;
-
-    --theme-beat: #922B21;
-    --theme-electronic: #C03991;
-    --theme-other: #C09A2B;
-    --theme-rap: #C03956;
-    --theme-song: #C05A91;
-    --theme-soundpoem: #C05A8A;
-
-    --theme-digital: #6C3483;
-    --theme-marker: #A569BD;
-    --theme-pencil: #512E5F;
-
-    --theme-clay: #B9770E;
+    /* Subcategories derive automatically from main variables above */
 
     --theme-primary: var(--theme-writing);
     --theme-secondary: #C0392B;
@@ -215,26 +197,7 @@
     --theme-audio: #CF6679;
     --theme-sculpture: #FFB74D;
 
-
-    --theme-poem: #5DADE2;
-    --theme-prosepoem: #A569BD;
-    --theme-prose: #48C9B0;
-    --theme-essay: #2980B9;
-    --theme-novel: #154360;
-    --theme-shortstory: #5499C7;
-
-    --theme-beat: #922B21;
-    --theme-electronic: #CF39A1;
-    --theme-other: #CF9A2B;
-    --theme-rap: #CF3956;
-    --theme-song: #CF5AA1;
-    --theme-soundpoem: #CF5A8A;
-
-    --theme-digital: #A569BD;
-    --theme-marker: #BB8FCE;
-    --theme-pencil: #512E5F;
-
-    --theme-clay: #B9770E;
+    /* Subcategories derive automatically from main variables above */
 
     --theme-primary: var(--theme-writing);
     --theme-secondary: #CF6679;
@@ -304,26 +267,7 @@
     --theme-audio: #00796B;
     --theme-sculpture: #26A69A;
 
-
-    --theme-poem: #009688;
-    --theme-prosepoem: #26A69A;
-    --theme-prose: #80CBC4;
-    --theme-essay: #00897B;
-    --theme-novel: #00695C;
-    --theme-shortstory: #4DB6AC;
-
-    --theme-beat: #00695C;
-    --theme-electronic: #00BFA5;
-    --theme-other: #26A69A;
-    --theme-rap: #00796B;
-    --theme-song: #00BFA5;
-    --theme-soundpoem: #26A69A;
-
-    --theme-digital: #4DB6AC;
-    --theme-marker: #80CBC4;
-    --theme-pencil: #00897B;
-
-    --theme-clay: #26A69A;
+    /* Subcategories derive automatically from main variables above */
 
     --theme-primary: var(--theme-writing);
     --theme-secondary: #00796B;
@@ -373,26 +317,7 @@
     --theme-audio: #8D6E63;
     --theme-sculpture: #A1887F;
 
-
-    --theme-poem: #2E7D32;
-    --theme-prosepoem: #689F38;
-    --theme-prose: #388E3C;
-    --theme-essay: #388E3C;
-    --theme-novel: #1B5E20;
-    --theme-shortstory: #43A047;
-
-    --theme-beat: #6D4C41;
-    --theme-electronic: #8D6E63;
-    --theme-other: #A1887F;
-    --theme-rap: #8D6E63;
-    --theme-song: #A1887F;
-    --theme-soundpoem: #A1887F;
-
-    --theme-digital: #90A4AE;
-    --theme-marker: #B0BEC5;
-    --theme-pencil: #607D8B;
-
-    --theme-clay: #A1887F;
+    /* Subcategories derive automatically from main variables above */
 
     --theme-primary: var(--theme-writing);
     --theme-secondary: #8D6E63;
@@ -442,26 +367,7 @@
     --theme-audio: #8D6E63;
     --theme-sculpture: #A1887F;
 
-
-    --theme-poem: #1565C0;
-    --theme-prosepoem: #5D4037;
-    --theme-prose: #1976D2;
-    --theme-essay: #1976D2;
-    --theme-novel: #283593;
-    --theme-shortstory: #64B5F6;
-
-    --theme-beat: #6D4C41;
-    --theme-electronic: #8D6E63;
-    --theme-other: #A1887F;
-    --theme-rap: #8D6E63;
-    --theme-song: #A1887F;
-    --theme-soundpoem: #A1887F;
-
-    --theme-digital: #757575;
-    --theme-marker: #BDBDBD;
-    --theme-pencil: #424242;
-
-    --theme-clay: #A1887F;
+    /* Subcategories derive automatically from main variables above */
 
     --theme-primary: var(--theme-writing);
     --theme-secondary: #8D6E63;
