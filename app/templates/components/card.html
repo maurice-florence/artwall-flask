@@ -7,16 +7,8 @@
             data-location="{{ post.location1 }}{% if post.location2 %}, {{ post.location2 }}{% endif %}"
             data-medium="{{ post.medium|capitalize }}"
             data-subcategory="{{ post.subcategory|capitalize if post.subcategory else '' }}">
-            <!-- Front of card (theme-based background from CSS, or dynamic gradient for atelier) -->
-            <div class="card-face card-front">
-                <div class="card-content">
-                    <h3 class="card-title">{{ post.title or 'Untitled' }}</h3>
-                    <div class="card-meta">
-                        <span class="card-date">{{ post.date.strftime('%Y-%m-%d') if post.date else '' }}</span>
-                        <span class="card-category card-medium card-medium-{{ post.medium }}">{{ post.medium|capitalize }}</span>
-                    </div>
-                </div>
-            </div>
+            <!-- Front of card: purely visual; background is set by theme + medium, no text -->
+            <div class="card-face card-front"></div>
             <!-- Back of card (shows title, date, and category/medium) -->
             <div class="card-face card-back card-back-{{ post.medium|lower }}">
                 <div class="card-content">

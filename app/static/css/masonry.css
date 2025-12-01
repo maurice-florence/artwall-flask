@@ -5,7 +5,8 @@
     border-radius: 16px;
     overflow: hidden;
     position: relative;
-    transition: box-shadow 0.2s;
+    transition: transform 0.6s, box-shadow 0.2s;
+    transform-style: preserve-3d;
     background: transparent;
 }
 .card-front,
@@ -266,6 +267,10 @@
     align-items: center;
     justify-content: center;
     /* Background set by themes.css based on medium type and active theme */
+}
+
+.card-back {
+    transform: rotateY(180deg);
 }
 
 
