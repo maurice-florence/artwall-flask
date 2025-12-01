@@ -82,10 +82,7 @@ def register_blueprints(app):
     app.register_blueprint(api_bp, url_prefix="/api")
     app.register_blueprint(ingest_bp, url_prefix="/ingest")
 
-    # Debug: print all registered endpoints after blueprint registration
-    print("[DEBUG] Registered endpoints after blueprint registration:")
-    for rule in app.url_map.iter_rules():
-        print(f"  {rule.endpoint}: {rule}")
+    # Endpoint registration debug removed to avoid terminal noise
 
 
 def register_error_handlers(app):

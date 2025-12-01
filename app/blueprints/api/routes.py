@@ -5,6 +5,7 @@ Returns HTML fragments, not JSON.
 """
 
 from flask import request, render_template, current_app, jsonify
+import os
 from app.blueprints.api.blueprint import api_bp
 from app.services.firebase_service import get_paginated_posts
 from app.utils.post_helpers import group_posts_by_year
@@ -82,12 +83,14 @@ def client_log():
     """
     try:
         data = request.get_json(silent=True) or {}
-        event = data.get("event")
-        post_id = data.get("postId")
-        details = {k: v for k, v in data.items() if k not in ("event", "postId")}
-        current_app.logger.debug(
-            f"[CLIENT-LOG] event={event} post_id={post_id} details={details}"
-        )
+        # Only emit logs when explicitly enabled
+        if os.getenv("APP_CLIENT_LOG_DEBUG", "0").lower() in ("1", "true", "yes"):
+            event = data.get("event")
+            post_id = data.get("postId")
+            details = {k: v for k, v in data.items() if k not in ("event", "postId")}
+            current_app.logger.debug(
+                f"[CLIENT-LOG] event={event} post_id={post_id} details={details}"
+            )
         return jsonify(status="ok"), 204
     except Exception as e:
         current_app.logger.error(f"Error in client_log: {e}")
