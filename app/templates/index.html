@@ -4,7 +4,6 @@
 
 {% block nav_filters %}
 <div class="nav-filter-bar">
-    <!-- Medium filter icons -->
     <div class="icons-wrapper">
         <button class="icon-btn active" title="All mediums" data-filter="all">
             <i class="fa-solid fa-globe"></i>
@@ -22,11 +21,76 @@
             <i class="fa-solid fa-cube"></i>
         </button>
     </div>
-    
-    <!-- Search bar with icon -->
-    <div class="search-wrapper">
-        <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input type="text" id="search-input" class="search-input" placeholder="Search..." oninput="handleSearch(this.value)">
+    <div class="search-actions">
+        <div class="search-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Search..." oninput="handleSearch(this.value)">
+        </div>
+        <div class="actions-wrapper">
+            <!-- Theme Dropdown -->
+            <div class="dropdown-wrapper" id="theme-dropdown-wrapper">
+                <button class="icon-btn" title="Choose theme" onclick="toggleDropdown('theme-dropdown')">
+                    <i class="fa-solid fa-palette"></i>
+                </button>
+                <div id="theme-dropdown" class="dropdown" style="display: none;">
+                    <div class="dropdown-header">
+                        <span class="dropdown-title">Theme</span>
+                    </div>
+                    <div class="theme-options">
+                        <button class="dropdown-btn" onclick="changeTheme('atelier')" data-theme="atelier">
+                            <span>Atelier</span>
+                            <span class="theme-indicator" style="background: linear-gradient(135deg, #0b8783 0%, #E85D4F 50%, #F4A742 100%);"></span>
+                        </button>
+                        <button class="dropdown-btn" onclick="changeTheme('blueprint')" data-theme="blueprint">
+                            <span>Blueprint</span>
+                            <span class="theme-indicator" style="background: linear-gradient(135deg, #1F618D 0%, #2980B9 50%, #16A085 100%);"></span>
+                        </button>
+                        <button class="dropdown-btn" onclick="changeTheme('dark')" data-theme="dark">
+                            <span>Dark</span>
+                            <span class="theme-indicator" style="background: linear-gradient(135deg, #17202A 0%, #1E2732 50%, #2C3E50 100%);"></span>
+                        </button>
+                        <button class="dropdown-btn" onclick="changeTheme('teal')" data-theme="teal">
+                            <span>Teal</span>
+                            <span class="theme-indicator" style="background: linear-gradient(135deg, #0b8783 0%, #14B8A6 50%, #5EEAD4 100%);"></span>
+                        </button>
+                        <button class="dropdown-btn" onclick="changeTheme('nature')" data-theme="nature">
+                            <span>Nature</span>
+                            <span class="theme-indicator" style="background: linear-gradient(135deg, #059669 0%, #10B981 50%, #34D399 100%);"></span>
+                        </button>
+                        <button class="dropdown-btn" onclick="changeTheme('earth')" data-theme="earth">
+                            <span>Earth</span>
+                            <span class="theme-indicator" style="background: linear-gradient(135deg, #92400E 0%, #B45309 50%, #D97706 100%);"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Info Dropdown -->
+            <div class="dropdown-wrapper" id="info-dropdown-wrapper">
+                <button class="icon-btn" title="App info" onclick="toggleDropdown('info-dropdown')">
+                    <i class="fa-solid fa-circle-info"></i>
+                </button>
+                <div id="info-dropdown" class="dropdown" style="display: none; min-width: 200px;">
+                    <div class="dropdown-header">
+                        <span class="dropdown-title">App Info</span>
+                    </div>
+                    <div class="dropdown-content">
+                        <div class="version-info">
+                            <span>Version: {{ version }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Auth Action -->
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('auth.logout') }}" class="icon-btn" title="Logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}" class="icon-btn" title="Login">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                </a>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}
