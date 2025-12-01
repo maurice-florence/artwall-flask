@@ -6,7 +6,9 @@
             data-date="{{ post.date_str }}"
             data-location="{{ post.location1 }}{% if post.location2 %}, {{ post.location2 }}{% endif %}"
             data-medium="{{ post.medium|capitalize }}"
-            data-subcategory="{{ post.subcategory|capitalize if post.subcategory else '' }}">
+            data-subcategory="{{ post.subcategory|capitalize if post.subcategory else '' }}"
+            data-evaluation-num="{{ post.evaluationNum if post.evaluationNum is not none else 0 }}"
+            data-rating-num="{{ post.ratingNum if post.ratingNum is not none else 0 }}">
             <div class="card-inner">
                 <!-- Front of card: purely visual; background is set by theme + medium, no text -->
                 <div class="card-face card-front"></div>

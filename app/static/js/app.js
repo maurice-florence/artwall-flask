@@ -4,7 +4,13 @@
  */
 
 let msnry; // Global Masonry instance
-let allPosts = []; // Store all posts for filtering
+let allPosts = []; // Store all posts for filtering (future use)
+// Composite filter state
+let activeMedium = 'all';
+let searchQuery = '';
+// Multi-select sets for evaluation and rating scores
+let selectedEvaluationScores = new Set();
+let selectedRatingScores = new Set();
 
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', function() {
@@ -35,8 +41,10 @@ document.addEventListener('DOMContentLoaded', function() {
         msnry.layout();
     });
     
-    // Initialize filters
+    // Initialize medium filters
     initFilters();
+    // Initialize score dropdown filters
+    initScoreDropdown();
     
     // Initialize search
     initSearch();
@@ -65,6 +73,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Reload all items
                 msnry.reloadItems();
                 msnry.layout();
+                // Recompute score counts after new items
+                updateScoreCounts();
+                updateScoreButtonStates();
             });
         }
     });
@@ -115,8 +126,8 @@ function initFilters() {
             filterBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             
-            const filter = this.dataset.filter;
-            filterPosts(filter);
+            activeMedium = this.dataset.filter;
+            applyCompositeFilters();
         });
     });
 }
@@ -125,38 +136,14 @@ function initFilters() {
  * Handle search input
  */
 function handleSearch(query) {
-    searchPosts(query.toLowerCase());
+    searchQuery = query.toLowerCase();
+    applyCompositeFilters();
 }
 
 /**
  * Filter posts by medium type
  */
-function filterPosts(medium) {
-    const gridItems = document.querySelectorAll('.grid-item');
-    
-    gridItems.forEach(item => {
-        // Skip year separators
-        if (item.classList.contains('year-separator')) {
-            return;
-        }
-        
-        // Use data-medium attribute from grid-item
-        const itemMedium = item.dataset.medium;
-        
-        if (medium === 'all' || itemMedium === medium) {
-            item.style.display = '';
-        } else {
-            item.style.display = 'none';
-        }
-    });
-    
-    // Relayout masonry after filtering
-    setTimeout(function() {
-        if (msnry) {
-            msnry.layout();
-        }
-    }, 100);
-}
+// (Deprecated) filterPosts replaced by composite filtering
 
 /**
  * Initialize search functionality
@@ -169,7 +156,8 @@ function initSearch() {
         searchInput.addEventListener('input', function() {
             clearTimeout(searchTimer);
             searchTimer = setTimeout(() => {
-                searchPosts(this.value.toLowerCase());
+                searchQuery = this.value.toLowerCase();
+                applyCompositeFilters();
             }, 300);
         });
     }
@@ -178,35 +166,121 @@ function initSearch() {
 /**
  * Search posts by title and tags
  */
-function searchPosts(query) {
+// Composite filtering: medium + search + evaluation + rating
+function applyCompositeFilters() {
     const gridItems = document.querySelectorAll('.grid-item');
-    
     gridItems.forEach(item => {
-        // Skip year separators
-        if (item.classList.contains('year-separator')) {
-            return;
-        }
-        
+        if (item.classList.contains('year-separator')) return; // skip dividers
         const card = item.querySelector('.card');
-        const title = card.querySelector('.card-title').textContent.toLowerCase();
+        if (!card) return;
+        const itemMedium = item.dataset.medium;
+        const title = card.querySelector('.card-title')?.textContent.toLowerCase() || '';
         const tags = Array.from(card.querySelectorAll('.tag')).map(t => t.textContent.toLowerCase());
-        
-        const matchesTitle = title.includes(query);
-        const matchesTags = tags.some(tag => tag.includes(query));
-        
-        if (query === '' || matchesTitle || matchesTags) {
+        const evalNum = parseInt(card.getAttribute('data-evaluation-num') || '0');
+        const ratingNum = parseInt(card.getAttribute('data-rating-num') || '0');
+
+        const mediumOk = activeMedium === 'all' || itemMedium === activeMedium;
+        const searchOk = !searchQuery || title.includes(searchQuery) || tags.some(tag => tag.includes(searchQuery));
+        const evalOk = selectedEvaluationScores.size === 0 || selectedEvaluationScores.has(evalNum);
+        const ratingOk = selectedRatingScores.size === 0 || selectedRatingScores.has(ratingNum);
+
+        if (mediumOk && searchOk && evalOk && ratingOk) {
             item.style.display = '';
         } else {
             item.style.display = 'none';
         }
     });
-    
-    // Relayout masonry after search
-    setTimeout(function() {
-        if (msnry) {
-            msnry.layout();
+    setTimeout(() => { if (msnry) msnry.layout(); }, 100);
+}
+
+// Score Dropdown Initialization
+function initScoreDropdown() {
+    updateScoreCounts();
+    attachScoreDropdownHandlers();
+    updateScoreButtonStates();
+}
+
+function attachScoreDropdownHandlers() {
+    const evalItems = document.querySelectorAll('#evaluation-score-items .score-item-btn');
+    const ratingItems = document.querySelectorAll('#rating-score-items .score-item-btn');
+    evalItems.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const val = parseInt(btn.getAttribute('data-value'));
+            if (selectedEvaluationScores.has(val)) {
+                selectedEvaluationScores.delete(val);
+            } else {
+                selectedEvaluationScores.add(val);
+            }
+            updateScoreButtonStates();
+            applyCompositeFilters();
+        });
+    });
+    ratingItems.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const val = parseInt(btn.getAttribute('data-value'));
+            if (selectedRatingScores.has(val)) {
+                selectedRatingScores.delete(val);
+            } else {
+                selectedRatingScores.add(val);
+            }
+            updateScoreButtonStates();
+            applyCompositeFilters();
+        });
+    });
+    const clearBtns = document.querySelectorAll('.score-clear-btn');
+    clearBtns.forEach(clear => {
+        clear.addEventListener('click', () => {
+            const type = clear.getAttribute('data-clear');
+            if (type === 'evaluation') selectedEvaluationScores.clear();
+            if (type === 'rating') selectedRatingScores.clear();
+            updateScoreButtonStates();
+            applyCompositeFilters();
+        });
+    });
+}
+
+function updateScoreCounts() {
+    const counts = {
+        evaluation: {1:0,2:0,3:0,4:0,5:0},
+        rating: {1:0,2:0,3:0,4:0,5:0}
+    };
+    document.querySelectorAll('.grid-item').forEach(item => {
+        if (item.classList.contains('year-separator')) return;
+        const card = item.querySelector('.card');
+        if (!card) return;
+        const evalNum = parseInt(card.getAttribute('data-evaluation-num') || '0');
+        const ratingNum = parseInt(card.getAttribute('data-rating-num') || '0');
+        if (evalNum >=1 && evalNum <=5) counts.evaluation[evalNum] += 1;
+        if (ratingNum >=1 && ratingNum <=5) counts.rating[ratingNum] += 1;
+    });
+    // Update DOM
+    Object.keys(counts.evaluation).forEach(k => {
+        const span = document.querySelector(`[data-count-for='evaluation-${k}']`);
+        if (span) span.textContent = `(${counts.evaluation[k]})`;
+    });
+    Object.keys(counts.rating).forEach(k => {
+        const span = document.querySelector(`[data-count-for='rating-${k}']`);
+        if (span) span.textContent = `(${counts.rating[k]})`;
+    });
+}
+
+function updateScoreButtonStates() {
+    document.querySelectorAll('#evaluation-score-items .score-item-btn').forEach(btn => {
+        const val = parseInt(btn.getAttribute('data-value'));
+        if (selectedEvaluationScores.has(val)) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
         }
-    }, 100);
+    });
+    document.querySelectorAll('#rating-score-items .score-item-btn').forEach(btn => {
+        const val = parseInt(btn.getAttribute('data-value'));
+        if (selectedRatingScores.has(val)) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
 }
 
 /**
@@ -233,6 +307,8 @@ function openPost(postId) {
     let location = card.getAttribute('data-location') || '';
     let medium = card.getAttribute('data-medium') || '';
     let subcategory = card.getAttribute('data-subcategory') || '';
+    let evaluationNum = parseInt(card.getAttribute('data-evaluation-num') || '0');
+    let ratingNum = parseInt(card.getAttribute('data-rating-num') || '0');
     // Build modal footer HTML (two rows, two columns)
     // Format date as 'Month D, YYYY'
     let formattedDate = '';
@@ -267,6 +343,11 @@ function openPost(postId) {
     if (subcategoryPill) footer += subcategoryPill;
     footer += '    </div>';
     footer += '  </div>';
+    footer += '</div>';
+    // Evaluation & Rating Controls
+    footer += '<div class="modal-rating-evaluation">';
+    footer += renderStarGroup('evaluation', evaluationNum, postId);
+    footer += renderStarGroup('rating', ratingNum, postId);
     footer += '</div>';
 
     // Set modal title color based on medium
@@ -303,6 +384,8 @@ function openPost(postId) {
             modalTitle.style.color = color || '#1976d2';
         }
     }, 0);
+    // Attach star listeners after modal renders
+    setTimeout(initStarHandlers, 50);
 }
 
 function showArtwallModal(title, content, footer) {
@@ -319,6 +402,61 @@ function closeArtwallModal() {
     const modal = document.getElementById('artwall-modal');
     if (modal) modal.style.display = 'none';
     document.body.style.overflow = '';
+}
+
+function renderStarGroup(type, currentValue, postId) {
+    const label = type === 'evaluation' ? 'Your Evaluation' : 'Audience Rating';
+    let html = `<div class="star-group" data-type="${type}" data-post-id="${postId}">`;
+    html += `<div class="star-group-label">${label}:</div>`;
+    for (let i = 1; i <= 5; i++) {
+        const filled = i <= currentValue;
+        html += `<button class="star-btn" type="button" data-value="${i}" aria-label="${label} ${i} star" title="${label} ${i} star">` +
+            `<i class="fa-${filled ? 'solid' : 'regular'} fa-star"></i>` +
+            '</button>';
+    }
+    html += '</div>';
+    return html;
+}
+
+function initStarHandlers() {
+    document.querySelectorAll('.star-group').forEach(group => {
+        const type = group.getAttribute('data-type');
+        const postId = group.getAttribute('data-post-id');
+        group.querySelectorAll('.star-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const value = parseInt(btn.getAttribute('data-value'));
+                submitStarValue(type, postId, value, group);
+            });
+        });
+    });
+}
+
+function submitStarValue(type, postId, value, groupEl) {
+    const endpoint = `/api/post/${postId}/${type === 'evaluation' ? 'evaluation' : 'rating'}`;
+    fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ value })
+    }).then(r => r.json())
+      .then(json => {
+          if (json.error) {
+              console.error('Rating update error', json.error);
+              return;
+          }
+          // Update stars visual
+          groupEl.querySelectorAll('.star-btn').forEach(btn => {
+              const v = parseInt(btn.getAttribute('data-value'));
+              const icon = btn.querySelector('i');
+              if (v <= value) {
+                  icon.classList.remove('fa-regular');
+                  icon.classList.add('fa-solid');
+              } else {
+                  icon.classList.remove('fa-solid');
+                  icon.classList.add('fa-regular');
+              }
+          });
+      })
+      .catch(err => console.error('Rating update fetch failed', err));
 }
 
 /**

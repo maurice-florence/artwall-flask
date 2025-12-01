@@ -10,6 +10,7 @@ from app.blueprints.api.blueprint import api_bp
 from app.services.firebase_service import get_paginated_posts
 from app.utils.post_helpers import group_posts_by_year
 from app.extensions import csrf
+from app.services.firebase_service import update_post as fb_update_post
 
 
 @api_bp.route("/load-more")
@@ -94,4 +95,36 @@ def client_log():
         return jsonify(status="ok"), 204
     except Exception as e:
         current_app.logger.error(f"Error in client_log: {e}")
+        return jsonify(error=str(e)), 500
+
+
+@api_bp.route("/post/<post_id>/evaluation", methods=["POST"])
+@csrf.exempt
+def update_evaluation(post_id):
+    """Update personal evaluation (1-5 stars) for a post."""
+    try:
+        data = request.get_json(silent=True) or {}
+        value = int(data.get("value", 0))
+        if value < 1 or value > 5:
+            return jsonify(error="Invalid evaluation value"), 400
+        fb_update_post(post_id, {"evaluationNum": value})
+        return jsonify(status="ok", evaluationNum=value)
+    except Exception as e:
+        current_app.logger.error(f"Error updating evaluation: {e}")
+        return jsonify(error=str(e)), 500
+
+
+@api_bp.route("/post/<post_id>/rating", methods=["POST"])
+@csrf.exempt
+def update_rating(post_id):
+    """Update audience rating (1-5 stars) for a post. Overwrites for now."""
+    try:
+        data = request.get_json(silent=True) or {}
+        value = int(data.get("value", 0))
+        if value < 1 or value > 5:
+            return jsonify(error="Invalid rating value"), 400
+        fb_update_post(post_id, {"ratingNum": value})
+        return jsonify(status="ok", ratingNum=value)
+    except Exception as e:
+        current_app.logger.error(f"Error updating rating: {e}")
         return jsonify(error=str(e)), 500

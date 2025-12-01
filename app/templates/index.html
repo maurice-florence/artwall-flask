@@ -27,6 +27,54 @@
             <input type="text" id="search-input" class="search-input" placeholder="Search..." oninput="handleSearch(this.value)">
         </div>
         <div class="actions-wrapper">
+            <!-- Evaluation Dropdown -->
+            <div class="dropdown-wrapper" id="evaluation-dropdown-wrapper">
+                <button class="icon-btn" title="Filter by evaluation" onclick="toggleDropdown('evaluation-score-dropdown')">
+                    <i class="fa-solid fa-certificate"></i>
+                </button>
+                <div id="evaluation-score-dropdown" class="dropdown score-filter-dropdown" style="display:none; min-width:180px;">
+                    <div class="dropdown-header">
+                        <span class="dropdown-title"><i class="fa-solid fa-certificate"></i> Evaluation</span>
+                    </div>
+                    <div class="score-items" id="evaluation-score-items">
+                        {% for i in range(1,6) %}
+                        <button class="score-item-btn" type="button" data-value="{{ i }}" aria-label="Filter evaluation score {{ i }}" title="Evaluation score {{ i }}">
+                            <span class="score-icons">
+                                {% for j in range(i) %}
+                                <i class="fa-solid fa-certificate"></i>
+                                {% endfor %}
+                            </span>
+                            <span class="score-count" data-count-for="evaluation-{{ i }}">(0)</span>
+                        </button>
+                        {% endfor %}
+                        <button class="score-clear-btn" type="button" data-clear="evaluation" aria-label="Clear evaluation filters" title="Clear evaluation filters">Clear</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Rating Dropdown -->
+            <div class="dropdown-wrapper" id="rating-dropdown-wrapper">
+                <button class="icon-btn" title="Filter by rating" onclick="toggleDropdown('rating-score-dropdown')">
+                    <i class="fa-solid fa-star"></i>
+                </button>
+                <div id="rating-score-dropdown" class="dropdown score-filter-dropdown" style="display:none; min-width:180px;">
+                    <div class="dropdown-header">
+                        <span class="dropdown-title"><i class="fa-solid fa-star"></i> Rating</span>
+                    </div>
+                    <div class="score-items" id="rating-score-items">
+                        {% for i in range(1,6) %}
+                        <button class="score-item-btn" type="button" data-value="{{ i }}" aria-label="Filter rating score {{ i }}" title="Rating score {{ i }}">
+                            <span class="score-icons">
+                                {% for j in range(i) %}
+                                <i class="fa-solid fa-star"></i>
+                                {% endfor %}
+                            </span>
+                            <span class="score-count" data-count-for="rating-{{ i }}">(0)</span>
+                        </button>
+                        {% endfor %}
+                        <button class="score-clear-btn" type="button" data-clear="rating" aria-label="Clear rating filters" title="Clear rating filters">Clear</button>
+                    </div>
+                </div>
+            </div>
             <!-- Theme Dropdown -->
             <div class="dropdown-wrapper" id="theme-dropdown-wrapper">
                 <button class="icon-btn" title="Choose theme" onclick="toggleDropdown('theme-dropdown')">
