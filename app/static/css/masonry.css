@@ -331,6 +331,12 @@
     -webkit-box-orient: vertical;
 }
 
+.card-date-line {
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    color: #e0e0e0;
+}
+
 .card-medium {
     display: inline-block;
     padding: 0.125rem 0.5rem;

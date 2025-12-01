@@ -14,8 +14,8 @@
                 <div class="card-face card-back card-back-{{ post.medium|lower }}">
                     <div class="card-content">
                         <h3 class="card-title">{{ post.title or 'Untitled' }}</h3>
+                        <div class="card-date-line">{{ post.date.strftime('%Y-%m-%d') if post.date else '' }}</div>
                         <div class="card-meta">
-                            <span class="card-date">{{ post.date.strftime('%Y-%m-%d') if post.date else '' }}</span>
                             <span class="card-category card-medium card-medium-{{ post.medium }}">{{ post.medium|capitalize }}</span>
                         </div>
                     </div>
