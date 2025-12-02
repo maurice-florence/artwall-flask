@@ -106,60 +106,83 @@ def rgb_to_hsl(r: int, g: int, b: int) -> Tuple[int, int, int]:
 
 
 def generate_gradient(artwork_id: str, medium: str, theme: str = "atelier") -> str:
+    """Generate a unique, varied linear-gradient.
+
+    Variation dimensions (all hash-driven for consistency per artwork_id):
+    - Angle (135–179deg)
+    - Stop count (3–5)
+    - Non-uniform stop positions
+    - Progressive hue shifts + saturation boosts per medium
+    - Lightness ramp for depth
+
+    Tests expect the string to begin with 'linear-gradient(' so we keep that.
     """
-    Generate a unique CSS gradient for an artwork card.
-
-    Args:
-        artwork_id: Unique identifier for the artwork (e.g., post ID)
-        medium: Type of artwork (audio, drawing, sculpture, writing)
-        theme: Active theme name (default: 'atelier')
-
-    Returns:
-        CSS linear-gradient string
-
-    Examples:
-        >>> generate_gradient('post123', 'writing', 'atelier')
-        'linear-gradient(157deg, hsl(210, 85%, 45%) 0%, hsl(240, 90%, 50%) 50%, hsl(270, 85%, 55%) 100%)'
-    """
-    # Get theme colors
     theme_colors = THEME_COLORS.get(theme, THEME_COLORS["atelier"])
     base_color = theme_colors.get(medium, theme_colors["drawing"])
 
-    # Convert base color to HSL
     r, g, b = hex_to_rgb(base_color)
-    theme_h, theme_s, theme_l = rgb_to_hsl(r, g, b)
+    base_h, base_s, base_l = rgb_to_hsl(r, g, b)
 
-    # Get hash-based values for consistency
-    hash_value = hash_string_to_number(artwork_id)
-
-    # Configuration for this medium
+    hv = hash_string_to_number(artwork_id)
     hue_variation = HUE_VARIATIONS.get(medium, 25)
     saturation_boost = SATURATION_BOOSTS.get(medium, 18)
 
-    # Generate three color stops with variation
-    hue1 = (theme_h + (hash_value % hue_variation)) % 360
-    hue2 = (hue1 + 25) % 360
-    hue3 = (hue2 + 25) % 360
+    # Dynamic stop count 3–5
+    stop_count = 3 + (hv % 3)  # 3,4,5
 
-    # Boost saturation for vibrancy
-    sat1 = min(95, theme_s + saturation_boost)
-    sat2 = min(98, theme_s + saturation_boost + 5)
-    sat3 = min(95, theme_s + saturation_boost + 3)
+    # Angle diversity
+    angle = (hv % 45) + 135
 
-    # Adjust lightness for gradient effect (lighter as it progresses)
-    light1 = max(35, min(50, theme_l - 5))
-    light2 = max(40, min(55, theme_l))
-    light3 = max(45, min(60, theme_l + 5))
+    # Generate hues incrementally
+    colors = []
+    current_hue = (base_h + (hv % hue_variation)) % 360
+    for i in range(stop_count):
+        # Hue shift per stop (mild for coherence)
+        shift = 18 + (hv % 12)
+        h = (current_hue + shift * i) % 360
+        # Saturation variation
+        sat = min(96, base_s + saturation_boost + i * 3)
+        # Lightness ramp (slightly brighter each step)
+        light = max(30, min(65, base_l + i * 5 - 5))
+        colors.append((h, sat, light))
 
-    # Calculate gradient angle (135-180 degrees for diagonal)
-    angle = (hash_value % 45) + 135
+    # Derive stop positions (sorted, unique, ending at 100%)
+    # Use hash slices to produce fractional positions.
+    positions = []
+    for i in range(stop_count - 1):
+        raw = (hv >> (i * 8)) & 0xFF  # take successive bytes
+        pct = 15 + (raw % 70)  # between 15 and 84
+        positions.append(pct)
+    positions = sorted(set(positions))
+    # Ensure we have exactly stop_count-1 interior positions; pad if collisions
+    while len(positions) < stop_count - 1:
+        positions.append(15 + (len(positions) * 10))
+    positions = positions[: stop_count - 1]
+    positions.append(100)
 
-    # Build gradient string
-    color1 = f"hsl({hue1}, {sat1}%, {light1}%)"
-    color2 = f"hsl({hue2}, {sat2}%, {light2}%)"
-    color3 = f"hsl({hue3}, {sat3}%, {light3}%)"
+    # Normalize first position to 0
+    if positions[0] < 5:
+        positions[0] = 0
+    else:
+        positions.insert(0, 0)
+        colors.insert(0, colors[0])  # duplicate first color to align
+        stop_count += 1
 
-    return f"linear-gradient({angle}deg, {color1} 0%, {color2} 50%, {color3} 100%)"
+    # Re-trim if overshoot
+    if len(colors) < len(positions):
+        # Extend last color to match positions length
+        last = colors[-1]
+        while len(colors) < len(positions):
+            colors.append(last)
+    elif len(colors) > len(positions):
+        colors = colors[: len(positions)]
+
+    # Assemble gradient string
+    stops = []
+    for (h, s, l), pos in zip(colors, positions):
+        stops.append(f"hsl({h}, {s}%, {l}%) {pos}%")
+
+    return f"linear-gradient({angle}deg, {', '.join(stops)})"
 
 
 def generate_gradient_inline(
