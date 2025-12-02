@@ -63,7 +63,7 @@
 /* Poetry Card Front - Default (Atelier) */
 /* Increased specificity for card front gradients */
 .card.card-poetry .card-front {
-    background: linear-gradient(135deg, var(--theme-primary, #0b8783) 0%, #ffffff 100%) !important;
+    background: linear-gradient(135deg, var(--theme-primary, #0b8783) 0%, var(--theme-tertiary,#b0a16c) 50%, #ffffff 100%) !important;
 }
 /**
  * Theme System
@@ -119,6 +119,15 @@
     --theme-tertiary: #b0a16c;
     --theme-quaternary: #6c7ea1;
     --theme-inactive: #b0b8b8;
+    /* Gradient support variables (tint + complementary) */
+    --theme-writing-mid: color-mix(in oklch, var(--theme-writing) 70%, white);
+    --theme-writing-comp: #87350B;
+    --theme-drawing-mid: color-mix(in oklch, var(--theme-drawing) 70%, white);
+    --theme-drawing-comp: #4AD9D9;
+    --theme-audio-mid: color-mix(in oklch, var(--theme-audio) 70%, white);
+    --theme-audio-comp: #425FF4;
+    --theme-sculpture-mid: color-mix(in oklch, var(--theme-sculpture) 70%, white);
+    --theme-sculpture-comp: #E28D4A;
     
     /* UI Colors */
     --theme-border: #d1d5db;
@@ -154,6 +163,14 @@
     --theme-tertiary: #D35400;
     --theme-quaternary: #8E44AD;
     --theme-inactive: #b0b8b8;
+    --theme-writing-mid: color-mix(in oklch, var(--theme-writing) 70%, white);
+    --theme-writing-comp: #B94829;
+    --theme-drawing-mid: color-mix(in oklch, var(--theme-drawing) 70%, white);
+    --theme-drawing-comp: #44AD8E;
+    --theme-audio-mid: color-mix(in oklch, var(--theme-audio) 70%, white);
+    --theme-audio-comp: #2B85C0;
+    --theme-sculpture-mid: color-mix(in oklch, var(--theme-sculpture) 70%, white);
+    --theme-sculpture-comp: #0045D3;
     
     --theme-border: #d1d5db;
     --theme-text-secondary: #6b7280;
@@ -166,7 +183,7 @@
 
 /* Blueprint Card Backgrounds - gradients only */
 [data-theme="blueprint"] .card-audio .card-front {
-    background: linear-gradient(135deg, #1F618D 0%, #17202A 100%) !important;
+    background: linear-gradient(135deg, var(--theme-audio) 0%, var(--theme-audio-mid) 48%, var(--theme-audio-comp) 100%) !important;
 }
 
 [data-theme="blueprint"] .card-writing .card-front {
@@ -204,6 +221,14 @@
     --theme-tertiary: #FFB74D;
     --theme-quaternary: #BA68C8;
     --theme-inactive: #b0b8b8;
+    --theme-writing-mid: color-mix(in oklch, var(--theme-writing) 70%, white);
+    --theme-writing-comp: #FFB974;
+    --theme-drawing-mid: color-mix(in oklch, var(--theme-drawing) 70%, white);
+    --theme-drawing-comp: #68C8BA;
+    --theme-audio-mid: color-mix(in oklch, var(--theme-audio) 70%, white);
+    --theme-audio-comp: #67CFBD;
+    --theme-sculpture-mid: color-mix(in oklch, var(--theme-sculpture) 70%, white);
+    --theme-sculpture-comp: #4D9EFF;
     
     --theme-border: #3a4a5a;
     --theme-text-secondary: #a0aec0;
@@ -216,19 +241,19 @@
 
 /* Dark Mode Card Backgrounds - gradients only */
 [data-theme="dark"] .card-audio .card-front {
-    background: linear-gradient(145deg, #232526 0%, #414345 100%) !important;
+    background: linear-gradient(145deg, var(--theme-audio) 0%, var(--theme-audio-mid) 48%, var(--theme-audio-comp) 100%) !important;
 }
 
 [data-theme="dark"] .card-writing .card-front {
-    background: linear-gradient(135deg, #232b36 0%, #1e2732 100%) !important;
+    background: linear-gradient(135deg, #232b36 0%, var(--theme-tertiary,#FFB74D) 50%, #1e2732 100%) !important;
 }
 
 [data-theme="dark"] .card-drawing .card-front {
-    background: linear-gradient(120deg, #232b36 0%, #1e2732 100%) !important;
+    background: linear-gradient(120deg, #232b36 0%, var(--theme-tertiary,#FFB74D) 50%, #1e2732 100%) !important;
 }
 
 [data-theme="dark"] .card-sculpture .card-front {
-    background: linear-gradient(145deg, #232b36 0%, #1e2732 100%) !important;
+    background: linear-gradient(145deg, #232b36 0%, var(--theme-tertiary,#FFB74D) 50%, #1e2732 100%) !important;
 }
 
 [data-theme="dark"] body {
@@ -274,6 +299,14 @@
     --theme-tertiary: #26A69A;
     --theme-quaternary: #4DB6AC;
     --theme-inactive: #b0b8b8;
+    --theme-writing-mid: color-mix(in oklch, var(--theme-writing) 70%, white);
+    --theme-writing-comp: #897000;
+    --theme-drawing-mid: color-mix(in oklch, var(--theme-drawing) 70%, white);
+    --theme-drawing-comp: #B64D5B;
+    --theme-audio-mid: color-mix(in oklch, var(--theme-audio) 70%, white);
+    --theme-audio-comp: #766B00;
+    --theme-sculpture-mid: color-mix(in oklch, var(--theme-sculpture) 70%, white);
+    --theme-sculpture-comp: #A62638;
     
     --theme-border: #B2DFDB;
     --theme-text-secondary: #00695C;
@@ -286,19 +319,19 @@
 
 /* Teal Card Backgrounds - gradients only */
 [data-theme="teal"] .card-audio .card-front {
-    background: linear-gradient(135deg, #00796B 0%, #004D40 100%) !important;
+    background: linear-gradient(135deg, var(--theme-audio) 0%, var(--theme-audio-mid) 48%, var(--theme-audio-comp) 100%) !important;
 }
 
 [data-theme="teal"] .card-writing .card-front {
-    background: linear-gradient(135deg, #b2dfdb 0%, #ffffff 100%) !important;
+    background: linear-gradient(135deg, #b2dfdb 0%, var(--theme-tertiary,#26A69A) 50%, #ffffff 100%) !important;
 }
 
 [data-theme="teal"] .card-drawing .card-front {
-    background: linear-gradient(120deg, #e0f2f1 0%, #f8f9f9 100%) !important;
+    background: linear-gradient(120deg, #e0f2f1 0%, var(--theme-tertiary,#26A69A) 50%, #f8f9f9 100%) !important;
 }
 
 [data-theme="teal"] .card-sculpture .card-front {
-    background: linear-gradient(145deg, #b2dfdb 0%, #e0f2f1 100%) !important;
+    background: linear-gradient(145deg, #b2dfdb 0%, var(--theme-tertiary,#26A69A) 50%, #e0f2f1 100%) !important;
 }
 
 /* Nature Theme */
@@ -324,6 +357,14 @@
     --theme-tertiary: #A1887F;
     --theme-quaternary: #90A4AE;
     --theme-inactive: #b0b8b8;
+    --theme-writing-mid: color-mix(in oklch, var(--theme-writing) 70%, white);
+    --theme-writing-comp: #8E3889;
+    --theme-drawing-mid: color-mix(in oklch, var(--theme-drawing) 70%, white);
+    --theme-drawing-comp: #A4907C;
+    --theme-audio-mid: color-mix(in oklch, var(--theme-audio) 70%, white);
+    --theme-audio-comp: #63828D;
+    --theme-sculpture-mid: color-mix(in oklch, var(--theme-sculpture) 70%, white);
+    --theme-sculpture-comp: #7FA1A1;
     
     --theme-border: #d1d5db;
     --theme-text-secondary: #6b7280;
@@ -336,19 +377,19 @@
 
 /* Nature Card Backgrounds */
 [data-theme="nature"] .card-audio .card-front {
-    background: linear-gradient(135deg, #A8E063 0%, #56AB2F 100%) !important;
+    background: linear-gradient(135deg, var(--theme-audio) 0%, var(--theme-audio-mid) 48%, var(--theme-audio-comp) 100%) !important;
 }
 
 [data-theme="nature"] .card-writing .card-front {
-    background: linear-gradient(135deg, #81D4FA 0%, #0288D1 100%) !important;
+    background: linear-gradient(135deg, var(--theme-writing) 0%, var(--theme-writing-mid) 48%, var(--theme-writing-comp) 100%) !important;
 }
 
 [data-theme="nature"] .card-drawing .card-front {
-    background: linear-gradient(135deg, #CFD8DC 0%, #90A4AE 100%) !important;
+    background: linear-gradient(135deg, var(--theme-drawing) 0%, var(--theme-drawing-mid) 48%, var(--theme-drawing-comp) 100%) !important;
 }
 
 [data-theme="nature"] .card-sculpture .card-front {
-    background: linear-gradient(135deg, #D7CCC8 0%, #A1887F 100%) !important;
+    background: linear-gradient(135deg, var(--theme-sculpture) 0%, var(--theme-sculpture-mid) 48%, var(--theme-sculpture-comp) 100%) !important;
 }
 
 /* Earth Theme */
@@ -374,6 +415,14 @@
     --theme-tertiary: #A1887F;
     --theme-quaternary: #757575;
     --theme-inactive: #b0b8b8;
+    --theme-writing-mid: color-mix(in oklch, var(--theme-writing) 70%, white);
+    --theme-writing-comp: #D27619;
+    --theme-drawing-mid: color-mix(in oklch, var(--theme-drawing) 70%, white);
+    --theme-drawing-comp: #757575; /* neutral retain */
+    --theme-audio-mid: color-mix(in oklch, var(--theme-audio) 70%, white);
+    --theme-audio-comp: #63858D;
+    --theme-sculpture-mid: color-mix(in oklch, var(--theme-sculpture) 70%, white);
+    --theme-sculpture-comp: #7FA1A1;
     
     --theme-border: #d1d5db;
     --theme-text-secondary: #6b7280;
@@ -386,54 +435,54 @@
 
 /* Earth Card Backgrounds */
 [data-theme="earth"] .card-audio .card-front {
-    background: linear-gradient(135deg, #A5D6A7 0%, #388E3C 100%) !important;
+    background: linear-gradient(135deg, var(--theme-audio) 0%, var(--theme-audio-mid) 48%, var(--theme-audio-comp) 100%) !important;
 }
 
 [data-theme="earth"] .card-writing .card-front {
-    background: linear-gradient(135deg, #90CAF9 0%, #1976D2 100%) !important;
+    background: linear-gradient(135deg, var(--theme-writing) 0%, var(--theme-writing-mid) 48%, var(--theme-writing-comp) 100%) !important;
 }
 
 [data-theme="earth"] .card-drawing .card-front {
-    background: linear-gradient(135deg, #BDBDBD 0%, #757575 100%) !important;
+    background: linear-gradient(135deg, var(--theme-drawing) 0%, var(--theme-drawing-mid) 48%, var(--theme-drawing-comp) 100%) !important;
 }
 
 [data-theme="earth"] .card-sculpture .card-front {
-    background: linear-gradient(135deg, #D7CCC8 0%, #A1887F 100%) !important;
+    background: linear-gradient(135deg, var(--theme-sculpture) 0%, var(--theme-sculpture-mid) 48%, var(--theme-sculpture-comp) 100%) !important;
 }
 
 /* Atelier Theme Card Backgrounds (default) - gradients and patterns */
 
 /* Increased specificity for all card front gradients */
 .card.card-writing .card-front {
-    background: linear-gradient(135deg, var(--theme-writing) 60%, #f7f7f7 100%) !important;
+    background: linear-gradient(135deg, var(--theme-writing) 0%, var(--theme-writing-mid) 48%, var(--theme-writing-comp) 100%) !important;
 }
 .card.card-poetry .card-front, .card.card-poem .card-front {
-    background: linear-gradient(135deg, var(--theme-poem) 60%, #f7f7f7 100%) !important;
+    background: linear-gradient(135deg, var(--theme-poem) 0%, color-mix(in oklch, var(--theme-poem) 70%, white) 48%, var(--theme-writing-comp) 100%) !important;
 }
 .card.card-prosepoem .card-front {
-    background: linear-gradient(135deg, var(--theme-prosepoem) 60%, #f7f7f7 100%) !important;
+    background: linear-gradient(135deg, var(--theme-prosepoem) 0%, color-mix(in oklch, var(--theme-prosepoem) 70%, white) 48%, var(--theme-writing-comp) 100%) !important;
 }
 .card.card-prose .card-front {
-    background: linear-gradient(135deg, var(--theme-prose) 60%, #f7f7f7 100%) !important;
+    background: linear-gradient(135deg, var(--theme-prose) 0%, color-mix(in oklch, var(--theme-prose) 70%, white) 48%, var(--theme-writing-comp) 100%) !important;
 }
 .card.card-drawing .card-front {
-    background: linear-gradient(135deg, var(--theme-drawing) 60%, #f7f7f7 100%) !important;
+    background: linear-gradient(135deg, var(--theme-drawing) 0%, var(--theme-drawing-mid) 48%, var(--theme-drawing-comp) 100%) !important;
 }
 .card.card-audio .card-front {
-    background: linear-gradient(135deg, var(--theme-audio) 60%, #f7f7f7 100%) !important;
+    background: linear-gradient(135deg, var(--theme-audio) 0%, var(--theme-audio-mid) 48%, var(--theme-audio-comp) 100%) !important;
 }
 .card.card-sculpture .card-front {
-    background: linear-gradient(135deg, var(--theme-sculpture) 60%, #f7f7f7 100%) !important;
+    background: linear-gradient(135deg, var(--theme-sculpture) 0%, var(--theme-sculpture-mid) 48%, var(--theme-sculpture-comp) 100%) !important;
 }
 
 [data-theme="blueprint"] .card-audio .card-front {
-    background: linear-gradient(135deg, #1F618D 0%, #17202A 100%) !important;
+    background: linear-gradient(135deg, #1F618D 0%, var(--theme-tertiary,#D35400) 50%, #17202A 100%) !important;
 }
 [data-theme="blueprint"] .card-poetry .card-front, [data-theme="blueprint"] .card-poem .card-front {
     background: repeating-linear-gradient(135deg, #eaf2f8 0px, #eaf2f8 8px, #d6eaf8 8px, #ffffff 16px) !important;
 }
 [data-theme="blueprint"] .card-prose .card-front {
-    background: linear-gradient(120deg, #eafaf1 0%, #ffffff 100%) !important;
+    background: linear-gradient(120deg, #eafaf1 0%, var(--theme-writing-mid) 48%, var(--theme-writing-comp) 100%) !important;
 }
 [data-theme="blueprint"] .card-sculpture .card-front {
     background: radial-gradient(circle at 70% 70%, #fbeee6 60%, #eaf2f8 100%) !important;
@@ -443,13 +492,13 @@
 }
 
 [data-theme="dark"] .card-audio .card-front {
-    background: linear-gradient(145deg, #232526 0%, #414345 100%) !important;
+    background: linear-gradient(145deg, #232526 0%, var(--theme-tertiary,#FFB74D) 50%, #414345 100%) !important;
 }
 [data-theme="dark"] .card-poetry .card-front, [data-theme="dark"] .card-poem .card-front {
     background: repeating-linear-gradient(135deg, #232b36 0px, #232b36 8px, #1e2732 8px, #232b36 16px) !important;
 }
 [data-theme="dark"] .card-prose .card-front {
-    background: linear-gradient(120deg, #232b36 0%, #1e2732 100%) !important;
+    background: linear-gradient(120deg, var(--theme-writing) 0%, var(--theme-writing-mid) 48%, var(--theme-writing-comp) 100%) !important;
 }
 [data-theme="dark"] .card-sculpture .card-front {
     background: radial-gradient(circle at 30% 30%, #232b36 60%, #1e2732 100%) !important;
@@ -459,13 +508,13 @@
 }
 
 [data-theme="teal"] .card-audio .card-front {
-    background: linear-gradient(135deg, #00796B 0%, #004D40 100%) !important;
+    background: linear-gradient(135deg, #00796B 0%, var(--theme-tertiary,#26A69A) 50%, #004D40 100%) !important;
 }
 [data-theme="teal"] .card-poetry .card-front, [data-theme="teal"] .card-poem .card-front {
     background: repeating-linear-gradient(135deg, #e0f2f1 0px, #e0f2f1 8px, #b2dfdb 8px, #ffffff 16px) !important;
 }
 [data-theme="teal"] .card-prose .card-front {
-    background: linear-gradient(120deg, #e0f2f1 0%, #ffffff 100%) !important;
+    background: linear-gradient(120deg, var(--theme-writing) 0%, var(--theme-writing-mid) 48%, var(--theme-writing-comp) 100%) !important;
 }
 [data-theme="teal"] .card-sculpture .card-front {
     background: radial-gradient(circle at 70% 70%, #b2dfdb 60%, #e0f2f1 100%) !important;
@@ -475,33 +524,33 @@
 }
 
 [data-theme="nature"] .card-audio .card-front {
-    background: linear-gradient(135deg, #A8E063 0%, #56AB2F 100%) !important;
+    background: linear-gradient(135deg, #A8E063 0%, var(--theme-tertiary,#A1887F) 50%, #56AB2F 100%) !important;
 }
 [data-theme="nature"] .card-poetry .card-front, [data-theme="nature"] .card-poem .card-front {
-    background: linear-gradient(135deg, #81D4FA 0%, #0288D1 100%) !important;
+    background: linear-gradient(135deg, #81D4FA 0%, var(--theme-tertiary,#A1887F) 50%, #0288D1 100%) !important;
 }
 [data-theme="nature"] .card-prose .card-front {
-    background: linear-gradient(135deg, #A1887F 0%, #6D4C41 100%) !important;
+    background: linear-gradient(135deg, #A1887F 0%, var(--theme-tertiary,#A1887F) 50%, #6D4C41 100%) !important;
 }
 [data-theme="nature"] .card-sculpture .card-front {
-    background: linear-gradient(135deg, #D7CCC8 0%, #A1887F 100%) !important;
+    background: linear-gradient(135deg, #D7CCC8 0%, var(--theme-tertiary,#A1887F) 50%, #A1887F 100%) !important;
 }
 [data-theme="nature"] .card-drawing .card-front {
-    background: linear-gradient(135deg, #CFD8DC 0%, #90A4AE 100%) !important;
+    background: linear-gradient(135deg, #CFD8DC 0%, var(--theme-tertiary,#A1887F) 50%, #90A4AE 100%) !important;
 }
 
 [data-theme="earth"] .card-audio .card-front {
-    background: linear-gradient(135deg, #A5D6A7 0%, #388E3C 100%) !important;
+    background: linear-gradient(135deg, #A5D6A7 0%, var(--theme-tertiary,#A1887F) 50%, #388E3C 100%) !important;
 }
 [data-theme="earth"] .card-poetry .card-front, [data-theme="earth"] .card-poem .card-front {
-    background: linear-gradient(135deg, #90CAF9 0%, #1976D2 100%) !important;
+    background: linear-gradient(135deg, #90CAF9 0%, var(--theme-tertiary,#A1887F) 50%, #1976D2 100%) !important;
 }
 [data-theme="earth"] .card-prose .card-front {
-    background: linear-gradient(135deg, #A1887F 0%, #5D4037 100%) !important;
+    background: linear-gradient(135deg, #A1887F 0%, var(--theme-tertiary,#A1887F) 50%, #5D4037 100%) !important;
 }
 [data-theme="earth"] .card-sculpture .card-front {
-    background: linear-gradient(135deg, #D7CCC8 0%, #A1887F 100%) !important;
+    background: linear-gradient(135deg, #D7CCC8 0%, var(--theme-tertiary,#A1887F) 50%, #A1887F 100%) !important;
 }
 [data-theme="earth"] .card-drawing .card-front {
-    background: linear-gradient(135deg, #BDBDBD 0%, #757575 100%) !important;
+    background: linear-gradient(135deg, #BDBDBD 0%, var(--theme-tertiary,#A1887F) 50%, #757575 100%) !important;
 }
