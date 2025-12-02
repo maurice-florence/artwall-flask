@@ -140,6 +140,25 @@ def get_paginated_posts(
                             post_data["timestamp"] = post_data["recordCreationDate"]
                         all_posts.append(post_data)
 
+        # Merge evaluation / rating scores stored under /posts/{id}
+        try:
+            raw_scores = get_db_ref("posts").get()  # type: ignore[misc]
+            if raw_scores and isinstance(raw_scores, dict):
+                score_map = raw_scores  # post_id -> dict
+                for post in all_posts:
+                    pid = post.get("id")
+                    if pid and pid in score_map and isinstance(score_map[pid], dict):
+                        eval_val = score_map[pid].get("evaluationNum")
+                        rating_val = score_map[pid].get("ratingNum")
+                        if isinstance(eval_val, (int, float)):
+                            post["evaluationNum"] = int(eval_val)
+                        if isinstance(rating_val, (int, float)):
+                            post["ratingNum"] = int(rating_val)
+        except Exception as merge_err:
+            current_app.logger.debug(
+                f"Score merge skipped (non-fatal): {merge_err}"  # type: ignore[name-defined]
+            )
+
         if not all_posts:
             return [], None
 
@@ -247,6 +266,27 @@ def update_post(post_id: str, updates: Dict) -> bool:
 
         ref.update(updates)
         current_app.logger.info(f"Updated post: {post_id}")
+
+        # If score fields are present, also fan-out to artwall mediums for hydration
+        score_fields = {
+            k: updates.get(k) for k in ("evaluationNum", "ratingNum") if k in updates
+        }
+        if score_fields:
+            try:
+                medium_types = ["audio", "drawing", "sculpture", "writing"]
+                for medium in medium_types:
+                    art_ref = get_db_ref(f"artwall/{medium}/{post_id}")
+                    existing = art_ref.get()  # type: ignore[misc]
+                    if existing and isinstance(existing, dict):
+                        art_ref.update(score_fields)
+                        current_app.logger.debug(
+                            f"Fan-out scores to artwall/{medium}/{post_id}: {score_fields}"
+                        )
+            except Exception as fan_err:
+                # Non-fatal: log debug so primary write still succeeds
+                current_app.logger.debug(
+                    f"Score fan-out skipped for {post_id}: {fan_err}"  # type: ignore[name-defined]
+                )
         return True
 
     except Exception as e:
