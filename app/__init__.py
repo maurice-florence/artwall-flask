@@ -53,11 +53,40 @@ def initialize_extensions(app):
     login_manager.login_message_category = "info"
 
     # User loader callback
-    @login_manager.user_loader
-    def load_user(user_id):
-        # TODO: Implement user loading from Firebase
-        # For now, return None until User model is implemented
-        return None
+    @login_manager.request_loader
+    def load_user_from_request(request):
+        """
+        Load user from Firebase session cookie.
+        """
+        from firebase_admin import auth
+        from app.models.user import User
+
+        # Get the session cookie
+        session_cookie = request.cookies.get("session")
+        if not session_cookie:
+            return None
+
+        try:
+            # Verify the session cookie
+            # check_revoked=True ensures that if the user's session was revoked,
+            # the cookie is considered invalid.
+            decoded_claims = auth.verify_session_cookie(
+                session_cookie, check_revoked=True
+            )
+
+            # Create User object
+            uid = decoded_claims.get("uid")
+            email = decoded_claims.get("email")
+            # Firebase session cookies might not have display_name,
+            # but we can try to get it if needed, or just use email/uid
+            return User(uid=uid, email=email)
+
+        except auth.InvalidSessionCookieError:
+            # Session cookie is invalid, expired or revoked
+            return None
+        except Exception as e:
+            app.logger.error(f"Error verifying session cookie: {e}")
+            return None
 
     # Firebase Initialization
     # We use a helper in extensions.py to handle the singleton nature of Firebase
