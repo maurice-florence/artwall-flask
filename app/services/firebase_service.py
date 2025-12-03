@@ -103,91 +103,82 @@ def get_db_ref(path: str):
 
 
 def get_paginated_posts(
-    limit: int = 20, end_at: Optional[float] = None
-) -> Tuple[List[Dict], Optional[float]]:
+    limit: int = 20, end_at: Optional[str] = None
+) -> Tuple[List[Dict], Optional[str]]:
     """
-    Fetch paginated posts using cursor-based pagination.
-    Reads from /artwall with subpaths: audio, drawing, sculpture, writing
+    Fetch paginated posts using cursor-based pagination from /posts.
+    Uses Firebase's limit_to_last for reverse chronological order (newest first).
 
     Args:
         limit: Number of posts to fetch
-        end_at: Cursor (timestamp) to start fetching from (for pagination)
+        end_at: Cursor (post ID/key) to end at (inclusive) for pagination.
+                In reverse order, this acts as the "start" for the next page.
 
     Returns:
         Tuple of (posts_list, next_cursor)
         - posts_list: List of post dictionaries with 'id' added
-        - next_cursor: Timestamp of the last post (for next page), or None if no more
+        - next_cursor: The ID of the last post in this batch (to be used as end_at for next page),
+                       or None if no more posts.
     """
     try:
-        # Fetch from all medium types under /artwall
-        all_posts = []
-        medium_types = ["audio", "drawing", "sculpture", "writing"]
+        ref = get_db_ref("posts")
 
-        for medium in medium_types:
-            ref = get_db_ref(f"artwall/{medium}")
-            result = ref.get()  # type: ignore[misc]
+        # We want newest first, so we order by key (which is date-based).
+        query = ref.order_by_key()
 
-            if result and isinstance(result, dict):
-                for post_id, post_data in result.items():
-                    if isinstance(post_data, dict):
-                        post_data["id"] = post_id
-                        post_data["medium"] = medium  # Add medium type for display
-                        # Use recordCreationDate as timestamp if timestamp doesn't exist
-                        if (
-                            "timestamp" not in post_data
-                            and "recordCreationDate" in post_data
-                        ):
-                            post_data["timestamp"] = post_data["recordCreationDate"]
-                        all_posts.append(post_data)
+        # If a cursor is provided, we end at that cursor (inclusive).
+        # Since we are traversing backwards (newest to oldest), 'end_at' in Firebase
+        # means "values less than or equal to".
+        if end_at:
+            query = query.end_at(end_at)
 
-        # Merge evaluation / rating scores stored under /posts/{id}
-        try:
-            raw_scores = get_db_ref("posts").get()  # type: ignore[misc]
-            if raw_scores and isinstance(raw_scores, dict):
-                score_map = raw_scores  # post_id -> dict
-                for post in all_posts:
-                    pid = post.get("id")
-                    if pid and pid in score_map and isinstance(score_map[pid], dict):
-                        eval_val = score_map[pid].get("evaluationNum")
-                        rating_val = score_map[pid].get("ratingNum")
-                        if isinstance(eval_val, (int, float)):
-                            post["evaluationNum"] = int(eval_val)
-                        if isinstance(rating_val, (int, float)):
-                            post["ratingNum"] = int(rating_val)
-        except Exception as merge_err:
-            current_app.logger.debug(
-                f"Score merge skipped (non-fatal): {merge_err}"  # type: ignore[name-defined]
-            )
+        # Fetch limit + 1 to check if there is a next page
+        # limit_to_last gives us the "largest" keys (newest dates)
+        posts_data = query.limit_to_last(limit + 1).get()
 
-        if not all_posts:
+        if not posts_data:
             return [], None
 
-        # Sort by actual artwork creation date (year, month, day) descending (newest first)
-        # Create a sortable date value from year/month/day fields
-        def get_sort_key(post):
-            year = post.get("year", 0) or 0
-            month = post.get("month", 1) or 1
-            day = post.get("day", 1) or 1
-            # Create sortable integer: YYYYMMDD
-            return year * 10000 + month * 100 + day
+        # Check if we fetched a full batch (potential for more pages)
+        fetched_count = len(posts_data)
+        has_more_possible = fetched_count == limit + 1
 
-        all_posts.sort(key=get_sort_key, reverse=True)
+        # Convert dict to list of dicts with 'id'
+        posts_list = []
+        for key, val in posts_data.items():
+            if isinstance(val, dict):
+                val["id"] = key
+                # Ensure timestamp is present
+                if "timestamp" not in val and "recordCreationDate" in val:
+                    val["timestamp"] = val["recordCreationDate"]
+                posts_list.append(val)
 
-        # Apply cursor filtering if provided (cursor is now an index/offset)
-        start_index = 0
-        if end_at is not None:
-            start_index = int(end_at)
+        # Sort by key descending (newest first) because Firebase returns ascending
+        posts_list.sort(key=lambda x: x["id"], reverse=True)
 
-        # Take posts from start_index to start_index + limit
-        posts = all_posts[start_index : start_index + limit]  # noqa: E203
-
-        # Determine next cursor
+        # Handle cursor and limit
         next_cursor = None
-        if len(all_posts) > start_index + limit:
-            # More posts available - next cursor is the next starting index
-            next_cursor = start_index + limit
 
-        return posts, next_cursor
+        # If we have a cursor (end_at), the first item in the result (after sorting reverse)
+        # might be the cursor itself (because end_at is inclusive).
+        if end_at and posts_list and posts_list[0]["id"] == end_at:
+            posts_list.pop(0)
+
+        # Now determine next_cursor
+        if len(posts_list) > limit:
+            # We have more than requested, so we definitely have a next page
+            next_cursor = posts_list[limit - 1]["id"]
+            posts_list = posts_list[:limit]
+        elif len(posts_list) == limit and has_more_possible:
+            # We have exactly the limit, and we fetched a full batch.
+            # This implies there might be more items preceding these.
+            next_cursor = posts_list[-1]["id"]
+        else:
+            # We have fewer than limit, OR we have limit but didn't fetch a full batch.
+            # This means we exhausted the database.
+            next_cursor = None
+
+        return posts_list, next_cursor
 
     except Exception as e:
         current_app.logger.error(f"Error fetching paginated posts: {str(e)}")

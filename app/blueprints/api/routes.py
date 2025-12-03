@@ -29,8 +29,8 @@ def load_more():
         return "No cursor provided", 400
 
     try:
-        # Convert cursor to integer (it's now an index/offset)
-        cursor_value = int(cursor)
+        # Cursor is now a string (post ID)
+        cursor_value = cursor
 
         # Fetch next 100 posts starting after the cursor
         posts, next_cursor = get_paginated_posts(limit=100, end_at=cursor_value)
@@ -48,8 +48,6 @@ def load_more():
             grouped_posts=grouped_posts,
             next_cursor=next_cursor,
         )
-    except ValueError:
-        return "Invalid cursor format", 400
     except Exception as e:
         current_app.logger.error(f"Error loading more posts: {str(e)}")
         return f"Error: {str(e)}", 500
