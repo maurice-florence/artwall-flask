@@ -146,6 +146,19 @@ def register_context_processors(app):
         # Makes 'version' available in every template
         return dict(version=get_version_string())
 
+    @app.context_processor
+    def inject_firebase_config():
+        return {
+            "firebase_config": {
+                "apiKey": os.environ.get("FIREBASE_API_KEY"),
+                "authDomain": os.environ.get("FIREBASE_AUTH_DOMAIN"),
+                "projectId": os.environ.get("FIREBASE_PROJECT_ID"),
+                "storageBucket": os.environ.get("FIREBASE_STORAGE_BUCKET"),
+                "messagingSenderId": os.environ.get("FIREBASE_MESSAGING_SENDER_ID"),
+                "appId": os.environ.get("FIREBASE_APP_ID"),
+            }
+        }
+
     # Register custom template filters
     from app.template_filters import register_filters
 

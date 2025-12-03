@@ -13,17 +13,17 @@ let selectedEvaluationScores = new Set();
 let selectedRatingScores = new Set();
 
 // Wait for DOM to be ready
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('Initializing Artwall...');
-    
+
     // Get the grid element
     const gridElement = document.querySelector('.grid');
-    
+
     if (!gridElement) {
         console.warn('Grid element not found on this page');
         return;
     }
-    
+
     // Initialize Masonry
     msnry = new Masonry(gridElement, {
         itemSelector: '.grid-item',
@@ -32,44 +32,44 @@ document.addEventListener('DOMContentLoaded', function() {
         fitWidth: false,
         transitionDuration: '0.3s'
     });
-    
+
     console.log('Masonry initialized');
-    
+
     // Wait for all images to load before laying out
-    imagesLoaded(gridElement, function() {
+    imagesLoaded(gridElement, function () {
         console.log('All images loaded, performing layout');
         msnry.layout();
     });
-    
+
     // Initialize medium filters
     initFilters();
     // Initialize score dropdown filters
     initScoreDropdown();
-    
+
     // Initialize search
     initSearch();
 
     // Initialize client-side flip debug logging
     initFlipDebugLogging();
-    
+
     /**
      * HTMX Event Listener: After content is swapped into the DOM
      * This fires when new content is loaded via HTMX (e.g., "Load More")
      */
-    document.body.addEventListener('htmx:afterSwap', function(event) {
+    document.body.addEventListener('htmx:afterSwap', function (event) {
         console.log('HTMX afterSwap event fired');
-        
+
         // Only process if the swap happened in our grid
         if (event.detail.target.id === 'grid-container') {
             console.log('Processing new grid items...');
-            
+
             // Get all grid items
             const gridItems = event.detail.target.querySelectorAll('.grid-item');
-            
+
             // Wait for images in new items to load
-            imagesLoaded(gridItems, function() {
+            imagesLoaded(gridItems, function () {
                 console.log('Images loaded, reloading Masonry');
-                
+
                 // Reload all items
                 msnry.reloadItems();
                 msnry.layout();
@@ -79,33 +79,33 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-    
+
     /**
      * HTMX Event Listener: Before request is sent
      */
-    document.body.addEventListener('htmx:beforeRequest', function(event) {
+    document.body.addEventListener('htmx:beforeRequest', function (event) {
         console.log('HTMX request starting...');
     });
-    
+
     /**
      * HTMX Event Listener: After request is complete
      */
-    document.body.addEventListener('htmx:afterRequest', function(event) {
+    document.body.addEventListener('htmx:afterRequest', function (event) {
         console.log('HTMX request completed');
-        
+
         if (event.detail.failed) {
             console.error('HTMX request failed');
             alert('Failed to load more content. Please try again.');
         }
     });
-    
+
     /**
      * Window resize handler - relayout Masonry
      */
     let resizeTimer;
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function() {
+        resizeTimer = setTimeout(function () {
             console.log('Window resized, re-calculating layout');
             if (msnry) {
                 msnry.layout();
@@ -119,13 +119,13 @@ document.addEventListener('DOMContentLoaded', function() {
  */
 function initFilters() {
     const filterBtns = document.querySelectorAll('.icon-btn[data-filter]');
-    
+
     filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             // Update active state
             filterBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-            
+
             activeMedium = this.dataset.filter;
             applyCompositeFilters();
         });
@@ -150,10 +150,10 @@ function handleSearch(query) {
  */
 function initSearch() {
     const searchInput = document.getElementById('search-input');
-    
+
     if (searchInput) {
         let searchTimer;
-        searchInput.addEventListener('input', function() {
+        searchInput.addEventListener('input', function () {
             clearTimeout(searchTimer);
             searchTimer = setTimeout(() => {
                 searchQuery = this.value.toLowerCase();
@@ -241,8 +241,8 @@ function attachScoreDropdownHandlers() {
 
 function updateScoreCounts() {
     const counts = {
-        evaluation: {1:0,2:0,3:0,4:0,5:0},
-        rating: {1:0,2:0,3:0,4:0,5:0}
+        evaluation: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+        rating: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
     };
     document.querySelectorAll('.grid-item').forEach(item => {
         if (item.classList.contains('year-separator')) return;
@@ -250,8 +250,8 @@ function updateScoreCounts() {
         if (!card) return;
         const evalNum = parseInt(card.getAttribute('data-evaluation-num') || '0');
         const ratingNum = parseInt(card.getAttribute('data-rating-num') || '0');
-        if (evalNum >=1 && evalNum <=5) counts.evaluation[evalNum] += 1;
-        if (ratingNum >=1 && ratingNum <=5) counts.rating[ratingNum] += 1;
+        if (evalNum >= 1 && evalNum <= 5) counts.evaluation[evalNum] += 1;
+        if (ratingNum >= 1 && ratingNum <= 5) counts.rating[ratingNum] += 1;
     });
     // Update DOM
     Object.keys(counts.evaluation).forEach(k => {
@@ -309,6 +309,8 @@ function openPost(postId) {
     let subcategory = card.getAttribute('data-subcategory') || '';
     let evaluationNum = parseInt(card.getAttribute('data-evaluation-num') || '0');
     let ratingNum = parseInt(card.getAttribute('data-rating-num') || '0');
+    let mediaUrl = card.getAttribute('data-media-url') || '';
+
     // Build modal footer HTML (two rows, two columns)
     // Format date as 'Month D, YYYY'
     let formattedDate = '';
@@ -351,8 +353,8 @@ function openPost(postId) {
     footer += '</div>';
 
     // Set modal title color based on medium
-    showArtwallModal(title, content, footer);
-    setTimeout(function() {
+    showArtwallModal(title, content, footer, mediaUrl, medium);
+    setTimeout(function () {
         const modalTitle = document.getElementById('artwall-modal-title');
         if (modalTitle) {
             let color = '';
@@ -388,14 +390,78 @@ function openPost(postId) {
     setTimeout(initStarHandlers, 50);
 }
 
-function showArtwallModal(title, content, footer) {
+function showArtwallModal(title, content, footer, mediaUrl, medium) {
     const modal = document.getElementById('artwall-modal');
     if (!modal) return;
     document.getElementById('artwall-modal-title').textContent = title;
-    document.getElementById('artwall-modal-body').textContent = content;
+
+    // Construct body with media if present
+    let bodyHtml = '';
+    const mediaId = 'modal-media-element';
+
+    if (mediaUrl) {
+        if ((medium || '').toLowerCase() === 'audio') {
+            bodyHtml += `<div class="modal-media-container" style="margin-bottom: 1rem;">
+                <audio controls style="width: 100%;" id="${mediaId}">
+                    <source src="${mediaUrl}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>`;
+        } else {
+            // Assume image for others (drawing, sculpture, etc)
+            bodyHtml += `<div class="modal-media-container" style="text-align: center; margin-bottom: 1rem;">
+                <img src="${mediaUrl}" alt="${title}" id="${mediaId}" style="max-width: 100%; max-height: 60vh; border-radius: 8px;">
+            </div>`;
+        }
+    }
+    bodyHtml += `<div class="modal-content-text">${content}</div>`;
+
+    document.getElementById('artwall-modal-body').innerHTML = bodyHtml;
     document.getElementById('artwall-modal-footer').innerHTML = footer;
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+
+    // Resolve media URL if needed
+    if (mediaUrl) {
+        const resolvedUrl = resolveMediaUrl(mediaUrl);
+        if (resolvedUrl !== mediaUrl) {
+            const element = document.getElementById(mediaId);
+            if (element) {
+                if (element.tagName === 'IMG') {
+                    element.src = resolvedUrl;
+                } else if (element.tagName === 'AUDIO') {
+                    element.src = resolvedUrl;
+                    // For audio, we might need to reload the element or update source
+                    const source = element.querySelector('source');
+                    if (source) source.src = resolvedUrl;
+                    element.load();
+                }
+            }
+        }
+    }
+}
+
+function resolveMediaUrl(url) {
+    if (!url) return url;
+
+    // Check if it's a GCS URL (storage.googleapis.com)
+    if (url.includes("storage.googleapis.com")) {
+        // Extract path.
+        // URL format: https://storage.googleapis.com/<bucket>/<path>
+        const parts = url.split("storage.googleapis.com/");
+        if (parts.length > 1) {
+            const pathWithBucket = parts[1];
+            const firstSlash = pathWithBucket.indexOf("/");
+            if (firstSlash !== -1) {
+                const path = pathWithBucket.substring(firstSlash + 1);
+                // Decode URI component in case path has %2F
+                const decodedPath = decodeURIComponent(path);
+                console.log("Rewriting URL to proxy:", decodedPath);
+                return `/api/media/${decodedPath}`;
+            }
+        }
+    }
+    return url;
 }
 
 function closeArtwallModal() {
@@ -438,25 +504,25 @@ function submitStarValue(type, postId, value, groupEl) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ value })
     }).then(r => r.json())
-      .then(json => {
-          if (json.error) {
-              console.error('Rating update error', json.error);
-              return;
-          }
-          // Update stars visual
-          groupEl.querySelectorAll('.star-btn').forEach(btn => {
-              const v = parseInt(btn.getAttribute('data-value'));
-              const icon = btn.querySelector('i');
-              if (v <= value) {
-                  icon.classList.remove('fa-regular');
-                  icon.classList.add('fa-solid');
-              } else {
-                  icon.classList.remove('fa-solid');
-                  icon.classList.add('fa-regular');
-              }
-          });
-      })
-      .catch(err => console.error('Rating update fetch failed', err));
+        .then(json => {
+            if (json.error) {
+                console.error('Rating update error', json.error);
+                return;
+            }
+            // Update stars visual
+            groupEl.querySelectorAll('.star-btn').forEach(btn => {
+                const v = parseInt(btn.getAttribute('data-value'));
+                const icon = btn.querySelector('i');
+                if (v <= value) {
+                    icon.classList.remove('fa-regular');
+                    icon.classList.add('fa-solid');
+                } else {
+                    icon.classList.remove('fa-solid');
+                    icon.classList.add('fa-regular');
+                }
+            });
+        })
+        .catch(err => console.error('Rating update fetch failed', err));
 }
 
 /**
@@ -506,7 +572,7 @@ function sendFlipLog(wrapper, eventName) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
-        }).catch(() => {});
+        }).catch(() => { });
     } catch (e) {
         console.error('sendFlipLog error', e);
     }

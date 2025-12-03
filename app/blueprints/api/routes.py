@@ -53,6 +53,32 @@ def load_more():
         return f"Error: {str(e)}", 500
 
 
+@api_bp.route("/media/<path:filepath>")
+def serve_media(filepath):
+    """
+    Proxy route to serve media from Firebase Storage.
+    Generates a signed URL locally and redirects the client to it.
+    This avoids:
+    1. Public bucket requirements
+    2. Admin SDK billing checks (by using local signing)
+    3. Client-side CORS/Auth issues
+    """
+    try:
+        from app.services.firebase_service import generate_signed_url_v4
+        from flask import redirect
+
+        url = generate_signed_url_v4(filepath)
+
+        if url:
+            return redirect(url)
+        else:
+            return "Error generating signed URL", 500
+
+    except Exception as e:
+        current_app.logger.error(f"Error serving media {filepath}: {str(e)}")
+        return f"Error serving media: {str(e)}", 404
+
+
 @api_bp.route("/search")
 def search():
     """

@@ -8,7 +8,8 @@
             data-medium="{{ post.medium|capitalize }}"
             data-subcategory="{{ post.subcategory|capitalize if post.subcategory else '' }}"
             data-evaluation-num="{{ post.evaluationNum if post.evaluationNum is not none else 0 }}"
-            data-rating-num="{{ post.ratingNum if post.ratingNum is not none else 0 }}">
+            data-rating-num="{{ post.ratingNum if post.ratingNum is not none else 0 }}"
+            data-media-url="{{ post.coverImageUrl or post.url1 or '' }}">
             <div class="card-inner">
                 <!-- Front of card: purely visual; background is set by theme + medium, no text -->
                 <div class="card-face card-front"></div>
@@ -16,9 +17,10 @@
                 <div class="card-face card-back card-back-{{ post.medium|lower }}">
                     <div class="card-content">
                         <h3 class="card-title">{{ post.title or 'Untitled' }}</h3>
-                            <div class="card-date-line">{{ post.date_str }}</div>
+                        <div class="card-date-line">{{ post.date_str }}</div>
                         <div class="card-meta">
-                            <span class="card-category card-medium card-medium-{{ post.medium }}">{{ post.medium|capitalize }}</span>
+                            <span class="card-category card-medium card-medium-{{ post.medium }}">{{
+                                post.medium|capitalize }}</span>
                         </div>
                     </div>
                 </div>

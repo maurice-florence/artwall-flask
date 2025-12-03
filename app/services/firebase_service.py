@@ -4,11 +4,13 @@ Wraps Firebase Admin SDK for database operations and cursor-based pagination.
 """
 
 import firebase_admin
-from firebase_admin import credentials, db
+from firebase_admin import credentials, db, storage
 from flask import current_app
 import time
 from typing import List, Dict, Tuple, Optional
 import json
+import os
+import datetime
 
 # Global reference to Firebase database
 _firebase_db = None
@@ -185,6 +187,48 @@ def get_paginated_posts(
         raise
 
 
+def sign_url(url: str) -> str:
+    """
+    Generate a signed URL for a Firebase Storage object.
+    Parses the blob path from the full URL and generates a signed URL.
+    """
+    if not url or "storage.googleapis.com" not in url:
+        return url
+
+    try:
+        # Extract path from URL
+        # Format: https://storage.googleapis.com/<bucket>/<path>
+        # Example: https://storage.googleapis.com/artwall-by-jr.firebasestorage.app/drawing/...
+
+        # Get bucket name from env
+        bucket_name = os.environ.get("FIREBASE_STORAGE_BUCKET", "")
+        if bucket_name.startswith("gs://"):
+            bucket_name = bucket_name.replace("gs://", "")
+
+        if not bucket_name:
+            return url
+
+        # Find where the bucket name ends in the URL
+        prefix = f"https://storage.googleapis.com/{bucket_name}/"
+        if url.startswith(prefix):
+            blob_path = url[len(prefix) :]
+
+            # Get bucket and blob
+            bucket = storage.bucket(bucket_name)
+            blob = bucket.blob(blob_path)
+
+            # Generate signed URL
+            signed_url = blob.generate_signed_url(
+                version="v4", expiration=datetime.timedelta(minutes=60), method="GET"
+            )
+            return signed_url
+
+        return url
+    except Exception as e:
+        current_app.logger.error(f"Error signing URL {url}: {str(e)}")
+        return url
+
+
 def get_post_by_id(post_id: str) -> Optional[Dict]:
     """
     Fetch a single post by ID.
@@ -327,3 +371,47 @@ def create_user_index(user_id: str, post_id: str) -> bool:
     except Exception as e:
         current_app.logger.error(f"Error creating user index: {str(e)}")
         raise
+
+
+def generate_signed_url_v4(blob_path):
+    """
+    Generates a v4 signed URL for a blob using local credentials, bypassing
+    Admin SDK's billing checks.
+    """
+    try:
+        import datetime
+        import os
+
+        bucket_name = os.environ.get("FIREBASE_STORAGE_BUCKET", "")
+        if bucket_name.startswith("gs://"):
+            bucket_name = bucket_name.replace("gs://", "")
+
+        # Get credentials from the environment or default path
+        cred_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+        if not cred_path:
+                    blob_path = url[start_idx:]
+            base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+            cred_path = os.path.join(
+                base_dir, "secrets", "firebase-service-account.json"
+            )
+
+        if not os.path.exists(cred_path):
+            current_app.logger.error(f"Credential file not found at {cred_path}")
+            return None
+
+        from google.cloud import storage as gcs_storage
+
+        client = gcs_storage.Client.from_service_account_json(cred_path)
+        bucket = client.bucket(bucket_name)
+        blob = bucket.blob(blob_path)
+
+        url = blob.generate_signed_url(
+            version="v4",
+            expiration=datetime.timedelta(minutes=60),
+            method="GET",
+            credentials=client._credentials,
+        )
+        return url
+    except Exception as e:
+        current_app.logger.error(f"Error generating signed URL: {e}")
+        return None
