@@ -82,6 +82,46 @@ class FirebaseConnectionTest:
             )
             return False
 
+        # Check Client-side Config
+        client_vars = [
+            "FIREBASE_API_KEY",
+            "FIREBASE_AUTH_DOMAIN",
+            "FIREBASE_PROJECT_ID",
+            "FIREBASE_APP_ID",
+        ]
+
+        missing_client_vars = [var for var in client_vars if not os.environ.get(var)]
+
+        if missing_client_vars:
+            self.print_test(
+                "Client-side Firebase Config",
+                False,
+                f"Missing variables: {', '.join(missing_client_vars)}",
+            )
+            return False
+
+        # Check for placeholders
+        placeholders = ["YOUR_", "INSERT_", "CHANGE_ME"]
+        found_placeholders = []
+        for var in client_vars:
+            val = os.environ.get(var, "")
+            if any(p in val for p in placeholders) or val == "":
+                found_placeholders.append(var)
+
+        if found_placeholders:
+            self.print_test(
+                "Client-side Firebase Config",
+                False,
+                f"Variables contain placeholders: {', '.join(found_placeholders)}",
+            )
+            return False
+
+        self.print_test(
+            "Client-side Firebase Config",
+            True,
+            "All required client-side variables are set and appear valid",
+        )
+
         return True
 
     def test_credentials_file(self):

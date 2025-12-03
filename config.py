@@ -18,6 +18,13 @@ class Config:
     FIREBASE_DATABASE_URL = os.environ.get("FIREBASE_DATABASE_URL")
     FIREBASE_STORAGE_BUCKET = os.environ.get("FIREBASE_STORAGE_BUCKET")
 
+    # Client-side Firebase Config
+    FIREBASE_API_KEY = os.environ.get("FIREBASE_API_KEY")
+    FIREBASE_AUTH_DOMAIN = os.environ.get("FIREBASE_AUTH_DOMAIN")
+    FIREBASE_PROJECT_ID = os.environ.get("FIREBASE_PROJECT_ID")
+    FIREBASE_MESSAGING_SENDER_ID = os.environ.get("FIREBASE_MESSAGING_SENDER_ID")
+    FIREBASE_APP_ID = os.environ.get("FIREBASE_APP_ID")
+
     # Upload limits
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file upload
 

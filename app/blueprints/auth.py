@@ -8,7 +8,18 @@ auth_bp = Blueprint("auth", __name__)
 @auth_bp.route("/login")
 def login():
     """Renders the login page with the minimal JS SDK."""
-    return render_template("auth/login.html")
+    from flask import current_app
+
+    firebase_config = {
+        "apiKey": current_app.config.get("FIREBASE_API_KEY"),
+        "authDomain": current_app.config.get("FIREBASE_AUTH_DOMAIN"),
+        "projectId": current_app.config.get("FIREBASE_PROJECT_ID"),
+        "storageBucket": current_app.config.get("FIREBASE_STORAGE_BUCKET"),
+        "messagingSenderId": current_app.config.get("FIREBASE_MESSAGING_SENDER_ID"),
+        "appId": current_app.config.get("FIREBASE_APP_ID"),
+    }
+
+    return render_template("auth/login.html", firebase_config=firebase_config)
 
 
 @auth_bp.route("/session-login", methods=["POST"])
