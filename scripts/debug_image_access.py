@@ -55,8 +55,8 @@ def debug_image_access():
     # Logic from firebase_service.py
     prefix = f"https://storage.googleapis.com/{storage_bucket}/"
     if original_url.startswith(prefix):
-            start_idx = len(prefix)
-            blob_path = original_url[start_idx:]
+        start_idx = len(prefix)
+        blob_path = original_url[start_idx:]
         print(f"Blob path: {blob_path}")
 
         bucket = storage.bucket(storage_bucket)

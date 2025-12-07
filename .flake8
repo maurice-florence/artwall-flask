@@ -1,3 +1,4 @@
 [flake8]
 exclude = .git,__pycache__,.venv,node_modules,env,venv,.mypy_cache,.pytest_cache,dist,build
+extend-ignore = E203
 max-line-length = 120

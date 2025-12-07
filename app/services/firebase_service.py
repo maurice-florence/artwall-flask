@@ -389,7 +389,6 @@ def generate_signed_url_v4(blob_path):
         # Get credentials from the environment or default path
         cred_path = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
         if not cred_path:
-                    blob_path = url[start_idx:]
             base_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
             cred_path = os.path.join(
                 base_dir, "secrets", "firebase-service-account.json"
