@@ -24,21 +24,32 @@
     <div class="search-actions">
         <div class="search-wrapper">
             <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            <input type="text" id="search-input" class="search-input" placeholder="Search..." oninput="handleSearch(this.value)">
+            <input type="text" id="search-input" class="search-input" placeholder="Search..."
+                oninput="handleSearch(this.value)">
         </div>
         <div class="actions-wrapper">
             <!-- Evaluation Dropdown -->
             <div class="dropdown-wrapper" id="evaluation-dropdown-wrapper">
-                <button class="icon-btn" title="Filter by evaluation" onclick="toggleDropdown('evaluation-score-dropdown')">
+                <button class="icon-btn" title="Filter by evaluation"
+                    onclick="toggleDropdown('evaluation-score-dropdown')">
                     <i class="fa-solid fa-certificate"></i>
                 </button>
-                <div id="evaluation-score-dropdown" class="dropdown score-filter-dropdown" style="display:none; min-width:180px;">
+                <div id="evaluation-score-dropdown" class="dropdown score-filter-dropdown"
+                    style="display:none; min-width:180px;">
                     <div class="dropdown-header">
                         <span class="dropdown-title"><i class="fa-solid fa-certificate"></i> Evaluation</span>
                     </div>
                     <div class="score-items" id="evaluation-score-items">
+                        <button class="score-item-btn" type="button" data-value="0" aria-label="Filter no evaluation"
+                            title="No Evaluation">
+                            <span class="score-icons">
+                                <i class="fa-regular fa-circle"></i>
+                            </span>
+                            <span class="score-count" data-count-for="evaluation-0">(0)</span>
+                        </button>
                         {% for i in range(1,6) %}
-                        <button class="score-item-btn" type="button" data-value="{{ i }}" aria-label="Filter evaluation score {{ i }}" title="Evaluation score {{ i }}">
+                        <button class="score-item-btn" type="button" data-value="{{ i }}"
+                            aria-label="Filter evaluation score {{ i }}" title="Evaluation score {{ i }}">
                             <span class="score-icons">
                                 {% for j in range(i) %}
                                 <i class="fa-solid fa-certificate"></i>
@@ -47,7 +58,8 @@
                             <span class="score-count" data-count-for="evaluation-{{ i }}">(0)</span>
                         </button>
                         {% endfor %}
-                        <button class="score-clear-btn" type="button" data-clear="evaluation" aria-label="Clear evaluation filters" title="Clear evaluation filters">Clear</button>
+                        <button class="score-clear-btn" type="button" data-clear="evaluation"
+                            aria-label="Clear evaluation filters" title="Clear evaluation filters">Clear</button>
                     </div>
                 </div>
             </div>
@@ -56,13 +68,15 @@
                 <button class="icon-btn" title="Filter by rating" onclick="toggleDropdown('rating-score-dropdown')">
                     <i class="fa-solid fa-star"></i>
                 </button>
-                <div id="rating-score-dropdown" class="dropdown score-filter-dropdown" style="display:none; min-width:180px;">
+                <div id="rating-score-dropdown" class="dropdown score-filter-dropdown"
+                    style="display:none; min-width:180px;">
                     <div class="dropdown-header">
                         <span class="dropdown-title"><i class="fa-solid fa-star"></i> Rating</span>
                     </div>
                     <div class="score-items" id="rating-score-items">
                         {% for i in range(1,6) %}
-                        <button class="score-item-btn" type="button" data-value="{{ i }}" aria-label="Filter rating score {{ i }}" title="Rating score {{ i }}">
+                        <button class="score-item-btn" type="button" data-value="{{ i }}"
+                            aria-label="Filter rating score {{ i }}" title="Rating score {{ i }}">
                             <span class="score-icons">
                                 {% for j in range(i) %}
                                 <i class="fa-solid fa-star"></i>
@@ -71,7 +85,8 @@
                             <span class="score-count" data-count-for="rating-{{ i }}">(0)</span>
                         </button>
                         {% endfor %}
-                        <button class="score-clear-btn" type="button" data-clear="rating" aria-label="Clear rating filters" title="Clear rating filters">Clear</button>
+                        <button class="score-clear-btn" type="button" data-clear="rating"
+                            aria-label="Clear rating filters" title="Clear rating filters">Clear</button>
                     </div>
                 </div>
             </div>
@@ -87,27 +102,33 @@
                     <div class="theme-options">
                         <button class="dropdown-btn" onclick="changeTheme('atelier')" data-theme="atelier">
                             <span>Atelier</span>
-                            <span class="theme-indicator" style="background: linear-gradient(135deg, #0b8783 0%, #E85D4F 50%, #F4A742 100%);"></span>
+                            <span class="theme-indicator"
+                                style="background: linear-gradient(135deg, #0b8783 0%, #E85D4F 50%, #F4A742 100%);"></span>
                         </button>
                         <button class="dropdown-btn" onclick="changeTheme('blueprint')" data-theme="blueprint">
                             <span>Blueprint</span>
-                            <span class="theme-indicator" style="background: linear-gradient(135deg, #1F618D 0%, #2980B9 50%, #16A085 100%);"></span>
+                            <span class="theme-indicator"
+                                style="background: linear-gradient(135deg, #1F618D 0%, #2980B9 50%, #16A085 100%);"></span>
                         </button>
                         <button class="dropdown-btn" onclick="changeTheme('dark')" data-theme="dark">
                             <span>Dark</span>
-                            <span class="theme-indicator" style="background: linear-gradient(135deg, #17202A 0%, #1E2732 50%, #2C3E50 100%);"></span>
+                            <span class="theme-indicator"
+                                style="background: linear-gradient(135deg, #17202A 0%, #1E2732 50%, #2C3E50 100%);"></span>
                         </button>
                         <button class="dropdown-btn" onclick="changeTheme('teal')" data-theme="teal">
                             <span>Teal</span>
-                            <span class="theme-indicator" style="background: linear-gradient(135deg, #0b8783 0%, #14B8A6 50%, #5EEAD4 100%);"></span>
+                            <span class="theme-indicator"
+                                style="background: linear-gradient(135deg, #0b8783 0%, #14B8A6 50%, #5EEAD4 100%);"></span>
                         </button>
                         <button class="dropdown-btn" onclick="changeTheme('nature')" data-theme="nature">
                             <span>Nature</span>
-                            <span class="theme-indicator" style="background: linear-gradient(135deg, #059669 0%, #10B981 50%, #34D399 100%);"></span>
+                            <span class="theme-indicator"
+                                style="background: linear-gradient(135deg, #059669 0%, #10B981 50%, #34D399 100%);"></span>
                         </button>
                         <button class="dropdown-btn" onclick="changeTheme('earth')" data-theme="earth">
                             <span>Earth</span>
-                            <span class="theme-indicator" style="background: linear-gradient(135deg, #92400E 0%, #B45309 50%, #D97706 100%);"></span>
+                            <span class="theme-indicator"
+                                style="background: linear-gradient(135deg, #92400E 0%, #B45309 50%, #D97706 100%);"></span>
                         </button>
                     </div>
                 </div>
@@ -130,13 +151,13 @@
             </div>
             <!-- Auth Action -->
             {% if current_user.is_authenticated %}
-                <a href="{{ url_for('auth.logout') }}" class="icon-btn" title="Logout">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                </a>
+            <a href="{{ url_for('auth.logout') }}" class="icon-btn" title="Logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </a>
             {% else %}
-                <a href="{{ url_for('auth.login') }}" class="icon-btn" title="Login">
-                    <i class="fa-solid fa-right-to-bracket"></i>
-                </a>
+            <a href="{{ url_for('auth.login') }}" class="icon-btn" title="Login">
+                <i class="fa-solid fa-right-to-bracket"></i>
+            </a>
             {% endif %}
         </div>
     </div>
@@ -145,44 +166,41 @@
 
 {% block content %}
 <div class="masonry-container">
-    
+
     {% if error %}
-        <div class="error-message">
-            <p>Error loading posts: {{ error }}</p>
-        </div>
+    <div class="error-message">
+        <p>Error loading posts: {{ error }}</p>
+    </div>
     {% endif %}
-    
+
     <!-- Grid Container with blank columns -->
     <div class="grid" id="grid-container">
         <!-- Grid Sizer for column width calculation -->
         <div class="grid-sizer"></div>
         {% if grouped_posts %}
-            {% from 'components/card.html' import render_card %}
-            {% from 'components/year_separator.html' import render_year_separator %}
-            {% for year, posts in grouped_posts %}
-                {{ render_year_separator(year) }}
-                {% for post in posts %}
-                    {{ render_card(post) }}
-                {% endfor %}
-            {% endfor %}
+        {% from 'components/card.html' import render_card %}
+        {% from 'components/year_separator.html' import render_year_separator %}
+        {% for year, posts in grouped_posts %}
+        {{ render_year_separator(year) }}
+        {% for post in posts %}
+        {{ render_card(post) }}
+        {% endfor %}
+        {% endfor %}
         {% else %}
-            <div class="empty-state">
-                <p>No posts yet. Start by importing your notes!</p>
-                <a href="{{ url_for('ingest.index') }}" class="btn btn-primary">Import ENEX File</a>
-            </div>
+        <div class="empty-state">
+            <p>No posts yet. Start by importing your notes!</p>
+            <a href="{{ url_for('ingest.index') }}" class="btn btn-primary">Import ENEX File</a>
+        </div>
         {% endif %}
     </div>
-    
+
     <!-- Load More Trigger -->
     <div id="load-more-container" class="load-more-container">
         {% if next_cursor %}
-            <div id="scroll-trigger"
-                hx-get="{{ url_for('api.load_more', cursor=next_cursor) }}"
-                hx-trigger="intersect once"
-                hx-target="#grid-container"
-                hx-swap="beforeend">
-                <div class="loading-indicator">Laden...</div>
-            </div>
+        <div id="scroll-trigger" hx-get="{{ url_for('api.load_more', cursor=next_cursor) }}" hx-trigger="intersect once"
+            hx-target="#grid-container" hx-swap="beforeend">
+            <div class="loading-indicator">Laden...</div>
+        </div>
         {% endif %}
     </div>
 </div>

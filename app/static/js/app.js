@@ -241,7 +241,7 @@ function attachScoreDropdownHandlers() {
 
 function updateScoreCounts() {
     const counts = {
-        evaluation: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+        evaluation: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
         rating: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
     };
     document.querySelectorAll('.grid-item').forEach(item => {
@@ -250,7 +250,7 @@ function updateScoreCounts() {
         if (!card) return;
         const evalNum = parseInt(card.getAttribute('data-evaluation-num') || '0');
         const ratingNum = parseInt(card.getAttribute('data-rating-num') || '0');
-        if (evalNum >= 1 && evalNum <= 5) counts.evaluation[evalNum] += 1;
+        if (evalNum >= 0 && evalNum <= 5) counts.evaluation[evalNum] += 1;
         if (ratingNum >= 1 && ratingNum <= 5) counts.rating[ratingNum] += 1;
     });
     // Update DOM
