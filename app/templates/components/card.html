@@ -7,8 +7,8 @@
             data-location="{{ post.location1 }}{% if post.location2 %}, {{ post.location2 }}{% endif %}"
             data-medium="{{ post.medium|capitalize }}"
             data-subcategory="{{ post.subcategory|capitalize if post.subcategory else '' }}"
-            data-evaluation-num="{{ post.evaluationNum if post.evaluationNum is not none else 0 }}"
-            data-rating-num="{{ post.ratingNum if post.ratingNum is not none else 0 }}"
+            data-evaluation-num="{{ post.evaluationNum | default(0) }}"
+            data-rating-num="{{ post.ratingNum | default(0) }}"
             data-media-url="{{ post.coverImageUrl or post.url1 or '' }}">
             <div class="card-inner">
                 <!-- Front of card: purely visual; background is set by theme + medium, no text -->

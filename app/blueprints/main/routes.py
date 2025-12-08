@@ -4,6 +4,7 @@ from app.services.firebase_service import get_paginated_posts, get_db_ref
 from app.utils.post_helpers import group_posts_by_year
 from app.utils.clean_content import clean_post_content
 
+
 """
 Main Routes.
 Handles the initial page load and displays the Masonry grid.
@@ -28,8 +29,13 @@ def index():
             medium_counts[medium] = medium_counts.get(medium, 0) + 1
         current_app.logger.info(f"Medium distribution: {medium_counts}")
 
-        # Add cleaned_content to each post, with debug print
         for post in posts:
+            # Normalize score fields for consistent frontend rendering
+            if "evaluationNum" not in post and "evaluation" in post:
+                post["evaluationNum"] = post["evaluation"]
+            if "ratingNum" not in post and "rating" in post:
+                post["ratingNum"] = post["rating"]
+
             original = post.get("content", "")
             cleaned = clean_post_content(original) if original else ""
             post["cleaned_content"] = cleaned

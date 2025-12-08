@@ -154,8 +154,6 @@
     
     <!-- Grid Container with blank columns -->
     <div class="grid" id="grid-container">
-        <!-- Left blank column -->
-        <div class="grid-item blank-col" aria-hidden="true"></div>
         <!-- Grid Sizer for column width calculation -->
         <div class="grid-sizer"></div>
         {% if grouped_posts %}
@@ -173,8 +171,6 @@
                 <a href="{{ url_for('ingest.index') }}" class="btn btn-primary">Import ENEX File</a>
             </div>
         {% endif %}
-        <!-- Right blank column -->
-        <div class="grid-item blank-col" aria-hidden="true"></div>
     </div>
     
     <!-- Load More Trigger -->
