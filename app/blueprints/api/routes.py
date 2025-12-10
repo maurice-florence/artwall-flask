@@ -11,6 +11,7 @@ from app.services.firebase_service import get_paginated_posts
 from app.utils.post_helpers import group_posts_by_year
 from app.extensions import csrf
 from app.services.firebase_service import update_post as fb_update_post
+from app.utils.clean_content import clean_post_content
 
 
 @api_bp.route("/load-more")
@@ -38,6 +39,49 @@ def load_more():
         current_app.logger.debug(
             f"Loaded {len(posts)} posts, next cursor: {next_cursor}"
         )
+
+        for post in posts:
+            # Normalize score fields for consistent frontend rendering
+            if "evaluationNum" not in post and "evaluation" in post:
+                post["evaluationNum"] = post["evaluation"]
+            if "ratingNum" not in post and "rating" in post:
+                post["ratingNum"] = post["rating"]
+
+            # Ensure numeric fields are 0 if missing, for Jinja/JSON consistency
+            if "evaluationNum" not in post:
+                post["evaluationNum"] = 0
+            if "ratingNum" not in post:
+                post["ratingNum"] = 0
+
+            original = post.get("content", "")
+            cleaned = clean_post_content(original) if original else ""
+            post["cleaned_content"] = cleaned
+            
+            # Compose date string from day/month/year fields if present
+            day = str(post.get("day", "")).zfill(2) if post.get("day") else ""
+            month = str(post.get("month", "")).zfill(2) if post.get("month") else ""
+            year = str(post.get("year", "")) if post.get("year") else ""
+            if day and month and year:
+                post["date_str"] = f"{year}-{month}-{day}"
+            elif year and month:
+                post["date_str"] = f"{year}-{month}"
+            elif year:
+                post["date_str"] = str(year)
+            else:
+                post["date_str"] = ""
+            
+            # Always set subcategory from subtype if present
+            subcat = post.get("subtype", "")
+            # For writing, fallback if subtype is missing
+            if not subcat and post.get("medium", "").lower() == "writing":
+                tags = post.get("tags", [])
+                if isinstance(tags, list) and any("poetry" in t.lower() for t in tags):
+                    subcat = "Poetry"
+                elif "poetry" in (post.get("title", "").lower()):
+                    subcat = "Poetry"
+                else:
+                    subcat = "Poetry"  # Default for writing if nothing else
+            post["subcategory"] = subcat
 
         # Group posts by year
         grouped_posts = group_posts_by_year(posts)

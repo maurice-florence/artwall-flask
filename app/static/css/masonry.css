@@ -10,6 +10,7 @@
     -webkit-transform-style: preserve-3d;
     background: transparent;
 }
+
 .card-front,
 .card-back {
     border-radius: 16px;
@@ -176,13 +177,34 @@
 
 
 /* Card back: solid main color for each medium */
-.card-back-writing { background: var(--theme-writing, #0b8783) !important; }
-.card-back-poetry, .card-back-poem { background: var(--theme-poem, #0b7a78) !important; }
-.card-back-prosepoem { background: var(--theme-prosepoem, #0b6a6a) !important; }
-.card-back-prose { background: var(--theme-prose, #0b5a5a) !important; }
-.card-back-drawing { background: var(--theme-drawing, #6c7ea1) !important; }
-.card-back-audio { background: var(--theme-audio, #D94A4A) !important; }
-.card-back-sculpture { background: var(--theme-sculpture, #b0a16c) !important; }
+.card-back-writing {
+    background: var(--theme-writing, #0b8783) !important;
+}
+
+.card-back-poetry,
+.card-back-poem {
+    background: var(--theme-poem, #0b7a78) !important;
+}
+
+.card-back-prosepoem {
+    background: var(--theme-prosepoem, #0b6a6a) !important;
+}
+
+.card-back-prose {
+    background: var(--theme-prose, #0b5a5a) !important;
+}
+
+.card-back-drawing {
+    background: var(--theme-drawing, #6c7ea1) !important;
+}
+
+.card-back-audio {
+    background: var(--theme-audio, #D94A4A) !important;
+}
+
+.card-back-sculpture {
+    background: var(--theme-sculpture, #b0a16c) !important;
+}
 
 
 
@@ -214,21 +236,24 @@
     font-size: 0.85rem;
     opacity: 0.85;
 }
+
 .card-date {
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.85em;
     color: #e0e0e0;
 }
+
 .card-category {
     font-size: 0.85em;
     font-weight: 600;
     letter-spacing: 0.04em;
     border-radius: 4px;
     padding: 0.1em 0.5em;
-    background: rgba(0,0,0,0.18);
+    background: rgba(0, 0, 0, 0.18);
     color: #fff;
     display: inline-block;
 }
+
 /* Card Faces */
 .card-face {
     position: absolute;
@@ -254,14 +279,25 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: rgba(255,255,255,0.06);
+    background: rgba(255, 255, 255, 0.06);
 }
 
 /* Slightly stronger overlay per medium to enhance distinction */
-.card-writing.card .card-front::after { background: rgba(255,255,255,0.08); }
-.card-drawing.card .card-front::after { background: rgba(255,255,255,0.05); }
-.card-audio.card .card-front::after { background: rgba(0,0,0,0.08); }
-.card-sculpture.card .card-front::after { background: rgba(0,0,0,0.06); }
+.card-writing.card .card-front::after {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.card-drawing.card .card-front::after {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.card-audio.card .card-front::after {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.card-sculpture.card .card-front::after {
+    background: rgba(0, 0, 0, 0.06);
+}
 
 .card-back {
     transform: rotateY(180deg);
@@ -269,7 +305,7 @@
 
 
 
-.card-content {
+.card-back-content {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -365,8 +401,15 @@
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
 .end-message {
@@ -419,6 +462,7 @@
 /* Responsive Design */
 /* Desktop: 8 columns with 150px max width */
 @media (min-width: 1200px) {
+
     .grid-sizer,
     .grid-item {
         max-width: 150px;
@@ -427,6 +471,7 @@
 
 /* Large tablet: 6 columns, fluid width */
 @media (min-width: 900px) and (max-width: 1199px) {
+
     .grid-sizer,
     .grid-item {
         width: calc((100% - 40px) / 6);
@@ -435,6 +480,7 @@
 
 /* Tablet: 4 columns, fluid width */
 @media (min-width: 750px) and (max-width: 899px) {
+
     .grid-sizer,
     .grid-item {
         width: calc((100% - 24px) / 4);
@@ -443,15 +489,16 @@
 
 /* Mobile landscape: 3 columns, fluid width */
 @media (min-width: 350px) and (max-width: 749px) {
+
     .grid-sizer,
     .grid-item {
         width: calc((100% - 16px) / 3);
     }
-    
+
     .masonry-container {
         padding: 0 24px;
     }
-    
+
     .year-separator .year-text {
         font-size: 2rem;
     }
@@ -459,28 +506,29 @@
 
 /* Mobile portrait: 2 columns, fluid width */
 @media (max-width: 349px) {
+
     .grid-sizer,
     .grid-item {
         width: calc((100% - 8px) / 2);
     }
-    
+
     .masonry-container {
         padding: 0 24px;
     }
-    
+
     .page-title {
         font-size: 2rem;
     }
-    
+
     .year-separator .year-text {
         font-size: 2rem;
     }
-    
+
     .filter-bar {
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     .search-box input {
         width: 100%;
     }
@@ -498,7 +546,18 @@
 }
 
 @keyframes ellipsis {
-    0%, 20% { content: '.'; }
-    40% { content: '..'; }
-    60%, 100% { content: '...'; }
+
+    0%,
+    20% {
+        content: '.';
+    }
+
+    40% {
+        content: '..';
+    }
+
+    60%,
+    100% {
+        content: '...';
+    }
 }

@@ -63,9 +63,11 @@ def index():
                 else:
                     subcat = "Poetry"  # Default for writing if nothing else
             post["subcategory"] = subcat
-            if post.get("title", "").lower() == "gratitude":
-                print(f"DEBUG: Post 'Gratitude' original content: {repr(original)}")
-                print(f"DEBUG: Post 'Gratitude' cleaned content: {repr(cleaned)}")
+            # Ensure numeric fields are 0 if missing, for Jinja/JSON consistency
+            if "evaluationNum" not in post:
+                post["evaluationNum"] = 0
+            if "ratingNum" not in post:
+                post["ratingNum"] = 0
 
         # Group posts by year for display with separators
         grouped_posts = group_posts_by_year(posts)

@@ -244,15 +244,27 @@ function updateScoreCounts() {
         evaluation: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
         rating: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
     };
+    let totalItems = 0;
     document.querySelectorAll('.grid-item').forEach(item => {
         if (item.classList.contains('year-separator')) return;
+        totalItems++;
         const card = item.querySelector('.card');
         if (!card) return;
-        const evalNum = parseInt(card.getAttribute('data-evaluation-num') || '0');
+        const evalAttr = card.getAttribute('data-evaluation-num');
+        const evalNum = parseInt(evalAttr || '0');
         const ratingNum = parseInt(card.getAttribute('data-rating-num') || '0');
+
+        // Debug first 5 items
+        if (totalItems <= 5) {
+            console.log(`Debug Item ${totalItems}: Title=${card.querySelector('.card-title')?.textContent}, EvalAttr=${evalAttr}, EvalNum=${evalNum}`);
+        }
+
         if (evalNum >= 0 && evalNum <= 5) counts.evaluation[evalNum] += 1;
         if (ratingNum >= 1 && ratingNum <= 5) counts.rating[ratingNum] += 1;
     });
+    console.log('UpdateScoreCounts: Total items scanned:', totalItems);
+    console.log('UpdateScoreCounts: Final Counts:', JSON.stringify(counts));
+
     // Update DOM
     Object.keys(counts.evaluation).forEach(k => {
         const span = document.querySelector(`[data-count-for='evaluation-${k}']`);
@@ -297,8 +309,11 @@ function openPost(postId) {
     const title = card.querySelector('.card-title')?.textContent || '';
     // Try to get content from a data attribute or fallback (for now, show placeholder)
     // In a real app, you might fetch the clean content via AJAX or store it in a data-content attribute
-    let content = card.getAttribute('data-content') || '';
-    if (!content) {
+    // Try to get content from hidden div (preferred) or data attribute
+    const contentDiv = card.querySelector('.post-content-hidden');
+    let content = contentDiv ? contentDiv.innerHTML : (card.getAttribute('data-content') || '');
+
+    if (!content || !content.trim()) {
         // Fallback: show a placeholder
         content = '[Content not loaded. Implement AJAX fetch or data-content attribute.]';
     }

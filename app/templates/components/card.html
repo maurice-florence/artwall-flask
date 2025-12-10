@@ -15,7 +15,7 @@
                 <div class="card-face card-front"></div>
                 <!-- Back of card (shows title, date, and category/medium) -->
                 <div class="card-face card-back card-back-{{ post.medium|lower }}">
-                    <div class="card-content">
+                    <div class="card-back-content">
                         <h3 class="card-title">{{ post.title or 'Untitled' }}</h3>
                         <div class="card-date-line">{{ post.date_str }}</div>
                         <div class="card-meta">
@@ -25,7 +25,10 @@
                     </div>
                 </div>
             </div>
+            <!-- Hidden full content -->
+            <div class="post-content-hidden" style="display: none;">{{ post.cleaned_content | safe }}</div>
         </div>
     </div>
 </div>
+
 {% endmacro %}
