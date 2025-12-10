@@ -56,7 +56,7 @@ def load_more():
             original = post.get("content", "")
             cleaned = clean_post_content(original) if original else ""
             post["cleaned_content"] = cleaned
-            
+
             # Compose date string from day/month/year fields if present
             day = str(post.get("day", "")).zfill(2) if post.get("day") else ""
             month = str(post.get("month", "")).zfill(2) if post.get("month") else ""
@@ -69,7 +69,7 @@ def load_more():
                 post["date_str"] = str(year)
             else:
                 post["date_str"] = ""
-            
+
             # Always set subcategory from subtype if present
             subcat = post.get("subtype", "")
             # For writing, fallback if subtype is missing
