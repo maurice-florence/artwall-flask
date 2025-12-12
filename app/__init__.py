@@ -2,7 +2,6 @@ import os
 from flask import Flask
 from config import config_map
 from app.extensions import csrf, login_manager
-from version import get_version_string
 
 
 def create_app(config_name=None):
@@ -143,8 +142,15 @@ def register_context_processors(app):
 
     @app.context_processor
     def inject_version():
-        # Makes 'version' available in every template
-        return dict(version=get_version_string())
+        # Makes version info available in every template
+        from app.utils.version_helper import get_git_info
+
+        info = get_git_info()
+        return dict(
+            version=info["version"],
+            commit_hash=info["commit_hash"],
+            last_updated=info["last_updated"],
+        )
 
     @app.context_processor
     def inject_firebase_config():
