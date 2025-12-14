@@ -660,3 +660,36 @@ body {
         padding: 0;
     }
 }
+
+/* Stats Info in Dropdown */
+.dropdown-divider {
+    height: 1px;
+    background-color: var(--theme-border, rgba(0, 0, 0, 0.08));
+    margin: 0.5rem 0;
+}
+
+.dropdown-subtitle {
+     font-size: 0.75rem;
+     font-weight: 600;
+     color: var(--theme-text-secondary, #666);
+     margin-bottom: 0.25rem;
+     padding: 0 0.2rem;
+     text-transform: uppercase;
+     letter-spacing: 0.05em;
+}
+
+.info-row {
+    padding: 0.25rem 0.2rem;
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--theme-text, #3D405B);
+}
+
+.stats-info .info-row {
+    border-bottom: 1px dashed rgba(0,0,0,0.05);
+}
+.stats-info .info-row:last-child {
+    border-bottom: none;
+}

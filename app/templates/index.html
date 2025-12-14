@@ -148,6 +148,16 @@
                             <div class="info-row"><strong>Hash:</strong> {{ commit_hash }}</div>
                             <div class="info-row"><strong>Updated:</strong> {{ last_updated }}</div>
                         </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="stats-info">
+                            <div class="dropdown-subtitle">Statistics</div>
+                            <div class="info-row"><strong>Total:</strong> {{ total_posts }}</div>
+                            {% for medium, count in medium_counts.items() %}
+                            <div class="info-row"><strong style="text-transform: capitalize;">{{ medium }}:</strong> {{
+                                count }}
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>

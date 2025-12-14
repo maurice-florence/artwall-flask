@@ -73,7 +73,11 @@ def index():
         grouped_posts = group_posts_by_year(posts)
 
         return render_template(
-            "index.html", grouped_posts=grouped_posts, next_cursor=next_cursor
+            "index.html",
+            grouped_posts=grouped_posts,
+            next_cursor=next_cursor,
+            medium_counts=medium_counts,
+            total_posts=len(posts),
         )
     except Exception as e:
         return render_template(
